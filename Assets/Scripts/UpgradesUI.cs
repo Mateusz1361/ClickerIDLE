@@ -26,6 +26,7 @@ public class UpgradesUI : MonoBehaviour
     [SerializeField] public ClickerManager clickerManager;
     [SerializeField] private GameObject shopPrefab;
     [SerializeField] private GameObject parent;
+    
 
     private void Start()
     {

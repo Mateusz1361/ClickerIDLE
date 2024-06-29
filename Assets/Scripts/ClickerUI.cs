@@ -16,7 +16,7 @@ public class ClickerUI : MonoBehaviour
     [Header("Basic Info")]
     [SerializeField] private TextMeshProUGUI iloscStonaNaClick;
     [SerializeField] private TextMeshProUGUI iloscStonaNaSec;
-
+    
 
     [Header("Kielnia")]
     [SerializeField] public TextMeshProUGUI cenaKielniaText;
@@ -33,7 +33,7 @@ public class ClickerUI : MonoBehaviour
         dolarsamouttext.text = $"{dolarsamount}";
         poziomtext.text = $"{poziom}";
         iloscStonaNaSec.text = $" {clickerManager.stonePerSecond}";
-
+        
         if (amount < 1000000)
         {
             stoneCounterText.text = $"{amount}";

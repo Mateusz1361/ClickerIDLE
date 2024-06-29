@@ -34,7 +34,8 @@ public class ClickerManager : MonoBehaviour
     [SerializeField] private Button zasobyButtonClose;
     [SerializeField] private Button lvling;
 
-
+    [SerializeField]
+    private TextMeshProUGUI StonePerClickText;
 
 
     // zmienne ogólne
@@ -124,6 +125,7 @@ public class ClickerManager : MonoBehaviour
         {
             stoneCounter += stonePerSecond;
             clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
+            StonePerClickText.text = addStone.ToString();
         }
     }
      

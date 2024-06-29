@@ -5828,6 +5828,7 @@ MonoBehaviour:
   zasobyButton: {fileID: 2121305813}
   zasobyButtonClose: {fileID: 480561041}
   lvling: {fileID: 90209866}
+  StonePerClickText: {fileID: 1632287502}
   stoneCounter: 0
   addStone: 1
   stonePerSecond: 0
