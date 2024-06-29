@@ -11,6 +11,18 @@
         {
             "price": 50,
             "power": 4
+        },
+        {
+            "price": 200,
+            "power": 15
+        },
+        {
+            "price": 500,
+            "power": 35
+        },
+        {
+            "price": 2000,
+            "power": 80
         }
     ]
 }
