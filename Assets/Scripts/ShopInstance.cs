@@ -2,7 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WorkerInstance : MonoBehaviour
+
+
+
+public class ShopInstance : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text priceText;
@@ -12,23 +15,23 @@ public class WorkerInstance : MonoBehaviour
     private TMP_Text quantityText;
     [SerializeField]
     private Button buyButton;
-    public ClickerManager clickerManager; 
-    public Image iconOfWorker;
+    public ClickerManager clickerManager;
+    public Image iconOfShop;
     private int _price;
     private int _power;
     private int _quantity;
     private void Start()
     {
-        buyButton.onClick.AddListener(BuyWorker);
+        buyButton.onClick.AddListener(BuyInShop);
     }
-    public void BuyWorker()
+    public void BuyInShop()
     {
         if (Price <= (int)clickerManager.stoneCounter && Quantity < 10)
         {
             clickerManager.stoneCounter -= (ulong)Price;
-            clickerManager.stonePerSecond += (ulong)Power;
+            clickerManager.addStone += Power;
             Quantity += 1;
-            Price *= 2;
+            Price *= 1;
         }
     }
     public int Price

@@ -1,0 +1,16 @@
+{
+    "data": [
+        {
+            "price": 2,
+            "power": 1
+        },
+        {
+            "price": 10,
+            "power": 2
+        },
+        {
+            "price": 50,
+            "power": 4
+        }
+    ]
+}

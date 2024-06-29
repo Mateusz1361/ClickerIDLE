@@ -78,8 +78,7 @@ public class ClickerManager : MonoBehaviour
     {
         clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
         zasobyWEQ.UpdateZasoby(wegiel, miedz, zelazo, zloto, diament, emerald);
-        clickerUI.KielniaUI(upgradesUI.cenaKielnia, upgradesUI.mocKielni, upgradesUI.iloscKielni);
-        clickerUI.DlutoUI(upgradesUI.cenaDluta, upgradesUI.mocDluta, upgradesUI.iloscDlut);
+        
         clickerButton.onClick.AddListener(AddStone);
 
         zasobyTlo.SetActive(false);
@@ -107,8 +106,7 @@ public class ClickerManager : MonoBehaviour
         menuDOLNE.adsButton.onClick.AddListener(menuDOLNE.OpenRemovingADS);
         menuDOLNE.adsButtonclose.onClick.AddListener(menuDOLNE.CloseRemovingADS);
 
-        upgradesUI.upgradeKielnia.onClick.AddListener(upgradesUI.BuyingKielnia);
-        upgradesUI.upgradeDluto.onClick.AddListener(upgradesUI.BuyingDluto);
+        
 
         
 
