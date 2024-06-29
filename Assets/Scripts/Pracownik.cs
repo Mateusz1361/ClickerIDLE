@@ -1,32 +1,46 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
+
+[Serializable]
+public class WorkerInstanceData
+{
+    public int price;
+    public int power;
+    public string icon;
+}
+
+[Serializable]
+public class WorkersData
+{
+    public WorkerInstanceData[] data;
+
+}
 
 public class Pracownik : MonoBehaviour
 {
-    [Header("Podpiecia")]
     [SerializeField] private ClickerManager clickerManager;
-    [SerializeField] private ClickerUI clickerUI;
-    [SerializeField] private ZasobyWEQ zasobyWEQ;
+    [SerializeField]
+    private GameObject workerPrefab;
+    [SerializeField]
+    private GameObject parent;
 
-    [Header("Glowne")]
-    [SerializeField] private TextMeshProUGUI addStoneperSecondText;
-
-    public ulong levelOfWorker = 0;
-    public ulong powerOfWorker = 0;
-    public ulong priceOfWorker = 0;
-    public ulong addStonePerSecond;
-    public ulong IdentityOfWorker = 0;
-    
-
-    void Start()
+    private void Start()
     {
         
+        var workersData = JsonUtility.FromJson<WorkersData>(File.ReadAllText(Application.streamingAssetsPath + "/WorkersData.json"));
+        foreach (var workerData in workersData.data)
+        {
+            var icon = Resources.Load<Sprite>(workerData.icon);
+            var worker = Instantiate(workerPrefab, parent.transform);
+            var instance = worker.GetComponent<WorkerInstance>();
+            instance.clickerManager = clickerManager;
+            instance.iconOfWorker.sprite=icon;
+            instance.Price = workerData.price;
+            instance.Power = workerData.power;
+            instance.Quantity = 0;
+        }
     }
-
     
-   
 }
+

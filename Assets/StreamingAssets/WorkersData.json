@@ -1,0 +1,34 @@
+{
+    "data": [
+        {
+            "price": 1,
+            "power": 5,
+            "icon": "DarmowaWaluta"
+        },
+        {
+            "price": 200,
+            "power": 20,
+            "icon": "DarmowaWaluta"
+        },
+        {
+            "price": 500,
+            "power": 50,
+            "icon": "DarmowaWaluta"
+        },
+        {
+            "price": 1000,
+            "power": 200,
+            "icon": "DarmowaWaluta"
+        },
+        {
+            "price": 5000,
+            "power": 500,
+            "icon": "DarmowaWaluta"
+        },
+        {
+            "price": 25000,
+            "power": 1250,
+            "icon": "DarmowaWaluta"
+        }
+    ]
+}

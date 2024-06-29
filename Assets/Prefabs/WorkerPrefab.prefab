@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3883395565184479280}
+  - component: {fileID: 3412521685619580844}
   m_Layer: 5
   m_Name: WorkerPrefab
   m_TagString: Untagged
@@ -40,6 +41,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 824.54175}
   m_SizeDelta: {x: 1080, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3412521685619580844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205914276226306974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa4ec6bf3f6740b419dbc61926493b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priceText: {fileID: 8009877862552597911}
+  powerText: {fileID: 8338358400119483296}
+  quantityText: {fileID: 6472296429520028651}
+  buyButton: {fileID: 9177747774317362809}
+  clickerManager: {fileID: 0}
+  iconOfWorker: {fileID: 791407768793072504}
 --- !u!1 &3000355706825292319
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +476,6 @@ GameObject:
   - component: {fileID: 2521706520894449325}
   - component: {fileID: 791407768793072504}
   - component: {fileID: 9177747774317362809}
-  - component: {fileID: 7868422386395605556}
   m_Layer: 5
   m_Name: BuyWorkerButton
   m_TagString: Untagged
@@ -566,30 +584,4 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 791407768793072504}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7868422386395605556}
-        m_TargetAssemblyTypeName: ButtonHandler, Assembly-CSharp
-        m_MethodName: OnButtonClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &7868422386395605556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7944298479778421779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d14aff23db5a62944bca51c484a487ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pracownik: {fileID: 0}
-  workerId: 0
+      m_Calls: []
