@@ -240,16 +240,18 @@ public class ClickerManager : MonoBehaviour
 
     public void LVLUP()
     {
+        Debug.Log("dupka1");
         if (poziom <= 9)
         {
             poziom += 1;
             experience = 0f;
             slider.value = 0f;
             poziomLVLIMG.SetActive(false);
-            clickerUI.UpdateLevel(poziom);
+            Debug.Log("dupka2");
 
             if (poziom > 9)
             {
+                Debug.Log("dupka3");
                 slider.value = 1000;
                 clickerUI.UpdateLevel(poziom);
             }
@@ -262,6 +264,7 @@ public class ClickerManager : MonoBehaviour
         {
 
         }
+        Debug.Log("dupka4");
         upgradesUI.Shoping();
 
     }
