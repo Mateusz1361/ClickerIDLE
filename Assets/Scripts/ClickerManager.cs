@@ -35,7 +35,7 @@ public class ClickerManager : MonoBehaviour
     [SerializeField] private Button lvling;
 
     [SerializeField]
-    private TextMeshProUGUI StonePerClickText;
+    public TextMeshProUGUI StonePerClickText;
 
 
     // zmienne ogólne
@@ -58,14 +58,19 @@ public class ClickerManager : MonoBehaviour
     //zmienne do Dropu Dolarow
     float _minDrop = 1.01f;
     float _maxDrop = 1.02f;
-
+    private int _coal;
+    private int _copper;
+    private int _iron;
+    private int _gold;
+    private int _diamond;
+    private int _emerald;
     //Zasoby
-    public int wegiel = 0;
-    public int miedz = 0;
-    public int zelazo = 0;
-    public int zloto = 0;
-    public int diament = 0;
-    public int emerald = 0;
+    public int coal { get { return _coal; } set { _coal = value; zasobyWEQ.UpdateCoal(_coal); } } 
+    public int copper { get { return _copper; } set { _copper = value; zasobyWEQ.UpdateCopper(_copper); } } 
+    public int iron { get { return _iron; } set { _iron = value; zasobyWEQ.UpdateIron(_iron); } } 
+    public int gold { get { return _gold; } set { _gold = value; zasobyWEQ.UpdateGold(_gold); } } 
+    public int diamond { get { return _diamond; } set { _diamond = value; zasobyWEQ.UpdateDiamond(_diamond); } } 
+    public int emerald { get { return _emerald; } set { _emerald = value; zasobyWEQ.UpdateEmerald(_emerald); } } 
 
     public int addwegiel = 1;
     public int addmiedz = 1;
@@ -77,9 +82,16 @@ public class ClickerManager : MonoBehaviour
     // G³ówna funkcja START
     private void Start()
     {
-        clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
-        zasobyWEQ.UpdateZasoby(wegiel, miedz, zelazo, zloto, diament, emerald);
-        
+        upgradesUI.Shoping();
+        clickerUI.UpdateStone(stoneCounter);
+        clickerUI.UpdateDolars(dolarCounter);
+        clickerUI.UpdateLevel(poziom);
+        coal = 0;
+        copper = 0;
+        iron = 0;
+        gold = 0;
+        diamond = 0;
+        emerald = 0;
         clickerButton.onClick.AddListener(AddStone);
 
         zasobyTlo.SetActive(false);
@@ -111,9 +123,6 @@ public class ClickerManager : MonoBehaviour
 
         
 
-        tradingPanel.tradingStoneDolars.onClick.AddListener(tradingPanel.TradingNumberOne);
-        tradingPanel.TradingNumberOneUpdate();
-
         InvokeRepeating(nameof(AddPointsPerSecond), 0f, 1f);
         
     }
@@ -124,8 +133,8 @@ public class ClickerManager : MonoBehaviour
         if (stonePerSecond > 0)
         {
             stoneCounter += stonePerSecond;
-            clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
-            StonePerClickText.text = addStone.ToString();
+            clickerUI.UpdateStone(stoneCounter);
+            
         }
     }
      
@@ -141,42 +150,42 @@ public class ClickerManager : MonoBehaviour
         {
             //Wykop 1 dolarka
             dolarCounter += addDolar;
-            clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
+            clickerUI.UpdateDolars(dolarCounter);
             
         }else if (rnd >= 3.51 && rnd <= 5)
         {
-            wegiel += addwegiel;
-            zasobyWEQ.UpdateZasoby(wegiel, miedz, zelazo, zloto, diament, emerald);
+            coal += addwegiel;
+            
 
         }else if (rnd >= 2.31 && rnd <= 3.5)
         {
-            miedz += addmiedz;
-            zasobyWEQ.UpdateZasoby(wegiel, miedz, zelazo, zloto, diament, emerald);
+            copper += addmiedz;
+            
         }
         else if (rnd >= 1.71 && rnd <=  2.30)
         {
-            zelazo += addzelazo;
-            zasobyWEQ.UpdateZasoby(wegiel, miedz, zelazo, zloto, diament, emerald);
+            iron += addzelazo;
+            
         }
         else if (rnd >= 1.31 && rnd <= 1.7)
         {
-            zloto += addzloto;
-            zasobyWEQ.UpdateZasoby(wegiel, miedz, zelazo, zloto, diament, emerald);
+            gold += addzloto;
+            
         }
         else if (rnd >= 1.07 && rnd <= 1.30)
         {
-            diament += adddiament;
-            zasobyWEQ.UpdateZasoby(wegiel, miedz, zelazo, zloto, diament, emerald);
+            diamond += adddiament;
+            
         }
         else if (rnd >= 1.02 && rnd <= 1.06 )
         {
             emerald += addemerald;
-            zasobyWEQ.UpdateZasoby(wegiel, miedz, zelazo, zloto, diament, emerald);
+            
         }
         else if(rnd >= 2.01 && rnd <= 10)
         {
             stoneCounter += Convert.ToUInt64(addStone);
-
+            clickerUI.UpdateStone(stoneCounter);
             if (poziom <= 9)
             {
 
@@ -187,7 +196,7 @@ public class ClickerManager : MonoBehaviour
                     poziomIMG.SetActive(true);
                     clickerUI.stoneCounterText.enabled = true;
                     zasobyButton.enabled = true;
-                    clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
+                    clickerUI.UpdateLevel(poziom);
                 }
                 else
                 {
@@ -203,7 +212,7 @@ public class ClickerManager : MonoBehaviour
                         poziomIMG.SetActive(true);
                         clickerUI.stoneCounterText.enabled = true;
                         zasobyButton.enabled = true;
-                        clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
+                        clickerUI.UpdateLevel(poziom);
                     }
                     else
                     {
@@ -211,7 +220,7 @@ public class ClickerManager : MonoBehaviour
                     }
 
                 }
-                clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
+                clickerUI.UpdateLevel(poziom);
 
             }
             else
@@ -222,7 +231,7 @@ public class ClickerManager : MonoBehaviour
 
            
         }
-        clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
+        clickerUI.UpdateLevel(poziom);
 
         Debug.Log($"Twój poziom {poziom}, Twój exp {experience}");
     }
@@ -237,12 +246,12 @@ public class ClickerManager : MonoBehaviour
             experience = 0f;
             slider.value = 0f;
             poziomLVLIMG.SetActive(false);
-            clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
+            clickerUI.UpdateLevel(poziom);
 
             if (poziom > 9)
             {
                 slider.value = 1000;
-                clickerUI.UpdateUI(stoneCounter, dolarCounter, poziom);
+                clickerUI.UpdateLevel(poziom);
             }
             else
             {
@@ -253,6 +262,7 @@ public class ClickerManager : MonoBehaviour
         {
 
         }
+        upgradesUI.Shoping();
 
     }
 

@@ -15,9 +15,9 @@ public class ShopInstance : MonoBehaviour
     private TMP_Text quantityText;
     [SerializeField]
     private Button buyButton;
-    [SerializeField]
-    private TextMeshProUGUI StonePerClickText;
+    
     public ClickerManager clickerManager;
+    public ClickerUI clickerUI;
     public Image iconOfShop;
     private int _price;
     private int _power;
@@ -34,7 +34,8 @@ public class ShopInstance : MonoBehaviour
             clickerManager.addStone += Power;
             Quantity += 1;
             Price *= 2;
-            StonePerClickText.text = clickerManager.addStone.ToString();
+            clickerManager.StonePerClickText.text = clickerManager.addStone.ToString();
+            clickerUI.UpdateStone(clickerManager.stoneCounter);
         }
     }
     public int Price

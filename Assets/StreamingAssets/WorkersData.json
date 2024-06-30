@@ -26,6 +26,11 @@
             "icon": "Przyciski"
         },
         {
+            "price": 5000000,
+            "power": 50000,
+            "icon": "Przyciski"
+        },
+        {
             "price": 25000,
             "power": 1250,
             "icon": "DarmowaWaluta"

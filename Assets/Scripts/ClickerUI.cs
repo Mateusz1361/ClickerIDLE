@@ -17,21 +17,9 @@ public class ClickerUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI iloscStonaNaClick;
     [SerializeField] private TextMeshProUGUI iloscStonaNaSec;
     
-
-    [Header("Kielnia")]
-    [SerializeField] public TextMeshProUGUI cenaKielniaText;
-    [SerializeField] public TextMeshProUGUI mocKielniText;
-    [SerializeField] public TextMeshProUGUI iloscKielniText;
-
-
-    [Header("Dluto")]
-    [SerializeField] public TextMeshProUGUI cenaDlutaText;
-    [SerializeField] public TextMeshProUGUI mocDlutaText;
-    [SerializeField] public TextMeshProUGUI iloscDlutText;
-    public void UpdateUI(ulong amount, int dolarsamount, int poziom)
+    public void UpdateStone(ulong amount)
     {
-        dolarsamouttext.text = $"{dolarsamount}";
-        poziomtext.text = $"{poziom}";
+        
         iloscStonaNaSec.text = $" {clickerManager.stonePerSecond}";
         
         if (amount < 1000000)
@@ -60,24 +48,17 @@ public class ClickerUI : MonoBehaviour
             stoneCounterText2.text = $"{amount / 1000000000000}T";
         }
     }
-
-    public void KielniaUI(int cenaPrzedmiotu,int mocPrzedmiotu,int iloscPrzedmiotu) 
+    public void UpdateLevel(int level)
     {
-        cenaKielniaText.text = $"{cenaPrzedmiotu}";
-        mocKielniText.text = $"{mocPrzedmiotu}";
-        iloscKielniText.text = $"{iloscPrzedmiotu}";
-        iloscStonaNaClick.text = $"{clickerManager.addStone}";
-
+        poziomtext.text = $"{level}";
+    }
+    public void UpdateDolars(int dolars)
+    {
+        dolarsamouttext.text = $"{dolars}";
     }
 
-    public void DlutoUI(int cenaPrzedmiotu, int mocPrzedmiotu, int iloscPrzedmiotu)
-    {
-        cenaDlutaText.text = $"{cenaPrzedmiotu}";
-        mocDlutaText.text = $"{mocPrzedmiotu}";
-        iloscDlutText.text = $"{iloscPrzedmiotu}";
-        iloscStonaNaClick.text = $"{clickerManager.addStone}";
-    }
-    
+
+
 
 
 }

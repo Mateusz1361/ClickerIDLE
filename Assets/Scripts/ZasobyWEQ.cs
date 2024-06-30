@@ -5,21 +5,36 @@ using UnityEngine;
 
 public class ZasobyWEQ : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI wegielText;
-    [SerializeField] private TextMeshProUGUI miedzText;
-    [SerializeField] private TextMeshProUGUI zelazoText;
+    [SerializeField] private TextMeshProUGUI coalText;
+    [SerializeField] private TextMeshProUGUI copperText;
+    [SerializeField] private TextMeshProUGUI ironText;
     [SerializeField] private TextMeshProUGUI goldText;
-    [SerializeField] private TextMeshProUGUI diamentText;
+    [SerializeField] private TextMeshProUGUI diamondText;
     [SerializeField] private TextMeshProUGUI emeraldText;
-
-
-    public void UpdateZasoby(int wegiel, int miedz, int zelazo, int gold, int diament, int emerald)
+    
+    public void UpdateCoal(int coal)
     {
-        wegielText.text = $"{wegiel}";
-        miedzText.text = $"{miedz}";
-        zelazoText.text = $"{zelazo}";
-        goldText.text = $"{gold}";
-        diamentText.text = $"{diament}";
+        coalText.text = $"{coal}";
+    }
+    public void UpdateCopper(int copper)
+    {
+        copperText.text = $"{copper}";
+    }
+    public void UpdateIron(int Iron)
+    {
+        ironText.text = $"{Iron}";
+    }
+    public void UpdateGold(int Gold)
+    {
+        goldText.text = $"{Gold}";
+    }
+    public void UpdateDiamond(int Diamond)
+    {
+        diamondText.text = $"{Diamond}";
+    }
+    public void UpdateEmerald(int emerald)
+    {
         emeraldText.text = $"{emerald}";
     }
+
 }

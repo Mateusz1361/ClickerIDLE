@@ -2,27 +2,33 @@
     "data": [
         {
             "price": 2,
-            "power": 1
+            "power": 1,
+            "unlocklevel":1
         },
         {
             "price": 10,
-            "power": 2
+            "power": 2,
+            "unlocklevel": 2
         },
         {
             "price": 50,
-            "power": 4
+            "power": 4,
+            "unlocklevel": 3
         },
         {
             "price": 200,
-            "power": 15
+            "power": 15,
+            "unlocklevel": 4
         },
         {
             "price": 500,
-            "power": 35
+            "power": 35,
+            "unlocklevel": 5
         },
         {
             "price": 2000,
-            "power": 80
+            "power": 80,
+            "unlocklevel": 6
         }
     ]
 }
