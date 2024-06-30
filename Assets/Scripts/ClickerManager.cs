@@ -39,10 +39,10 @@ public class ClickerManager : MonoBehaviour
 
 
     // zmienne ogólne
-    public ulong stoneCounter = 0;
-    public int addStone = 1;
-
-    public ulong stonePerSecond = 0;
+    public double stoneCounter = 0;
+    public double addStone = 1;
+    public ulong investment = 0;
+    public double stonePerSecond = 0;
 
     public int dolarCounter = 0;
     int addDolar = 1;
@@ -50,7 +50,7 @@ public class ClickerManager : MonoBehaviour
     
     // zmienne od expienia
     public int poziom = 1;
-    public float experience = 0f;
+    public double experience = 0f;
     float _minExperience = 30f;
     float _maxExperience = 60f;
 
@@ -58,26 +58,26 @@ public class ClickerManager : MonoBehaviour
     //zmienne do Dropu Dolarow
     float _minDrop = 1.01f;
     float _maxDrop = 1.02f;
-    private int _coal;
-    private int _copper;
-    private int _iron;
-    private int _gold;
-    private int _diamond;
-    private int _emerald;
+    private double _coal;
+    private double _copper;
+    private double _iron;
+    private double _gold;
+    private double _diamond;
+    private double _emerald;
     //Zasoby
-    public int coal { get { return _coal; } set { _coal = value; zasobyWEQ.UpdateCoal(_coal); } } 
-    public int copper { get { return _copper; } set { _copper = value; zasobyWEQ.UpdateCopper(_copper); } } 
-    public int iron { get { return _iron; } set { _iron = value; zasobyWEQ.UpdateIron(_iron); } } 
-    public int gold { get { return _gold; } set { _gold = value; zasobyWEQ.UpdateGold(_gold); } } 
-    public int diamond { get { return _diamond; } set { _diamond = value; zasobyWEQ.UpdateDiamond(_diamond); } } 
-    public int emerald { get { return _emerald; } set { _emerald = value; zasobyWEQ.UpdateEmerald(_emerald); } } 
+    public double coal { get { return _coal; } set { _coal = value; zasobyWEQ.UpdateCoal(_coal); } } 
+    public double copper { get { return _copper; } set { _copper = value; zasobyWEQ.UpdateCopper(_copper); } } 
+    public double iron { get { return _iron; } set { _iron = value; zasobyWEQ.UpdateIron(_iron); } } 
+    public double gold { get { return _gold; } set { _gold = value; zasobyWEQ.UpdateGold(_gold); } } 
+    public double diamond { get { return _diamond; } set { _diamond = value; zasobyWEQ.UpdateDiamond(_diamond); } } 
+    public double emerald { get { return _emerald; } set { _emerald = value; zasobyWEQ.UpdateEmerald(_emerald); } } 
 
-    public int addwegiel = 1;
-    public int addmiedz = 1;
-    public int addzelazo = 1;
-    public int addzloto = 1;
-    public int adddiament = 1;
-    public int addemerald = 1;
+    public double addwegiel = 1;
+    public double addmiedz = 1;
+    public double addzelazo = 1;
+    public double addzloto = 1;
+    public double adddiament = 1;
+    public double addemerald = 1;
 
     // G³ówna funkcja START
     private void Start()
@@ -125,8 +125,17 @@ public class ClickerManager : MonoBehaviour
 
         InvokeRepeating(nameof(AddPointsPerSecond), 0f, 1f);
         
+        
     }
-
+    //dodana juz na pozniej zeby mialo to rece i nogi
+    public void ResetAllThingsButKeepInvestors()
+    {
+        AddingInvestors();
+    }
+    private void AddingInvestors()
+    {
+        investment = (ulong)stoneCounter / 1000000;
+    }
     // =========================================================
     private void AddPointsPerSecond()
     {
@@ -154,32 +163,32 @@ public class ClickerManager : MonoBehaviour
             
         }else if (rnd >= 3.51 && rnd <= 5)
         {
-            coal += addwegiel;
+            coal += addwegiel + 0.4 * investment;
             
 
         }else if (rnd >= 2.31 && rnd <= 3.5)
         {
-            copper += addmiedz;
+            copper += addmiedz+0.4 * investment;
             
         }
         else if (rnd >= 1.71 && rnd <=  2.30)
         {
-            iron += addzelazo;
+            iron += addzelazo + 0.4 * investment;
             
         }
         else if (rnd >= 1.31 && rnd <= 1.7)
         {
-            gold += addzloto;
+            gold += addzloto + 0.4 * investment;
             
         }
         else if (rnd >= 1.07 && rnd <= 1.30)
         {
-            diamond += adddiament;
+            diamond += adddiament + 0.4 * investment;
             
         }
         else if (rnd >= 1.02 && rnd <= 1.06 )
         {
-            emerald += addemerald;
+            emerald += addemerald + 0.4 * investment;
             
         }
         else if(rnd >= 2.01 && rnd <= 10)
@@ -200,10 +209,10 @@ public class ClickerManager : MonoBehaviour
                 }
                 else
                 {
-                    float addExperience = UnityEngine.Random.Range(_minExperience, _maxExperience);
+                    double addExperience = UnityEngine.Random.Range(_minExperience, _maxExperience);
                     Debug.Log(addExperience);
                     experience += addExperience * addStone;
-                    slider.value += addExperience * addStone / (100 * poziom);
+                    slider.value += (float)(addExperience * addStone / (100 * poziom));
 
                     if (experience >= 100 * poziom)
                     {

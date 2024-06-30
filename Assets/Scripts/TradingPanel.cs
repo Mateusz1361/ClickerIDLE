@@ -44,7 +44,9 @@ public class TradingPanel : MonoBehaviour
             instance.Price = tradeData.price;
             instance.Power = tradeData.adding;
             instance.Currency = tradeData.currency;
-            
+            instance.CurrencyThatGetsBack = tradeData.currencyThatGetsBack;
+
+
         }
     }
 

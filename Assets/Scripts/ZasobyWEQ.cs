@@ -12,27 +12,27 @@ public class ZasobyWEQ : MonoBehaviour
     [SerializeField] private TextMeshProUGUI diamondText;
     [SerializeField] private TextMeshProUGUI emeraldText;
     
-    public void UpdateCoal(int coal)
+    public void UpdateCoal(double coal)
     {
         coalText.text = $"{coal}";
     }
-    public void UpdateCopper(int copper)
+    public void UpdateCopper(double copper)
     {
         copperText.text = $"{copper}";
     }
-    public void UpdateIron(int Iron)
+    public void UpdateIron(double Iron)
     {
         ironText.text = $"{Iron}";
     }
-    public void UpdateGold(int Gold)
+    public void UpdateGold(double Gold)
     {
         goldText.text = $"{Gold}";
     }
-    public void UpdateDiamond(int Diamond)
+    public void UpdateDiamond(double Diamond)
     {
         diamondText.text = $"{Diamond}";
     }
-    public void UpdateEmerald(int emerald)
+    public void UpdateEmerald(double emerald)
     {
         emeraldText.text = $"{emerald}";
     }

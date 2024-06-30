@@ -448,8 +448,10 @@ MonoBehaviour:
   priceText: {fileID: 8947923852248330378}
   powerText: {fileID: 5162027862866597598}
   currencyText: {fileID: 1142341022757084871}
+  currencyThatGetsBackText: {fileID: 7550140714657882005}
   buyButton: {fileID: 3257994607496990041}
   clickerManager: {fileID: 0}
+  clickerUI: {fileID: 0}
   iconOfTrade: {fileID: 8515363029156711435}
 --- !u!1 &8897727800078158843
 GameObject:

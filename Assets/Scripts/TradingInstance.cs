@@ -11,6 +11,8 @@ public class TradingInstance : MonoBehaviour
     [SerializeField]
     private TMP_Text currencyText;
     [SerializeField]
+    private TMP_Text currencyThatGetsBackText;
+    [SerializeField]
     private Button buyButton;
     public ClickerManager clickerManager;
     public ClickerUI clickerUI;
@@ -18,6 +20,7 @@ public class TradingInstance : MonoBehaviour
     private int _price;
     private int _power;
     private string _currency;
+    private string _currencyThatGetsBack;
     private void Start()
     {
         buyButton.onClick.AddListener(Trade);
@@ -26,9 +29,9 @@ public class TradingInstance : MonoBehaviour
     {
         if(Currency == "Stone")
         {
-            if (Price <= (int)clickerManager.stoneCounter)
+            if (Price <= clickerManager.stoneCounter)
             {
-                clickerManager.stoneCounter -= (ulong)Price;
+                clickerManager.stoneCounter -= Price;
                 clickerUI.UpdateStone(clickerManager.stoneCounter); 
             }
         }else if (Currency == "Coal")
@@ -73,10 +76,39 @@ public class TradingInstance : MonoBehaviour
                 clickerManager.emerald -= Price;
             }
         }
-        clickerManager.dolarCounter += Power;
-        clickerUI.UpdateDolars(clickerManager.dolarCounter);
+        Decider(CurrencyThatGetsBack,Power);
+        
+        
+    }
+    public void Decider(string something,int poweer)
+    {
+        
+        switch (something)
+        {
+            case "Emerald":
+                clickerManager.emerald+=poweer;
+                break;
+            case "Diamond":
+                clickerManager.diamond += poweer;
+                break;
+            case "Gold":
+                clickerManager.gold += poweer;
+                break;
+            case "Iron":
+                clickerManager.iron += poweer;
+                break;
+            case "Copper":
+                clickerManager.copper += poweer;
+                break;
+            case "Coal":
+                clickerManager.coal += poweer;
+                break;
+            case "Dolar":
+                clickerManager.dolarCounter += poweer;
+                break;
 
-
+        }
+        
     }
     public int Price
     {
@@ -114,6 +146,18 @@ public class TradingInstance : MonoBehaviour
         {
             _currency = value;
             currencyText.text = _currency.ToString();
+        }
+    }
+    public string CurrencyThatGetsBack
+    {
+        get
+        {
+            return _currencyThatGetsBack;
+        }
+        set
+        {
+            _currencyThatGetsBack = value;
+            currencyThatGetsBackText.text = _currencyThatGetsBack.ToString();
         }
     }
 
