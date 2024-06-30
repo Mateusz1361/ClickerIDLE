@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 [Serializable]
 public class ShopInstanceData
 {
@@ -32,27 +33,27 @@ public class UpgradesUI : MonoBehaviour
     
     public void Shoping()
     {
-        Debug.Log("dupka");
+        
         List<int> quantities = new List<int>();
         foreach (var prefab in parent.GetComponentsInChildren<ShopInstance>()) { 
             quantities.Add(prefab.Quantity);
         }
-        Debug.Log("dupka1");
+        
         while (parent.transform.childCount>0)
         {
-            DestroyImmediate(parent.transform.GetChild(0));
+            DestroyImmediate(parent.transform.GetChild(0).gameObject);
         }
-        Debug.Log("dupka2");
+        
         var ShopData = JsonUtility.FromJson<ShopData>(File.ReadAllText(Application.streamingAssetsPath + "/ShopData.json"));
         int index = 0;
         foreach (var shopData in ShopData.data)
         {
-            Debug.Log("dupka3");
-            var Shop = Instantiate(shopPrefab, parent.transform);
-            var instance = Shop.GetComponent<ShopInstance>();
-            if (shopData.unlocklevel == clickerManager.poziom)
+            
+            
+            if (shopData.unlocklevel <= clickerManager.poziom)
             {
-                Debug.Log("dupka");
+                var Shop = Instantiate(shopPrefab, parent.transform);
+                var instance = Shop.GetComponent<ShopInstance>();
                 instance.clickerManager = clickerManager;
                 instance.clickerUI = clickerUI;
                 instance.Price = shopData.price;
@@ -60,7 +61,7 @@ public class UpgradesUI : MonoBehaviour
                 instance.Quantity = 0;
                 if (index < quantities.Count) { 
                     instance.Quantity = quantities[index];
-                    Debug.Log("dupka15");
+                    
 
                 }
             }

@@ -5330,12 +5330,6 @@ MonoBehaviour:
   poziomtext: {fileID: 467006911}
   iloscStonaNaClick: {fileID: 1632287502}
   iloscStonaNaSec: {fileID: 2126171399}
-  cenaKielniaText: {fileID: 0}
-  mocKielniText: {fileID: 0}
-  iloscKielniText: {fileID: 0}
-  cenaDlutaText: {fileID: 0}
-  mocDlutaText: {fileID: 0}
-  iloscDlutText: {fileID: 0}
 --- !u!114 &1810475656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5486,6 +5480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickerManager: {fileID: 1810475656}
+  clickerUI: {fileID: 1810475655}
   TradePrefab: {fileID: 3797585942686964628, guid: 5043fbba19fc2554d9f6ab6e1bec9829, type: 3}
   parent: {fileID: 430171740}
 --- !u!1 &1832896005
