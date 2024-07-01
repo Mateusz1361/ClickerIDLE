@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 [Serializable]
@@ -7,6 +9,7 @@ public class WorkerInstanceData
 {
     public int price;
     public int power;
+    public int unlocklevel;
     public string icon;
 }
 
@@ -25,20 +28,43 @@ public class Pracownik : MonoBehaviour
     [SerializeField]
     private GameObject parent;
 
-    private void Start()
+    public void Workers()
     {
-        
+        List<int> quantities = new List<int>();
+        foreach (var prefab in parent.GetComponentsInChildren<ShopInstance>())
+        {
+            quantities.Add(prefab.Quantity);
+        }
+        while (parent.transform.childCount > 0)
+        {
+            DestroyImmediate(parent.transform.GetChild(0).gameObject);
+        }
+        int index = 0;
         var workersData = JsonUtility.FromJson<WorkersData>(File.ReadAllText(Application.streamingAssetsPath + "/WorkersData.json"));
         foreach (var workerData in workersData.data)
         {
-            var icon = Resources.Load<Sprite>(workerData.icon);
-            var worker = Instantiate(workerPrefab, parent.transform);
-            var instance = worker.GetComponent<WorkerInstance>();
-            instance.clickerManager = clickerManager;
-            instance.iconOfWorker.sprite=icon;
-            instance.Price = workerData.price;
-            instance.Power = workerData.power;
-            instance.Quantity = 0;
+            if (workerData.unlocklevel <= clickerManager.poziom)
+            {
+                var icon = Resources.Load<Sprite>(workerData.icon);
+                var worker = Instantiate(workerPrefab, parent.transform);
+                var instance = worker.GetComponent<WorkerInstance>();
+                instance.clickerManager = clickerManager;
+                instance.iconOfWorker.sprite = icon;
+                
+                instance.Power = workerData.power;
+                
+                if (index < quantities.Count)
+                {
+                    instance.Quantity = quantities[index];
+                }
+                else instance.Quantity = 0;
+                if (instance.Quantity > 0)
+                {
+                    instance.Price = (int)(workerData.price * Math.Pow(2, instance.Quantity));
+                }
+                else instance.Price = workerData.price;
+                index +=1;
+            }
         }
     }
     

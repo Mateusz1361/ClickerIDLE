@@ -56,14 +56,16 @@ public class UpgradesUI : MonoBehaviour
                 var instance = Shop.GetComponent<ShopInstance>();
                 instance.clickerManager = clickerManager;
                 instance.clickerUI = clickerUI;
-                instance.Price = shopData.price;
+                
                 instance.Power = shopData.power;
                 instance.Quantity = 0;
                 if (index < quantities.Count) { 
                     instance.Quantity = quantities[index];
-                    
-
+                }if (instance.Quantity > 0)
+                {
+                    instance.Price = (int)(shopData.price * Math.Pow( 2, instance.Quantity));
                 }
+                else instance.Price = shopData.price;
             }
             index += 1;    
         }

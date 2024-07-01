@@ -82,6 +82,8 @@ public class ClickerManager : MonoBehaviour
     // G³ówna funkcja START
     private void Start()
     {
+        pracownik.Workers();
+        tradingPanel.Trading();
         upgradesUI.Shoping();
         clickerUI.UpdateStone(stoneCounter);
         clickerUI.UpdateDolars(dolarCounter);
@@ -275,7 +277,8 @@ public class ClickerManager : MonoBehaviour
         }
         
         upgradesUI.Shoping();
-
+        tradingPanel.Trading();
+        pracownik.Workers();
     }
 
    

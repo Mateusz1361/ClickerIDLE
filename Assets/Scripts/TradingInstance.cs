@@ -27,18 +27,21 @@ public class TradingInstance : MonoBehaviour
     }
     public void Trade()
     {
+        
         if(Currency == "Stone")
         {
             if (Price <= clickerManager.stoneCounter)
             {
                 clickerManager.stoneCounter -= Price;
-                clickerUI.UpdateStone(clickerManager.stoneCounter); 
+                clickerUI.UpdateStone(clickerManager.stoneCounter);
+                Decider(CurrencyThatGetsBack, Power);
             }
         }else if (Currency == "Coal")
         {
             if (Price <= clickerManager.coal)
             {
                 clickerManager.coal -= Price;
+                Decider(CurrencyThatGetsBack, Power);
             }
         }
         else if (Currency == "Copper")
@@ -46,6 +49,7 @@ public class TradingInstance : MonoBehaviour
             if (Price <= clickerManager.copper)
             {
                 clickerManager.copper -= Price;
+                Decider(CurrencyThatGetsBack, Power);
             }
         }
         else if (Currency == "Iron")
@@ -53,6 +57,7 @@ public class TradingInstance : MonoBehaviour
             if (Price <= clickerManager.iron)
             {
                 clickerManager.iron -= Price;
+                Decider(CurrencyThatGetsBack, Power);
             }
         }
         else if (Currency == "Gold")
@@ -60,6 +65,7 @@ public class TradingInstance : MonoBehaviour
             if (Price <= clickerManager.gold)
             {
                 clickerManager.gold -= Price;
+                Decider(CurrencyThatGetsBack, Power);
             }
         }
         else if (Currency == "Diamond")
@@ -67,6 +73,7 @@ public class TradingInstance : MonoBehaviour
             if (Price <= clickerManager.diamond)
             {
                 clickerManager.diamond -= Price;
+                Decider(CurrencyThatGetsBack, Power);
             }
         }
         else if (Currency == "Emerald")
@@ -74,9 +81,10 @@ public class TradingInstance : MonoBehaviour
             if (Price <= clickerManager.emerald)
             {
                 clickerManager.emerald -= Price;
+                Decider(CurrencyThatGetsBack, Power);
             }
         }
-        Decider(CurrencyThatGetsBack,Power);
+        
         
         
     }
@@ -161,5 +169,6 @@ public class TradingInstance : MonoBehaviour
             currencyThatGetsBackText.text = _currencyThatGetsBack.ToString();
         }
     }
+    
 
 }

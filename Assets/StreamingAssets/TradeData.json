@@ -5,56 +5,64 @@
             "adding": 1,
             "icon": "DarmowaWaluta",
             "currency": "Stone",
-            "currencyThatGetsBack": "Dolar"
+            "currencyThatGetsBack": "Dolar",
+            "unlocklevel": 1
         },
         {
             "price": 20,
             "adding": 2,
             "icon": "DarmowaWaluta",
             "currency": "Coal",
-            "currencyThatGetsBack": "Dolar"
+            "currencyThatGetsBack": "Dolar",
+            "unlocklevel": 1
         },
         {
             "price": 5,
             "adding": 1,
             "icon": "DarmowaWaluta",
             "currency": "Copper",
-            "currencyThatGetsBack": "Dolar"
+            "currencyThatGetsBack": "Dolar",
+            "unlocklevel": 2
         },
         {
             "price": 10,
             "adding": 3,
             "icon": "DarmowaWaluta",
             "currency": "Iron",
-            "currencyThatGetsBack": "Dolar"
+            "currencyThatGetsBack": "Dolar",
+            "unlocklevel": 2
         },
         {
             "price": 1,
             "adding": 1,
             "icon": "Przyciski",
             "currency": "Gold",
-            "currencyThatGetsBack": "Dolar"
+            "currencyThatGetsBack": "Dolar",
+            "unlocklevel": 3
         },
         {
             "price": 1,
             "adding": 10,
             "icon": "Przyciski",
             "currency": "Diamond",
-            "currencyThatGetsBack": "Dolar"
+            "currencyThatGetsBack": "Dolar",
+            "unlocklevel": 3
         },
         {
             "price": 1,
             "adding": 100,
             "icon": "Przyciski",
             "currency": "Emerald",
-            "currencyThatGetsBack": "Dolar"
+            "currencyThatGetsBack": "Dolar",
+            "unlocklevel": 4
         },
         {
             "price": 10000,
             "adding": 5,
             "icon": "DarmowaWaluta",
             "currency": "Stone",
-            "currencyThatGetsBack": "Diamond"
+            "currencyThatGetsBack": "Diamond",
+            "unlocklevel": 5
         }
     ]
 }
