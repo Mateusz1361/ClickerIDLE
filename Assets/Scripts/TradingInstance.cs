@@ -105,6 +105,7 @@ public class TradingInstance : MonoBehaviour
                 break;
             case "Dolar":
                 clickerManager.dolarCounter += poweer;
+                clickerUI.UpdateDolars(clickerManager.dolarCounter);
                 break;
 
         }
