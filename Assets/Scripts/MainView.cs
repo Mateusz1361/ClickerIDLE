@@ -36,7 +36,7 @@ public class MainView : MonoBehaviour {
         }
         set {
             _stoneIncrement = value;
-            stoneCountText.text = $"{_stoneCount} (+{_stoneIncrement})";
+            stoneCountText.text = $"{NumberFormat.Format(_stoneCount)} (+{NumberFormat.Format(_stoneIncrement)})";
         }
     }
 
@@ -47,7 +47,7 @@ public class MainView : MonoBehaviour {
         }
         set {
             _stoneCount = value;
-            stoneCountText.text = $"{_stoneCount} (+{_stoneIncrement})";
+            stoneCountText.text = $"{NumberFormat.Format(_stoneCount)} (+{NumberFormat.Format(_stoneIncrement)})";
         }
     }
 
@@ -58,7 +58,7 @@ public class MainView : MonoBehaviour {
         }
         set {
             _dollarCount = value;
-            dollarCountText.text = _dollarCount.ToString();
+            dollarCountText.text = NumberFormat.Format(_dollarCount);
         }
     }
 
@@ -99,7 +99,7 @@ public class MainView : MonoBehaviour {
         set {
             _automaticStoneGain = value;
             workerInfo.SetActive(_automaticStoneGain != 0);
-            workerGainText.text = $"{_automaticStoneGain} / s";
+            workerGainText.text = $"{NumberFormat.Format(_automaticStoneGain)} / s";
         }
     }
 

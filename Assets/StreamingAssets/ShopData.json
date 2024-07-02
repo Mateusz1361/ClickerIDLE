@@ -29,6 +29,11 @@
             "price": 2000,
             "power": 80,
             "unlockLevel": 6
+        },
+        {
+            "price": 10000,
+            "power": 400,
+            "unlockLevel": 7
         }
     ]
 }
