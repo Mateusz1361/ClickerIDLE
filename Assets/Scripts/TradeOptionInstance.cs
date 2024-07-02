@@ -14,8 +14,6 @@ public class TradeOptionInstance : MonoBehaviour {
     [SerializeField]
     private Button acceptButton;
     [HideInInspector]
-    private MainView mainView;
-    [HideInInspector]
     private EquipmentMenu equipmentMenu;
 
     public string CurrencyIn { get; private set; }
@@ -25,15 +23,14 @@ public class TradeOptionInstance : MonoBehaviour {
         acceptButton.onClick.AddListener(OnAcceptButtonClick);
     }
 
-    public void InitInstance(MainView _mainView,EquipmentMenu _equipmentMenu,Sprite currencyInSprite,Sprite currencyOutSprite,ulong price,ulong gain,string currencyIn,string currencyOut) {
-        mainView = _mainView;
+    public void InitInstance(EquipmentMenu _equipmentMenu,TradeOptionInstanceData _data) {
         equipmentMenu = _equipmentMenu;
-        currencyInIcon.sprite = currencyInSprite;
-        currencyOutIcon.sprite = currencyOutSprite;
-        Price = price;
-        Gain = gain;
-        CurrencyIn = currencyIn;
-        CurrencyOut = currencyOut;
+        currencyInIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyIn].Icon;
+        currencyOutIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyOut].Icon;
+        Price = _data.price;
+        Gain = _data.gain;
+        CurrencyIn = _data.currencyIn;
+        CurrencyOut = _data.currencyOut;
     }
 
     private ulong _price;
@@ -43,7 +40,7 @@ public class TradeOptionInstance : MonoBehaviour {
         }
         private set {
             _price = value;
-            priceText.text = _price.ToString();
+            priceText.text = NumberFormat.Format(_price);
         }
     }
 
@@ -54,42 +51,24 @@ public class TradeOptionInstance : MonoBehaviour {
         }
         private set {
             _gain = value;
-            gainText.text = _gain.ToString();
+            gainText.text = NumberFormat.Format(_gain);
         }
     }
 
     private void OnAcceptButtonClick() {
         bool priceTaken = false;
-        if(CurrencyIn.Equals("Stone") && Price <= mainView.StoneCount) {
-            mainView.StoneCount -= Price;
-            priceTaken = true;
-        }
-        else if(CurrencyIn.Equals("Dollar") && Price <= mainView.DollarCount) {
-            mainView.DollarCount -= Price;
-            priceTaken = true;
-        }
-        else {
-            foreach((var oreInstanceName,var oreInstance) in equipmentMenu.OreInstances) {
-                if(CurrencyIn.Equals(oreInstanceName) && Price <= oreInstance.Count) {
-                    oreInstance.Count -= Price;
-                    priceTaken = true;
-                    break;
-                }
+        foreach((var resourceInstanceName,var resourceInstance) in equipmentMenu.ResourceInstances) {
+            if(CurrencyIn.Equals(resourceInstanceName) && Price <= resourceInstance.Count) {
+                resourceInstance.Count -= Price;
+                priceTaken = true;
+                break;
             }
         }
         if(priceTaken) {
-            if(CurrencyOut.Equals("Stone")) {
-                mainView.StoneCount += Gain;
-            }
-            else if(CurrencyOut.Equals("Dollar")) {
-                mainView.DollarCount += Gain;
-            }
-            else {
-                foreach((var oreInstanceName,var oreInstance) in equipmentMenu.OreInstances) {
-                    if(CurrencyOut.Equals(oreInstanceName)) {
-                        oreInstance.Count += Gain;
-                        break;
-                    }
+            foreach((var resourceInstanceName,var resourceInstance) in equipmentMenu.ResourceInstances) {
+                if(CurrencyOut.Equals(resourceInstanceName)) {
+                    resourceInstance.Count += Gain;
+                    break;
                 }
             }
         }

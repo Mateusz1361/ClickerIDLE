@@ -1,12 +1,11 @@
 using System;
 
 [Serializable]
-public class OreInstanceData {
+public class ResourceInstanceData {
     public string name;
-    public float minDrop;
-    public float maxDrop;
-    public ulong digIncrement;
-    public string iconName;
+    public float minDropChance;
+    public float maxDropChance;
+    public string iconPath;
 }
 
 [Serializable]

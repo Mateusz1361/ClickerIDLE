@@ -13,6 +13,8 @@ public class TradeMenu : MonoBehaviour {
     private GameObject tradeOptionPrefab;
     [SerializeField]
     private GameObject parent;
+    [SerializeField]
+    private TextAsset tradeOptionData;
 
     private void Awake() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
@@ -20,27 +22,11 @@ public class TradeMenu : MonoBehaviour {
     }
 
     private void InitTradeOptions() {
-        var tradeOptionInstanceDatas = JsonUtility.FromJson<InstanceWrapper<TradeOptionInstanceData>>(File.ReadAllText(Application.streamingAssetsPath + "/TradeOptionData.json"));
+        var tradeOptionInstanceDatas = JsonUtility.FromJson<InstanceWrapper<TradeOptionInstanceData>>(tradeOptionData.text);
         foreach(var tradeOptionInstanceData in tradeOptionInstanceDatas.data) {
             var prefab = Instantiate(tradeOptionPrefab,parent.transform);
             var tradeOptionInstance = prefab.GetComponent<TradeOptionInstance>();
-
-            var spriteInName = tradeOptionInstanceData.currencyIn.Equals("Dollar") ? "Images/DollarSign" :
-                               tradeOptionInstanceData.currencyIn.Equals("Stone") ? "Images/Stone" :
-                               $"Images/OreIcons/{tradeOptionInstanceData.currencyIn}Icon";
-            var spriteOutName = tradeOptionInstanceData.currencyOut.Equals("Dollar") ? "Images/DollarSign" :
-                                tradeOptionInstanceData.currencyIn.Equals("Stone") ? "Images/Stone" :
-                                $"Images/OreIcons/{tradeOptionInstanceData.currencyOut}Icon";
-
-            tradeOptionInstance.InitInstance(
-                mainView,equipmentMenu,
-                Resources.Load<Sprite>(spriteInName),
-                Resources.Load<Sprite>(spriteOutName),
-                tradeOptionInstanceData.price,
-                tradeOptionInstanceData.gain,
-                tradeOptionInstanceData.currencyIn,
-                tradeOptionInstanceData.currencyOut
-            );
+            tradeOptionInstance.InitInstance(equipmentMenu,tradeOptionInstanceData);
         }
     }
 }

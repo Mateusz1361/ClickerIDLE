@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -7,39 +6,58 @@ public class EquipmentMenu : MonoBehaviour {
     [SerializeField]
     private Button closeButton;
     [SerializeField]
-    private GameObject oreInstancePrefab;
+    private GameObject resourceInstancePrefab;
     [SerializeField]
     private GameObject parent;
+    [SerializeField]
+    private TextAsset resourcesData;
 
-    private Dictionary<string,OreInstance> _oreInstances;
+    private Dictionary<string,ResourceInstance> _resourceInstances;
 
-    public Dictionary<string,OreInstance> OreInstances {
+    public Dictionary<string,ResourceInstance> ResourceInstances {
         get {
-            if(_oreInstances == null) {
-                InitOreInstances();
+            if(_resourceInstances == null) {
+                InitResourceInstances();
             }
-            return _oreInstances;
+            return _resourceInstances;
+        }
+    }
+
+    private ResourceInstance _stone;
+    public ResourceInstance Stone {
+        get {
+            if(_stone == null) {
+                _stone = ResourceInstances["Stone"];
+            }
+            return _stone;
+        }
+    }
+
+    private ResourceInstance _money;
+    public ResourceInstance Money {
+        get {
+            if(_money == null) {
+                _money = ResourceInstances["Money"];
+            }
+            return _money;
         }
     }
 
     private void Awake() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
-        if(_oreInstances == null) {
-            InitOreInstances();
+        if(_resourceInstances == null) {
+            InitResourceInstances();
         }
     }
 
-    private void InitOreInstances() {
-        _oreInstances = new();
-        var oreInstanceDatas = JsonUtility.FromJson<InstanceWrapper<OreInstanceData>>(File.ReadAllText(Application.streamingAssetsPath + "/OresData.json"));
-        foreach(var oreInstanceData in oreInstanceDatas.data) {
-            var prefab = Instantiate(oreInstancePrefab,parent.transform);
-            var oreInstance = prefab.GetComponent<OreInstance>();
-            oreInstance.InitInstance(Resources.Load<Sprite>($"Images/OreIcons/{oreInstanceData.iconName}"),oreInstanceData.name);
-            oreInstance.Count = 0;
-            oreInstance.minDrop = oreInstanceData.minDrop;
-            oreInstance.maxDrop = oreInstanceData.maxDrop;
-            _oreInstances.Add(oreInstanceData.name,oreInstance);
+    private void InitResourceInstances() {
+        _resourceInstances = new();
+        var resourceInstanceDatas = JsonUtility.FromJson<InstanceWrapper<ResourceInstanceData>>(resourcesData.text);
+        foreach(var resourceInstanceData in resourceInstanceDatas.data) {
+            var prefab = Instantiate(resourceInstancePrefab,parent.transform);
+            var resourceInstance = prefab.GetComponent<ResourceInstance>();
+            resourceInstance.InitInstance(resourceInstanceData);
+            _resourceInstances.Add(resourceInstanceData.name,resourceInstance);
         }
     }
 }

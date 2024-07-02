@@ -23,44 +23,13 @@ public class MainView : MonoBehaviour {
     [SerializeField]
     private TMP_Text stoneCountText;
     [SerializeField]
-    private TMP_Text dollarCountText;
+    private TMP_Text moneyCountText;
     [SerializeField]
     private GameObject workerInfo;
     [SerializeField]
     private TMP_Text workerGainText;
 
-    private ulong _stoneIncrement;
-    public ulong StoneIncrement {
-        get {
-            return _stoneIncrement;
-        }
-        set {
-            _stoneIncrement = value;
-            stoneCountText.text = $"{NumberFormat.Format(_stoneCount)} (+{NumberFormat.Format(_stoneIncrement)})";
-        }
-    }
-
-    private ulong _stoneCount;
-    public ulong StoneCount {
-        get {
-            return _stoneCount;
-        }
-        set {
-            _stoneCount = value;
-            stoneCountText.text = $"{NumberFormat.Format(_stoneCount)} (+{NumberFormat.Format(_stoneIncrement)})";
-        }
-    }
-
-    private ulong _dollarCount;
-    public ulong DollarCount {
-        get {
-            return _dollarCount;
-        }
-        set {
-            _dollarCount = value;
-            dollarCountText.text = NumberFormat.Format(_dollarCount);
-        }
-    }
+    public ulong StoneIncrement { get; set; }
 
     private readonly int MaxLevel = 999;
 
@@ -113,6 +82,21 @@ public class MainView : MonoBehaviour {
         experienceIncrementMin = 1.0;
         experienceIncrementMax = 3.5;
         AutomaticStoneGain = 0;
+        equipmentMenu.Stone.Count = 0;
+        equipmentMenu.Money.Count = 0;
+    }
+
+    private void Start() {
+        equipmentMenu.Stone.OnCountChanged += OnStoneCountChanged;
+        equipmentMenu.Money.OnCountChanged += OnMoneyCountChanged;
+    }
+
+    private void OnStoneCountChanged(ulong value) {
+        stoneCountText.text = NumberFormat.Format(value);
+    }
+
+    private void OnMoneyCountChanged(ulong value) {
+        moneyCountText.text = NumberFormat.Format(value);
     }
 
     private float automaticStoneGainTimer = 0.0f;
@@ -120,7 +104,7 @@ public class MainView : MonoBehaviour {
         if(AutomaticStoneGain > 0) {
             automaticStoneGainTimer += Time.deltaTime;
             while(automaticStoneGainTimer >= 1.0f) {
-                StoneCount += AutomaticStoneGain;
+                equipmentMenu.Stone.Count += AutomaticStoneGain;
                 automaticStoneGainTimer -= 1.0f;
             }
         }
@@ -129,20 +113,25 @@ public class MainView : MonoBehaviour {
     private void OnMainButtonClick() {
         float chance = UnityEngine.Random.Range(1.01f,10.00f);
         if(chance >= 1.01f && chance <= 1.02f) {
-            DollarCount += 1;
+            equipmentMenu.Money.Count += 1;
         }
 
         bool noOreDropped = true;
-        foreach(var oreInstance in equipmentMenu.OreInstances.Values) {
-            if(chance >= oreInstance.minDrop && chance <= oreInstance.maxDrop) {
-                oreInstance.Count += 1;
+        foreach(var resourceInstance in equipmentMenu.ResourceInstances.Values) {
+            if(chance >= resourceInstance.MinDropChance && chance <= resourceInstance.MaxDropChance) {
+                resourceInstance.Count += 1;
                 noOreDropped = false;
                 break;
             }
         }
 
         if(noOreDropped && chance >= 2.01f && chance <= 10.0f) {
-            StoneCount += StoneIncrement;
+            var random = new System.Random();
+            var increment = StoneIncrement;
+            if(increment > 10) {
+                increment += (ulong)random.Next(-1,1) * (StoneIncrement / 3);
+            }
+            equipmentMenu.Stone.Count += increment;
             Experience += new System.Random().NextDouble(experienceIncrementMin,experienceIncrementMax);
         }
     }

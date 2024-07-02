@@ -20,6 +20,8 @@ public class WorkerInstance : MonoBehaviour {
     private GameObject boughtAllMarker;
     [HideInInspector]
     private MainView mainView;
+    [HideInInspector]
+    private EquipmentMenu equipmentMenu;
 
     private void Awake() {
         acceptButton.onClick.AddListener(OnAcceptButtonClick);
@@ -33,8 +35,9 @@ public class WorkerInstance : MonoBehaviour {
         }
     }
 
-    public void InitInstance(MainView _mainView,ulong price,ulong power,int unlockLevel) {
+    public void InitInstance(MainView _mainView,EquipmentMenu _equipmentMenu,ulong price,ulong power,int unlockLevel) {
         mainView = _mainView;
+        equipmentMenu = _equipmentMenu;
         StartPrice = price;
         Price = price;
         Power = power;
@@ -52,7 +55,7 @@ public class WorkerInstance : MonoBehaviour {
         }
         private set {
             _price = value;
-            priceText.text = _price.ToString();
+            priceText.text = NumberFormat.Format(_price);
         }
     }
 
@@ -63,7 +66,7 @@ public class WorkerInstance : MonoBehaviour {
         }
         private set {
             _power = value;
-            powerText.text = _power.ToString();
+            powerText.text = NumberFormat.Format(_power);
         }
     }
 
@@ -74,7 +77,7 @@ public class WorkerInstance : MonoBehaviour {
         }
         private set {
             _unlockLevel = value;
-            unlockAtLevelText.text = $"Unlock at level {_unlockLevel}";
+            unlockAtLevelText.text = $"Unlocked at level {_unlockLevel}";
         }
     }
 
@@ -98,8 +101,8 @@ public class WorkerInstance : MonoBehaviour {
     }
 
     private void OnAcceptButtonClick() {
-        if(mainView.StoneCount >= Price) {
-            mainView.StoneCount -= Price;
+        if(equipmentMenu.Stone.Count >= Price) {
+            equipmentMenu.Stone.Count -= Price;
             mainView.AutomaticStoneGain += Power;
             Quantity += 1;
             Price = StartPrice * Ipow(2,(ulong)Quantity);
