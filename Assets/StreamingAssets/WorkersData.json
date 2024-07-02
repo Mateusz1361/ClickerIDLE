@@ -3,44 +3,37 @@
         {
             "price": 1,
             "power": 5,
-            "icon": "DarmowaWaluta",
-            "unlocklevel": 1
+            "unlockLevel": 1
         },
         {
             "price": 200,
             "power": 20,
-            "icon": "DarmowaWaluta",
-            "unlocklevel": 1
+            "unlockLevel": 1
         },
         {
             "price": 500,
             "power": 50,
-            "icon": "DarmowaWaluta",
-            "unlocklevel": 2
+            "unlockLevel": 2
         },
         {
             "price": 1000,
             "power": 200,
-            "icon": "DarmowaWaluta",
-            "unlocklevel": 3
+            "unlockLevel": 3
         },
         {
             "price": 5000,
             "power": 500,
-            "icon": "Przyciski",
-            "unlocklevel": 4
+            "unlockLevel": 4
         },
         {
             "price": 5000000,
             "power": 50000,
-            "icon": "Przyciski",
-            "unlocklevel": 5
+            "unlockLevel": 5
         },
         {
             "price": 25000,
             "power": 1250,
-            "icon": "DarmowaWaluta",
-            "unlocklevel": 6
+            "unlockLevel": 6
         }
     ]
 }

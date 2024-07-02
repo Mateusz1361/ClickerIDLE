@@ -1,0 +1,58 @@
+{
+    "data": [
+        {
+            "price": 100,
+            "gain": 1,
+            "currencyIn": "Stone",
+            "currencyOut": "Dollar"
+        },
+        {
+            "price": 1000,
+            "gain": 10,
+            "currencyIn": "Stone",
+            "currencyOut": "Dollar"
+        },
+        {
+            "price": 20,
+            "gain": 2,
+            "currencyIn": "Coal",
+            "currencyOut": "Dollar"
+        },
+        {
+            "price": 5,
+            "gain": 1,
+            "currencyIn": "Copper",
+            "currencyOut": "Dollar"
+        },
+        {
+            "price": 10,
+            "gain": 3,
+            "currencyIn": "Iron",
+            "currencyOut": "Dollar"
+        },
+        {
+            "price": 1,
+            "gain": 1,
+            "currencyIn": "Gold",
+            "currencyOut": "Dollar"
+        },
+        {
+            "price": 1,
+            "gain": 10,
+            "currencyIn": "Diamond",
+            "currencyOut": "Dollar"
+        },
+        {
+            "price": 1,
+            "gain": 100,
+            "currencyIn": "Emerald",
+            "currencyOut": "Dollar"
+        },
+        {
+            "price": 10000,
+            "gain": 5,
+            "currencyIn": "Stone",
+            "currencyOut": "Diamond"
+        }
+    ]
+}

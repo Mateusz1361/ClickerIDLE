@@ -1,9 +1,8 @@
 using TMPro;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WorkerInstance : MonoBehaviour {
+public class BuyOptionInstance : MonoBehaviour {
     [SerializeField]
     private Button acceptButton;
     [SerializeField]
@@ -35,15 +34,11 @@ public class WorkerInstance : MonoBehaviour {
 
     public void InitInstance(MainView _mainView,ulong price,ulong power,int unlockLevel) {
         mainView = _mainView;
-        StartPrice = price;
         Price = price;
         Power = power;
         UnlockLevel = unlockLevel;
-        Quantity = 0;
         OnEnable();
     }
-
-    public ulong StartPrice { get; private set; }
 
     private ulong _price;
     public ulong Price {
@@ -89,20 +84,12 @@ public class WorkerInstance : MonoBehaviour {
         }
     }
 
-    private ulong Ipow(ulong _base,ulong _power) {
-        ulong result = 1;
-        for(ulong i = 0;i < _power;i += 1) {
-            result *= _base;
-        }
-        return result;
-    }
-
     private void OnAcceptButtonClick() {
         if(mainView.StoneCount >= Price) {
             mainView.StoneCount -= Price;
-            mainView.AutomaticStoneGain += Power;
+            mainView.StoneIncrement += Power;
             Quantity += 1;
-            Price = StartPrice * Ipow(2,(ulong)Quantity);
+            Price *= 2;
             OnEnable();
         }
     }
