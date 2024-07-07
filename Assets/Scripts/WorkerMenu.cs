@@ -25,7 +25,7 @@ public class WorkerMenu : MonoBehaviour {
         foreach(var workerInstanceData in workerInstanceDatas.data) {
             var prefab = Instantiate(workerInstancePrefab,parent.transform);
             var workerInstance = prefab.GetComponent<WorkerInstance>();
-            workerInstance.InitInstance(mainView,equipmentMenu,workerInstanceData.price,workerInstanceData.price,workerInstanceData.unlockLevel);
+            workerInstance.InitInstance(mainView,equipmentMenu,workerInstanceData.price,workerInstanceData.power,workerInstanceData.unlockLevel);
         }
     }
 }

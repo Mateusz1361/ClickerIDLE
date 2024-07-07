@@ -1,58 +1,47 @@
 {
     "data": [
         {
-            "price": 100,
-            "gain": 1,
+            "buy": 1.0,
+            "sell": 0.01,
             "currencyIn": "Stone",
             "currencyOut": "Money"
         },
         {
-            "price": 1000,
-            "gain": 10,
-            "currencyIn": "Stone",
-            "currencyOut": "Money"
-        },
-        {
-            "price": 20,
-            "gain": 2,
+            "buy": 5.0,
+            "sell": 0.5,
             "currencyIn": "Coal",
             "currencyOut": "Money"
         },
         {
-            "price": 5,
-            "gain": 1,
+            "buy": 10.0,
+            "sell": 2.0,
             "currencyIn": "Copper",
             "currencyOut": "Money"
         },
         {
-            "price": 10,
-            "gain": 3,
+            "buy": 50.0,
+            "sell": 10.0,
             "currencyIn": "Iron",
             "currencyOut": "Money"
         },
         {
-            "price": 1,
-            "gain": 1,
+            "buy": 100.0,
+            "sell": 25.0,
             "currencyIn": "Gold",
             "currencyOut": "Money"
         },
         {
-            "price": 1,
-            "gain": 10,
+            "buy": 1000.0,
+            "sell": 120.0,
             "currencyIn": "Diamond",
             "currencyOut": "Money"
         },
         {
-            "price": 1,
-            "gain": 100,
+            "buy": 100000.0,
+            "sell": 5000.0,
             "currencyIn": "Emerald",
             "currencyOut": "Money"
-        },
-        {
-            "price": 10000,
-            "gain": 5,
-            "currencyIn": "Stone",
-            "currencyOut": "Diamond"
         }
+        
     ]
 }

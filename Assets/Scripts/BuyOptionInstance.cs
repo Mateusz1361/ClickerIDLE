@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 
 public class BuyOptionInstance : MonoBehaviour {
+
     [SerializeField]
     private Button acceptButton;
-    [SerializeField]
-    private TMP_Text priceText;
     [SerializeField]
     private TMP_Text powerText;
     [SerializeField]
@@ -17,10 +18,15 @@ public class BuyOptionInstance : MonoBehaviour {
     private TMP_Text quantityText;
     [SerializeField]
     private GameObject boughtAllMarker;
+    [SerializeField]
+    private GameObject currenciesPrefab;
+    [SerializeField]
+    private GameObject parentCurrencies;
     [HideInInspector]
     private MainView mainView;
     [HideInInspector]
     private EquipmentMenu equipmentMenu;
+
 
     private void Awake() {
         acceptButton.onClick.AddListener(OnAcceptButtonClick);
@@ -34,24 +40,31 @@ public class BuyOptionInstance : MonoBehaviour {
         }
     }
 
-    public void InitInstance(MainView _mainView,EquipmentMenu _equipmentMenu,ulong price,ulong power,int unlockLevel) {
+    public void InitInstance(MainView _mainView,EquipmentMenu _equipmentMenu,BuyOptionInstanceData data) {
         mainView = _mainView;
         equipmentMenu = _equipmentMenu;
-        Price = price;
-        Power = power;
-        UnlockLevel = unlockLevel;
+        Power = data.power;
+        UnlockLevel = data.unlockLevel;
+
+        
+        foreach (var item in data.price)
+        {
+
+            var something = Instantiate(currenciesPrefab, parentCurrencies.transform);
+            something.GetComponent<BuyOptionCurrencyInstance>().InitInstance(item.name, item.value, equipmentMenu.ResourceInstances[item.name].Icon);
+            Price.Add(something.GetComponent<BuyOptionCurrencyInstance>());
+        }
+        
         OnEnable();
     }
-
-    private ulong _price;
-    public ulong Price {
+    
+    private List<BuyOptionCurrencyInstance> _price;
+    public List<BuyOptionCurrencyInstance> Price {
         get {
+            if (_price == null) { _price = new(); }
             return _price;
         }
-        private set {
-            _price = value;
-            priceText.text = NumberFormat.Format(_price);
-        }
+        
     }
 
     private ulong _power;
@@ -88,12 +101,24 @@ public class BuyOptionInstance : MonoBehaviour {
     }
 
     private void OnAcceptButtonClick() {
-        if(equipmentMenu.Stone.Count >= Price) {
-            equipmentMenu.Stone.Count -= Price;
-            mainView.StoneIncrement += Power;
-            Quantity += 1;
-            Price *= 2;
-            OnEnable();
+        bool canAfford = true;
+        foreach(var item in Price)
+        {
+            if(equipmentMenu.ResourceInstances[item.Name].Count < item.Value)
+            {
+                canAfford = false;
+                break;
+            }
         }
+        if (canAfford)
+        {
+            foreach (var item in Price)
+            {
+                equipmentMenu.ResourceInstances[item.Name].Count -= item.Value;
+                item.Value *= 2;
+            }
+            mainView.StoneIncrement += Power;
+        }
+
     }
 }

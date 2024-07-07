@@ -10,15 +10,20 @@ public class ResourceInstanceData {
 
 [Serializable]
 public class TradeOptionInstanceData {
-    public ulong price;
-    public ulong gain;
+    public double buy;
+    public double sell;
     public string currencyIn;
     public string currencyOut;
 }
-
+[Serializable]
+public class MoreValuesOfCurrency
+{
+    public string name;
+    public ulong value;
+}
 [Serializable]
 public class BuyOptionInstanceData {
-    public ulong price;
+    public MoreValuesOfCurrency[] price;
     public ulong power;
     public int unlockLevel;
 }

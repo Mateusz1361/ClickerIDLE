@@ -8,69 +8,82 @@ public class TradeOptionInstance : MonoBehaviour {
     [SerializeField]
     private Image currencyOutIcon;
     [SerializeField]
-    private TMP_Text priceText;
+    private TMP_Text buyText;
     [SerializeField]
-    private TMP_Text gainText;
+    private TMP_Text sellText;
     [SerializeField]
-    private Button acceptButton;
+    private TMP_Text TotalText;
+    [SerializeField]
+    private Button buyButton;
+    [SerializeField]
+    private Button sellButton;
+    [SerializeField]
+    private Button addOneButton;
+    [SerializeField]
+    private Button removeOneButton;
+    [SerializeField]
+    private TMP_InputField quantityOfResource;
     [HideInInspector]
     private EquipmentMenu equipmentMenu;
 
-    public string CurrencyIn { get; private set; }
     public string CurrencyOut { get; private set; }
+    public string CurrencyIn { get; private set; }
 
     private void Awake() {
-        acceptButton.onClick.AddListener(OnAcceptButtonClick);
+        buyButton.onClick.AddListener(OnBuyButtonClick);
+        sellButton.onClick.AddListener(OnSellButtonClick);
     }
 
     public void InitInstance(EquipmentMenu _equipmentMenu,TradeOptionInstanceData _data) {
         equipmentMenu = _equipmentMenu;
         currencyInIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyIn].Icon;
         currencyOutIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyOut].Icon;
-        Price = _data.price;
-        Gain = _data.gain;
+        Buy = _data.buy;
+        Sell = _data.sell;
         CurrencyIn = _data.currencyIn;
         CurrencyOut = _data.currencyOut;
     }
 
-    private ulong _price;
-    public ulong Price {
+    private double _buy;
+    public double Buy {
         get {
-            return _price;
+            return _buy;
         }
         private set {
-            _price = value;
-            priceText.text = NumberFormat.Format(_price);
+            _buy = value;
+            buyText.text = _buy.ToString();
         }
     }
 
-    private ulong _gain;
-    public ulong Gain {
+    private double _sell;
+    public double Sell {
         get {
-            return _gain;
+            return _sell;
         }
         private set {
-            _gain = value;
-            gainText.text = NumberFormat.Format(_gain);
+            _sell = value;
+            sellText.text = _sell.ToString();
         }
     }
 
-    private void OnAcceptButtonClick() {
-        bool priceTaken = false;
-        foreach((var resourceInstanceName,var resourceInstance) in equipmentMenu.ResourceInstances) {
-            if(CurrencyIn.Equals(resourceInstanceName) && Price <= resourceInstance.Count) {
-                resourceInstance.Count -= Price;
-                priceTaken = true;
-                break;
-            }
-        }
-        if(priceTaken) {
-            foreach((var resourceInstanceName,var resourceInstance) in equipmentMenu.ResourceInstances) {
-                if(CurrencyOut.Equals(resourceInstanceName)) {
-                    resourceInstance.Count += Gain;
-                    break;
-                }
-            }
+
+    private void OnBuyButtonClick() {
+        var temp = double.Parse(quantityOfResource.text) * Buy;
+        TotalText.text = temp.ToString();
+        if (equipmentMenu.ResourceInstances[CurrencyOut].Count >= temp)
+        {
+            equipmentMenu.ResourceInstances[CurrencyIn].Count += ulong.Parse(quantityOfResource.text);
+            equipmentMenu.Money.Count -= (ulong)temp; 
         }
     }
+    private void OnSellButtonClick() {
+        var temp = double.Parse(quantityOfResource.text) * Sell;
+        TotalText.text = temp.ToString();
+        if (equipmentMenu.ResourceInstances[CurrencyIn].Count >= temp)
+        {
+            equipmentMenu.ResourceInstances[CurrencyIn].Count -= ulong.Parse(quantityOfResource.text);
+            equipmentMenu.Money.Count += (ulong)temp;
+        }
+    }
+
 }

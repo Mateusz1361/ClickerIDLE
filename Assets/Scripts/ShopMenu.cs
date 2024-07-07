@@ -25,7 +25,7 @@ public class ShopMenu : MonoBehaviour {
         foreach(var buyOptionInstanceData in buyOptionInstanceDatas.data) {
             var prefab = Instantiate(buyOptionPrefab,parent.transform);
             var buyOptionInstance = prefab.GetComponent<BuyOptionInstance>();
-            buyOptionInstance.InitInstance(mainView,equipmentMenu,buyOptionInstanceData.price,buyOptionInstanceData.power,buyOptionInstanceData.unlockLevel);
+            buyOptionInstance.InitInstance(mainView,equipmentMenu,buyOptionInstanceData);
         }
     }
 }
