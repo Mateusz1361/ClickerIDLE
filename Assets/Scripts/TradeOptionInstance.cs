@@ -32,6 +32,9 @@ public class TradeOptionInstance : MonoBehaviour {
     private void Awake() {
         buyButton.onClick.AddListener(OnBuyButtonClick);
         sellButton.onClick.AddListener(OnSellButtonClick);
+        addOneButton.onClick.AddListener(AddingOne);
+        removeOneButton.onClick.AddListener(RemovingOne);
+        quantityOfResource.text = "0";
     }
 
     public void InitInstance(EquipmentMenu _equipmentMenu,TradeOptionInstanceData _data) {
@@ -65,12 +68,23 @@ public class TradeOptionInstance : MonoBehaviour {
             sellText.text = _sell.ToString();
         }
     }
-
+    private void AddingOne()
+    {
+        var temp = ulong.Parse(quantityOfResource.text) + 1;
+        Debug.Log(temp);
+        quantityOfResource.text = temp.ToString();
+    }
+    private void RemovingOne()
+    {
+        var temp = ulong.Parse(quantityOfResource.text) - 1;
+        Debug.Log(temp);
+        quantityOfResource.text = temp.ToString();
+    }
 
     private void OnBuyButtonClick() {
         var temp = double.Parse(quantityOfResource.text) * Buy;
         TotalText.text = temp.ToString();
-        if (equipmentMenu.ResourceInstances[CurrencyOut].Count >= temp)
+        if (equipmentMenu.Money.Count >= temp)
         {
             equipmentMenu.ResourceInstances[CurrencyIn].Count += ulong.Parse(quantityOfResource.text);
             equipmentMenu.Money.Count -= (ulong)temp; 
