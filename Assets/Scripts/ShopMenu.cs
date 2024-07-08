@@ -9,15 +9,21 @@ public class ShopMenu : MonoBehaviour {
     [SerializeField]
     private Button closeButton;
     [SerializeField]
+    private Button OpenShopButton;
+    [SerializeField]
     private GameObject buyOptionPrefab;
     [SerializeField]
-    private GameObject parent;
+    public GameObject parent;
     [SerializeField]
     private TextAsset shopData;
+    [SerializeField]
+    private WorkerMenu workerMenu;
 
     private void Awake() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+        OpenShopButton.onClick.AddListener(() => { parent.gameObject.SetActive(true); workerMenu.parent.gameObject.SetActive(false); });
         InitBuyOptions();
+       
     }
 
     private void InitBuyOptions() {

@@ -9,15 +9,21 @@ public class WorkerMenu : MonoBehaviour {
     [SerializeField]
     private Button closeButton;
     [SerializeField]
+    private Button OpenWorkersButton;
+    [SerializeField]
     private GameObject workerInstancePrefab;
     [SerializeField]
-    private GameObject parent;
+    public GameObject parent;
     [SerializeField]
     private TextAsset workersData;
+    [SerializeField]
+    private ShopMenu shopMenu;
 
     private void Awake() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+        OpenWorkersButton.onClick.AddListener(() => { parent.gameObject.SetActive(true); shopMenu.parent.SetActive(false); });
         InitWorkers();
+        
     }
 
     private void InitWorkers() {
