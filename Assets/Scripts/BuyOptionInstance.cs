@@ -3,9 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-
 public class BuyOptionInstance : MonoBehaviour {
-
     [SerializeField]
     private Button acceptButton;
     [SerializeField]
@@ -27,7 +25,6 @@ public class BuyOptionInstance : MonoBehaviour {
     [HideInInspector]
     private EquipmentMenu equipmentMenu;
 
-
     private void Awake() {
         acceptButton.onClick.AddListener(OnAcceptButtonClick);
     }
@@ -45,26 +42,21 @@ public class BuyOptionInstance : MonoBehaviour {
         equipmentMenu = _equipmentMenu;
         Power = data.power;
         UnlockLevel = data.unlockLevel;
-
         
-        foreach (var item in data.price)
-        {
-
-            var something = Instantiate(currenciesPrefab, parentCurrencies.transform);
-            something.GetComponent<BuyOptionCurrencyInstance>().InitInstance(item.name, item.value, equipmentMenu.ResourceInstances[item.name].Icon);
-            Price.Add(something.GetComponent<BuyOptionCurrencyInstance>());
+        foreach(var item in data.price) {
+            var prefab = Instantiate(currenciesPrefab,parentCurrencies.transform);
+            prefab.GetComponent<BuyOptionCurrencyInstance>().InitInstance(item.name,item.value,equipmentMenu.ResourceInstances[item.name].Icon);
+            Price.Add(prefab.GetComponent<BuyOptionCurrencyInstance>());
         }
-        
         OnEnable();
     }
     
     private List<BuyOptionCurrencyInstance> _price;
     public List<BuyOptionCurrencyInstance> Price {
         get {
-            if (_price == null) { _price = new(); }
+            _price ??= new();
             return _price;
         }
-        
     }
 
     private ulong _power;
@@ -74,7 +66,7 @@ public class BuyOptionInstance : MonoBehaviour {
         }
         private set {
             _power = value;
-            powerText.text = NumberFormat.Format(_power);
+            powerText.text = NumberFormat.ShortForm(_power);
         }
     }
 
@@ -102,23 +94,18 @@ public class BuyOptionInstance : MonoBehaviour {
 
     private void OnAcceptButtonClick() {
         bool canAfford = true;
-        foreach(var item in Price)
-        {
-            if(equipmentMenu.ResourceInstances[item.Name].Count < item.Value)
-            {
+        foreach(var item in Price) {
+            if(equipmentMenu.ResourceInstances[item.Name].Count < item.Value) {
                 canAfford = false;
                 break;
             }
         }
-        if (canAfford)
-        {
-            foreach (var item in Price)
-            {
+        if(canAfford) {
+            foreach(var item in Price) {
                 equipmentMenu.ResourceInstances[item.Name].Count -= item.Value;
                 item.Value *= 2;
             }
             mainView.StoneIncrement += Power;
         }
-
     }
 }

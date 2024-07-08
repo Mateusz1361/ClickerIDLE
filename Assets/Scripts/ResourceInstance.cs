@@ -1,5 +1,5 @@
-using System;
 using TMPro;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +13,7 @@ public class ResourceInstance : MonoBehaviour {
 
     private ResourceInstanceData data;
 
-    public event Action<ulong> OnCountChanged;
+    public event Action<Rational> OnCountChanged;
 
     public Sprite Icon => iconImage.sprite;
     public string Name => data.name;
@@ -27,8 +27,8 @@ public class ResourceInstance : MonoBehaviour {
         Count = 0;
     }
 
-    private ulong _count;
-    public ulong Count {
+    private Rational _count;
+    public Rational Count {
         get {
             return _count;
         }

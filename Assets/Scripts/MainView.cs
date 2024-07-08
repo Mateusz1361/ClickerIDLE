@@ -68,7 +68,7 @@ public class MainView : MonoBehaviour {
         set {
             _automaticStoneGain = value;
             workerInfo.SetActive(_automaticStoneGain != 0);
-            workerGainText.text = $"{NumberFormat.Format(_automaticStoneGain)} / s";
+            workerGainText.text = $"{NumberFormat.ShortForm(_automaticStoneGain)} / s";
         }
     }
 
@@ -87,16 +87,21 @@ public class MainView : MonoBehaviour {
     }
 
     private void Start() {
+        Rational v = new(23.234);
+        print($"{v.Num}/{v.Denom} = {v.ToString(3)}");
+        v = new(-0.3234);
+        print($"{v.Num}/{v.Denom} = {v.ToString(4)}"); 
+
         equipmentMenu.Stone.OnCountChanged += OnStoneCountChanged;
         equipmentMenu.Money.OnCountChanged += OnMoneyCountChanged;
     }
 
-    private void OnStoneCountChanged(ulong value) {
-        stoneCountText.text = NumberFormat.Format(value);
+    private void OnStoneCountChanged(Rational value) {
+        stoneCountText.text = NumberFormat.ShortForm(value);
     }
 
-    private void OnMoneyCountChanged(ulong value) {
-        moneyCountText.text = NumberFormat.Format(value);
+    private void OnMoneyCountChanged(Rational value) {
+        moneyCountText.text = NumberFormat.ShortForm(value);
     }
 
     private float automaticStoneGainTimer = 0.0f;

@@ -55,7 +55,7 @@ public class WorkerInstance : MonoBehaviour {
         }
         private set {
             _price = value;
-            priceText.text = NumberFormat.Format(_price);
+            priceText.text = NumberFormat.ShortForm(_price);
         }
     }
 
@@ -66,7 +66,7 @@ public class WorkerInstance : MonoBehaviour {
         }
         private set {
             _power = value;
-            powerText.text = NumberFormat.Format(_power);
+            powerText.text = NumberFormat.ShortForm(_power);
         }
     }
 

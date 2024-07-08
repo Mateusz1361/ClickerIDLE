@@ -15,12 +15,13 @@ public class TradeOptionInstanceData {
     public string currencyIn;
     public string currencyOut;
 }
+
 [Serializable]
-public class MoreValuesOfCurrency
-{
+public class MoreValuesOfCurrency {
     public string name;
     public ulong value;
 }
+
 [Serializable]
 public class BuyOptionInstanceData {
     public MoreValuesOfCurrency[] price;
