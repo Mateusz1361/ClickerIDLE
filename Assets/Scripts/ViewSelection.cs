@@ -5,7 +5,7 @@ public class ViewSelection : MonoBehaviour {
     [SerializeField]
     private GameObject shopMenu;
     [SerializeField]
-    private GameObject workerMenu;
+    private GameObject investorsMenu;
     [SerializeField]
     private GameObject tradeMenu;
     [SerializeField]
@@ -15,7 +15,7 @@ public class ViewSelection : MonoBehaviour {
     [SerializeField]
     private Button shopMenuButton;
     [SerializeField]
-    private Button workerMenuButton;
+    private Button investorsMenuButton;
     [SerializeField]
     private Button tradeMenuButton;
     [SerializeField]
@@ -25,36 +25,16 @@ public class ViewSelection : MonoBehaviour {
 
     private void Start() {
         SwitchState(null);
-        shopMenuButton.onClick.AddListener(SwitchToShopMenu);
-        workerMenuButton.onClick.AddListener(SwitchToWorkerMenu);
-        tradeMenuButton.onClick.AddListener(SwitchToTradeMenu);
-        adMenuButton.onClick.AddListener(SwitchToAdMenu);
-        equipmentMenuButton.onClick.AddListener(SwitchToEquipmentMenu);
-    }
-
-    public void SwitchToShopMenu() {
-        SwitchState(shopMenu);
-    }
-
-    public void SwitchToWorkerMenu() {
-        SwitchState(workerMenu);
-    }
-
-    public void SwitchToTradeMenu() {
-        SwitchState(tradeMenu);
-    }
-
-    public void SwitchToAdMenu() {
-        SwitchState(adMenu);
-    }
-
-    public void SwitchToEquipmentMenu() {
-        SwitchState(equipmentMenu);
+        shopMenuButton.onClick.AddListener(() => SwitchState(shopMenu));
+        investorsMenuButton.onClick.AddListener(() => SwitchState(investorsMenu));
+        tradeMenuButton.onClick.AddListener(() => SwitchState(tradeMenu));
+        adMenuButton.onClick.AddListener(() => SwitchState(adMenu));
+        equipmentMenuButton.onClick.AddListener(() => SwitchState(equipmentMenu));
     }
 
     private void SwitchState(GameObject obj) {
         shopMenu.SetActive(obj == shopMenu);
-        workerMenu.SetActive(obj == workerMenu);
+        investorsMenu.SetActive(obj == investorsMenu);
         tradeMenu.SetActive(obj == tradeMenu);
         adMenu.SetActive(obj == adMenu);
         equipmentMenu.SetActive(obj == equipmentMenu);

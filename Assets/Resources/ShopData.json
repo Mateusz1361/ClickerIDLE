@@ -1,110 +1,47 @@
 {
     "data": [
         {
+            "unlockLevel": 1,
             "price": [
                 {
                     "name": "Stone",
-                    "value": 10
+                    "value": 10,
+                    "unlockQuantity": 0
                 },
                 {
                     "name": "Coal",
-                    "value": 5
+                    "value": 5,
+                    "unlockQuantity": 3
                 },
                 {
                     "name": "Copper",
-                    "value": 1
+                    "value": 13,
+                    "unlockQuantity": 7
                 }
             ],
-            "power": 1,
-            "unlockLevel": 1
+            "result": {
+                "type": "Power",
+                "value": 1
+            }
         },
         {
+            "unlockLevel": 1,
             "price": [
                 {
                     "name": "Stone",
-                    "value": 10
+                    "value": 10,
+                    "unlockQuantity": 0
                 },
                 {
                     "name": "Iron",
-                    "value": 1
+                    "value": 10,
+                    "unlockQuantity": 3
                 }
             ],
-            "power": 2,
-            "unlockLevel": 2
-        },
-        {
-            "price": [
-                {
-                    "name": "Stone",
-                    "value": 10
-                },
-                {
-                    "name": "Gold",
-                    "value": 1
-                }
-            ],
-            "power": 4,
-            "unlockLevel": 3
-        },
-        {
-            "price": [
-                {
-                    "name": "Stone",
-                    "value": 10
-                },
-                {
-                    "name": "Diamond",
-                    "value": 1
-                }
-            ],
-            "power": 15,
-            "unlockLevel": 4
-        },
-        {
-            "price": [
-                {
-                    "name": "Stone",
-                    "value": 10
-                },
-                {
-                    "name": "Emerald",
-                    "value": 1
-                }
-            ],
-            "power": 35,
-            "unlockLevel": 5
-        },
-        {
-            "price": [
-                {
-                    "name": "Stone",
-                    "value": 10
-                },
-                {
-                    "name": "Diamond",
-                    "value": 1
-                },
-                {
-                    "name": "Emerald",
-                    "value": 1
-                }
-            ],
-            "power": 80,
-            "unlockLevel": 6
-        },
-        {
-            "price": [
-                {
-                    "name": "Stone",
-                    "value": 10
-                },
-                {
-                    "name": "Coal",
-                    "value": 1
-                }
-            ],
-            "power": 400,
-            "unlockLevel": 7
+            "result": {
+                "type": "Worker",
+                "value": 1
+            }
         }
     ]
 }

@@ -1,4 +1,5 @@
 using TMPro;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -7,7 +8,9 @@ public class BuyOptionInstance : MonoBehaviour {
     [SerializeField]
     private Button acceptButton;
     [SerializeField]
-    private TMP_Text powerText;
+    private TMP_Text resultTypeText;
+    [SerializeField]
+    private TMP_Text resultValueText;
     [SerializeField]
     private GameObject unavailabilityMarker;
     [SerializeField]
@@ -17,13 +20,13 @@ public class BuyOptionInstance : MonoBehaviour {
     [SerializeField]
     private GameObject boughtAllMarker;
     [SerializeField]
-    private GameObject currenciesPrefab;
+    private GameObject currencyPrefab;
     [SerializeField]
-    private GameObject parentCurrencies;
-    [HideInInspector]
+    private GameObject currencyInstanceParent;
     private MainView mainView;
-    [HideInInspector]
     private EquipmentMenu equipmentMenu;
+
+    public event Action OnQuantityChanged;
 
     private void Awake() {
         acceptButton.onClick.AddListener(OnAcceptButtonClick);
@@ -40,33 +43,46 @@ public class BuyOptionInstance : MonoBehaviour {
     public void InitInstance(MainView _mainView,EquipmentMenu _equipmentMenu,BuyOptionInstanceData data) {
         mainView = _mainView;
         equipmentMenu = _equipmentMenu;
-        Power = data.power;
         UnlockLevel = data.unlockLevel;
-        
+        ResultType = data.result.type;
+        ResultValue = data.result.value;
+
         foreach(var item in data.price) {
-            var prefab = Instantiate(currenciesPrefab,parentCurrencies.transform);
-            prefab.GetComponent<BuyOptionCurrencyInstance>().InitInstance(item.name,item.value,equipmentMenu.ResourceInstances[item.name].Icon);
+            var prefab = Instantiate(currencyPrefab,currencyInstanceParent.transform);
+            prefab.GetComponent<BuyOptionCurrencyInstance>().InitInstance(this,item,equipmentMenu.ResourceInstances[item.name].Icon);
             Price.Add(prefab.GetComponent<BuyOptionCurrencyInstance>());
         }
+        Quantity = 0;
         OnEnable();
     }
-    
+
+    private BuyOptionResultInstanceData _result;
+    public string ResultType {
+        get {
+            return _result.type;
+        }
+        private set {
+            _result ??= new();
+            _result.type = value;
+            resultTypeText.text = _result.type;
+        }
+    }
+    public ulong ResultValue {
+        get {
+            return _result.value;
+        }
+        private set {
+            _result ??= new();
+            _result.value = value;
+            resultValueText.text = _result.value.ToString();
+        }
+    }
+
     private List<BuyOptionCurrencyInstance> _price;
     public List<BuyOptionCurrencyInstance> Price {
         get {
             _price ??= new();
             return _price;
-        }
-    }
-
-    private ulong _power;
-    public ulong Power {
-        get {
-            return _power;
-        }
-        private set {
-            _power = value;
-            powerText.text = NumberFormat.ShortForm(_power);
         }
     }
 
@@ -89,12 +105,16 @@ public class BuyOptionInstance : MonoBehaviour {
         set {
             _quantity = value;
             quantityText.text = _quantity.ToString();
+            OnQuantityChanged?.Invoke();
         }
     }
 
     private void OnAcceptButtonClick() {
         bool canAfford = true;
         foreach(var item in Price) {
+            if(Quantity < item.UnlockQuantity) {
+                continue;
+            }
             if(equipmentMenu.ResourceInstances[item.Name].Count < item.Value) {
                 canAfford = false;
                 break;
@@ -102,10 +122,19 @@ public class BuyOptionInstance : MonoBehaviour {
         }
         if(canAfford) {
             foreach(var item in Price) {
+                if(Quantity < item.UnlockQuantity) {
+                    continue;
+                }
                 equipmentMenu.ResourceInstances[item.Name].Count -= item.Value;
                 item.Value *= 2;
             }
-            mainView.StoneIncrement += Power;
+            if(ResultType == "Power") {
+                mainView.StoneIncrement += ResultValue;
+            }
+            else if(ResultType == "Worker") {
+                mainView.AutomaticStoneGain += ResultValue;
+            }
+            Quantity += 1;
         }
     }
 }

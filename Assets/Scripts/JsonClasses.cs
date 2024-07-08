@@ -17,23 +17,23 @@ public class TradeOptionInstanceData {
 }
 
 [Serializable]
-public class MoreValuesOfCurrency {
+public class BuyOptionCurrencyInstanceData {
     public string name;
+    public ulong value;
+    public int unlockQuantity;
+}
+
+[Serializable]
+public class BuyOptionResultInstanceData {
+    public string type;
     public ulong value;
 }
 
 [Serializable]
 public class BuyOptionInstanceData {
-    public MoreValuesOfCurrency[] price;
-    public ulong power;
     public int unlockLevel;
-}
-
-[Serializable]
-public class WorkerInstanceData {
-    public ulong price;
-    public ulong power;
-    public int unlockLevel;
+    public BuyOptionCurrencyInstanceData[] price;
+    public BuyOptionResultInstanceData result;
 }
 
 [Serializable]

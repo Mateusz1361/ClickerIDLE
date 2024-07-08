@@ -87,11 +87,6 @@ public class MainView : MonoBehaviour {
     }
 
     private void Start() {
-        Rational v = new(23.234);
-        print($"{v.Num}/{v.Denom} = {v.ToString(3)}");
-        v = new(-0.3234);
-        print($"{v.Num}/{v.Denom} = {v.ToString(4)}"); 
-
         equipmentMenu.Stone.OnCountChanged += OnStoneCountChanged;
         equipmentMenu.Money.OnCountChanged += OnMoneyCountChanged;
     }

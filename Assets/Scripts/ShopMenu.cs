@@ -9,29 +9,50 @@ public class ShopMenu : MonoBehaviour {
     [SerializeField]
     private Button closeButton;
     [SerializeField]
-    private Button OpenShopButton;
-    [SerializeField]
     private GameObject buyOptionPrefab;
     [SerializeField]
-    public GameObject parent;
+    private Transform itemOptionsParent;
+    [SerializeField]
+    private Transform workerOptionsParent;
+    [SerializeField]
+    private Button itemShowButton;
+    [SerializeField]
+    private Button workerShowButton;
     [SerializeField]
     private TextAsset shopData;
-    [SerializeField]
-    private WorkerMenu workerMenu;
 
     private void Awake() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
-        OpenShopButton.onClick.AddListener(() => { parent.gameObject.SetActive(true); workerMenu.parent.gameObject.SetActive(false); });
+        itemShowButton.onClick.AddListener(() => {
+            itemOptionsParent.gameObject.SetActive(true);
+            workerOptionsParent.gameObject.SetActive(false);
+        });
+        workerShowButton.onClick.AddListener(() => {
+            itemOptionsParent.gameObject.SetActive(false);
+            workerOptionsParent.gameObject.SetActive(true);
+        });
         InitBuyOptions();
-       
+    }
+
+    private void OnEnable() {
+        itemOptionsParent.gameObject.SetActive(true);
+        workerOptionsParent.gameObject.SetActive(false);
     }
 
     private void InitBuyOptions() {
         var buyOptionInstanceDatas = JsonUtility.FromJson<InstanceWrapper<BuyOptionInstanceData>>(shopData.text);
         foreach(var buyOptionInstanceData in buyOptionInstanceDatas.data) {
-            var prefab = Instantiate(buyOptionPrefab,parent.transform);
-            var buyOptionInstance = prefab.GetComponent<BuyOptionInstance>();
-            buyOptionInstance.InitInstance(mainView,equipmentMenu,buyOptionInstanceData);
+            GameObject prefab = null;
+            if(buyOptionInstanceData.result.type == "Power") {
+                prefab = Instantiate(buyOptionPrefab,itemOptionsParent);
+            }
+            else if(buyOptionInstanceData.result.type == "Worker") {
+                prefab = Instantiate(buyOptionPrefab,workerOptionsParent);
+            }
+            if(prefab != null) {
+                var buyOptionInstance = prefab.GetComponent<BuyOptionInstance>();
+                buyOptionInstance.InitInstance(mainView,equipmentMenu,buyOptionInstanceData);
+            }
         }
     }
 }

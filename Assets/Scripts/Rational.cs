@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Numerics;
 using System.Diagnostics;
+using System.Globalization;
 
 public struct Rational {
     public BigInteger Num { get; private set; }
@@ -25,21 +26,22 @@ public struct Rational {
     public Rational(double value) {
         int sign = Math.Sign(value);
         value = Math.Abs(value);
-        var wholePart = (ulong)Math.Truncate(value);
+        var wholePart = (long)Math.Truncate(value);
         value -= Math.Truncate(value);
 
         BigInteger fractNum = 0;
         BigInteger fractDenom = 1;
 
-        while(Math.Abs(value) > 0.0001) {
-            var tmp = (int)Math.Truncate(value * 10.0);
-            fractNum += tmp * fractDenom;
-            value -= tmp;
-            fractDenom *= 10;
+        if(Math.Abs(value) > 0.00001) {
+            //@TODO: This is slow.
+            var str = value.ToString().Substring(2);
+            fractNum = long.Parse(str);
+            fractDenom = BigInteger.Pow(10,str.Length);
         }
 
         Num = sign * (wholePart * fractDenom + fractNum);
         Denom = fractDenom;
+        ToCanonicalForm();
     }
 
     public Rational(long _num,long _denom) {
@@ -135,8 +137,9 @@ public struct Rational {
 
     public static Rational operator/(Rational a,Rational b) {
         Trace.Assert(b.Num != 0);
+        int sign = b.Num < 0 ? -1 : 1;
         return CanonicalForm(new() {
-            Num = a.Num * b.Denom * (b.Num < 0 ? -1 : 1),
+            Num = a.Num * b.Denom * sign,
             Denom = a.Denom * BigInteger.Abs(b.Num)
         });
     }
@@ -179,7 +182,7 @@ public struct Rational {
             return "";
         }
         StringBuilder builder = new();
-        builder.Append(",");
+        builder.Append(".");
         for(uint i = 0;i < precision && numerator > 0;i += 1) {
             var tmp = numerator * 10;
             var div = tmp / denominator;
@@ -212,5 +215,13 @@ public struct Rational {
 
     public static Rational Abs(Rational value) {
         return new(BigInteger.Abs(value.Num),value.Denom);
+    }
+
+    //@TODO: This is really hacky and doesn't always work.
+    public static Rational Parse(string str) {
+        if(str.Contains('.')) {
+            return new(double.Parse(str,CultureInfo.InvariantCulture));
+        }
+        return new(long.Parse(str));
     }
 }

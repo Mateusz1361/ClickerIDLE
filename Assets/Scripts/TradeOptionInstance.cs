@@ -41,14 +41,14 @@ public class TradeOptionInstance : MonoBehaviour {
         equipmentMenu = _equipmentMenu;
         currencyInIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyIn].Icon;
         currencyOutIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyOut].Icon;
-        Buy = _data.buy;
-        Sell = _data.sell;
+        Buy = new(_data.buy);
+        Sell = new(_data.sell);
         CurrencyIn = _data.currencyIn;
         CurrencyOut = _data.currencyOut;
     }
 
-    private double _buy;
-    public double Buy {
+    private Rational _buy;
+    public Rational Buy {
         get {
             return _buy;
         }
@@ -58,8 +58,8 @@ public class TradeOptionInstance : MonoBehaviour {
         }
     }
 
-    private double _sell;
-    public double Sell {
+    private Rational _sell;
+    public Rational Sell {
         get {
             return _sell;
         }
@@ -82,27 +82,24 @@ public class TradeOptionInstance : MonoBehaviour {
     }
 
     private void OnBuyButtonClick() {
-        //@TODO: Implement this.
-        /*var temp = double.Parse(quantityOfResource.text) * Buy;
-        TotalText.text = temp.ToString();
-        
-        if (equipmentMenu.Money.Count >= temp)
-        {
-            
-            equipmentMenu.ResourceInstances[CurrencyIn].Count += ulong.Parse(quantityOfResource.text);
-            equipmentMenu.Money.Count -= (ulong)temp; 
-        }*/
+        var quantity = Rational.Parse(quantityOfResource.text);
+        var tmp = quantity * Buy;
+        TotalText.text = tmp.ToString();
+
+        if(equipmentMenu.ResourceInstances[CurrencyOut].Count >= quantity) {
+            equipmentMenu.ResourceInstances[CurrencyIn].Count += quantity;
+            equipmentMenu.ResourceInstances[CurrencyOut].Count -= tmp;
+        }
     }
 
     private void OnSellButtonClick() {
-        /*var temp = double.Parse(quantityOfResource.text) * Sell;
-        TotalText.text = temp.ToString();
-       
-        if (equipmentMenu.ResourceInstances[CurrencyIn].Count >= ulong.Parse(quantityOfResource.text))
-        {
-            
-            equipmentMenu.ResourceInstances[CurrencyIn].Count -= ulong.Parse(quantityOfResource.text);
-            equipmentMenu.Money.Count += (ulong)temp;
-        }*/
+        var quantity = Rational.Parse(quantityOfResource.text);
+        var tmp = quantity * Sell;
+        TotalText.text = tmp.ToString();
+
+        if(equipmentMenu.ResourceInstances[CurrencyIn].Count >= quantity) {
+            equipmentMenu.ResourceInstances[CurrencyIn].Count -= quantity;
+            equipmentMenu.ResourceInstances[CurrencyOut].Count += tmp;
+        }
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8236509562080961826}
   - component: {fileID: 7104221092163167332}
   m_Layer: 5
-  m_Name: PowerText
+  m_Name: ResultValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -547,13 +547,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceptButton: {fileID: 1651842662470348261}
-  powerText: {fileID: 7104221092163167332}
+  resultTypeText: {fileID: 5887146484551112086}
+  resultValueText: {fileID: 7104221092163167332}
   unavailabilityMarker: {fileID: 4521209312773003650}
   unlockAtLevelText: {fileID: 2514785742719191944}
   quantityText: {fileID: 1522064355158360943}
   boughtAllMarker: {fileID: 6370043879879975649}
-  currenciesPrefab: {fileID: 635229475937892074, guid: f93c215240ad48f49afaeda2bdc4d766, type: 3}
-  parentCurrencies: {fileID: 5438996903290557591}
+  currencyPrefab: {fileID: 635229475937892074, guid: f93c215240ad48f49afaeda2bdc4d766, type: 3}
+  currencyInstanceParent: {fileID: 5438996903290557591}
 --- !u!1 &4521209312773003650
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +643,7 @@ GameObject:
   - component: {fileID: 6686015080474938666}
   - component: {fileID: 7788873437451036401}
   m_Layer: 5
-  m_Name: PrefabCurrencyPlacementInShop
+  m_Name: PricePlacement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -782,7 +783,7 @@ GameObject:
   - component: {fileID: 7536062154565990150}
   - component: {fileID: 5887146484551112086}
   m_Layer: 5
-  m_Name: Label
+  m_Name: ResultTypeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
