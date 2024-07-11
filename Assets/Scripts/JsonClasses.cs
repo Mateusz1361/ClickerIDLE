@@ -10,8 +10,8 @@ public class ResourceInstanceData {
 
 [Serializable]
 public class TradeOptionInstanceData {
-    public double buy;
-    public double sell;
+    public double buyPrice;
+    public double sellPrice;
     public string currencyIn;
     public string currencyOut;
 }

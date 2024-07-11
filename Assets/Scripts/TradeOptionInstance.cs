@@ -12,17 +12,19 @@ public class TradeOptionInstance : MonoBehaviour {
     [SerializeField]
     private TMP_Text sellText;
     [SerializeField]
-    private TMP_Text TotalText;
+    private TMP_Text totalBuyAmountText;
+    [SerializeField]
+    private TMP_Text totalSellAmountText;
     [SerializeField]
     private Button buyButton;
     [SerializeField]
     private Button sellButton;
     [SerializeField]
-    private Button addOneButton;
+    private Button incrementQuantityButton;
     [SerializeField]
-    private Button removeOneButton;
+    private Button decrementQuantityButton;
     [SerializeField]
-    private TMP_InputField quantityOfResource;
+    private TMP_InputField quantityInput;
     [HideInInspector]
     private EquipmentMenu equipmentMenu;
 
@@ -32,74 +34,79 @@ public class TradeOptionInstance : MonoBehaviour {
     private void Awake() {
         buyButton.onClick.AddListener(OnBuyButtonClick);
         sellButton.onClick.AddListener(OnSellButtonClick);
-        addOneButton.onClick.AddListener(AddingOne);
-        removeOneButton.onClick.AddListener(RemovingOne);
-        quantityOfResource.text = "0";
+        incrementQuantityButton.onClick.AddListener(() => {
+            Quantity += 1;
+        });
+        decrementQuantityButton.onClick.AddListener(() => {
+            if(Quantity > 0) {
+                Quantity -= 1;
+            }
+        });
+        quantityInput.text = "0";
+        quantityInput.onEndEdit.AddListener((string text) => {
+            Quantity = ulong.Parse(text);
+        });
     }
 
     public void InitInstance(EquipmentMenu _equipmentMenu,TradeOptionInstanceData _data) {
         equipmentMenu = _equipmentMenu;
         currencyInIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyIn].Icon;
         currencyOutIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyOut].Icon;
-        Buy = new(_data.buy);
-        Sell = new(_data.sell);
+        BuyPrice = new(_data.buyPrice);
+        SellPrice = new(_data.sellPrice);
         CurrencyIn = _data.currencyIn;
         CurrencyOut = _data.currencyOut;
+        Quantity = 0;
     }
 
-    private Rational _buy;
-    public Rational Buy {
+    private Rational _buyPrice;
+    public Rational BuyPrice {
         get {
-            return _buy;
+            return _buyPrice;
         }
         private set {
-            _buy = value;
-            buyText.text = _buy.ToString();
+            _buyPrice = value;
+            buyText.text = _buyPrice.ToString();
         }
     }
 
-    private Rational _sell;
-    public Rational Sell {
+    private Rational _sellPrice;
+    public Rational SellPrice {
         get {
-            return _sell;
+            return _sellPrice;
         }
         private set {
-            _sell = value;
-            sellText.text = _sell.ToString();
+            _sellPrice = value;
+            sellText.text = _sellPrice.ToString();
         }
     }
 
-    private void AddingOne() {
-        var temp = ulong.Parse(quantityOfResource.text) + 1;
-        quantityOfResource.text = temp.ToString();
-    }
-
-    private void RemovingOne() {
-        var value = ulong.Parse(quantityOfResource.text);
-        if(value > 0) {
-            quantityOfResource.text = (value - 1).ToString();
+    private ulong _quantity;
+    public ulong Quantity {
+        get {
+            return _quantity;
+        }
+        set {
+            _quantity = value;
+            quantityInput.text = _quantity.ToString();
+            totalBuyAmountText.text = (_quantity * BuyPrice).ToString();
+            totalSellAmountText.text = (_quantity * SellPrice).ToString();
         }
     }
 
     private void OnBuyButtonClick() {
-        var quantity = Rational.Parse(quantityOfResource.text);
-        var tmp = quantity * Buy;
-        TotalText.text = tmp.ToString();
-
-        if(equipmentMenu.ResourceInstances[CurrencyOut].Count >= quantity) {
+        Rational quantity = Quantity;
+        if(equipmentMenu.ResourceInstances[CurrencyOut].Count >= quantity * BuyPrice) {
+            equipmentMenu.ResourceInstances[CurrencyOut].Count -= quantity * BuyPrice;
             equipmentMenu.ResourceInstances[CurrencyIn].Count += quantity;
-            equipmentMenu.ResourceInstances[CurrencyOut].Count -= tmp;
         }
     }
 
     private void OnSellButtonClick() {
-        var quantity = Rational.Parse(quantityOfResource.text);
-        var tmp = quantity * Sell;
-        TotalText.text = tmp.ToString();
-
+        Rational quantity = Quantity;
         if(equipmentMenu.ResourceInstances[CurrencyIn].Count >= quantity) {
             equipmentMenu.ResourceInstances[CurrencyIn].Count -= quantity;
-            equipmentMenu.ResourceInstances[CurrencyOut].Count += tmp;
+            equipmentMenu.ResourceInstances[CurrencyOut].Count += quantity * SellPrice;
         }
     }
 }

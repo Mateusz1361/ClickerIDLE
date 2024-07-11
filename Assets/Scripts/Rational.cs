@@ -6,7 +6,7 @@ using System.Globalization;
 
 public struct Rational {
     public BigInteger Num { get; private set; }
-    public BigInteger Denom {  get; private set; }
+    public BigInteger Denom { get; private set; }
 
     public Rational(int value) {
         Num = value;
@@ -27,14 +27,14 @@ public struct Rational {
         int sign = Math.Sign(value);
         value = Math.Abs(value);
         var wholePart = (long)Math.Truncate(value);
-        value -= Math.Truncate(value);
+        value -= wholePart;
 
         BigInteger fractNum = 0;
         BigInteger fractDenom = 1;
 
         if(Math.Abs(value) > 0.00001) {
             //@TODO: This is slow.
-            var str = value.ToString().Substring(2);
+            var str = value.ToString()[2..];
             fractNum = long.Parse(str);
             fractDenom = BigInteger.Pow(10,str.Length);
         }
@@ -149,7 +149,7 @@ public struct Rational {
     }
 
     public static bool operator!=(Rational a,Rational b) {
-        return !(a == b);
+        return a.Num != b.Num || a.Denom != b.Denom;
     }
 
     public static bool operator<(Rational a,Rational b) {
@@ -161,11 +161,11 @@ public struct Rational {
     }
 
     public static bool operator<=(Rational a,Rational b) {
-        return a < b || a == b;
+        return a.Num * b.Denom <= b.Num * a.Denom;
     }
 
     public static bool operator>=(Rational a,Rational b) {
-        return a > b || a == b;
+        return a.Num * b.Denom >= b.Num * a.Denom;
     }
 
     public override readonly string ToString() {

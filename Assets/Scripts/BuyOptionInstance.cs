@@ -52,6 +52,7 @@ public class BuyOptionInstance : MonoBehaviour {
             prefab.GetComponent<BuyOptionCurrencyInstance>().InitInstance(this,item,equipmentMenu.ResourceInstances[item.name].Icon);
             Price.Add(prefab.GetComponent<BuyOptionCurrencyInstance>());
         }
+
         Quantity = 0;
         OnEnable();
     }
@@ -112,27 +113,23 @@ public class BuyOptionInstance : MonoBehaviour {
     private void OnAcceptButtonClick() {
         bool canAfford = true;
         foreach(var item in Price) {
-            if(Quantity < item.UnlockQuantity) {
-                continue;
-            }
-            if(equipmentMenu.ResourceInstances[item.Name].Count < item.Value) {
+            if(Quantity >= item.UnlockQuantity && equipmentMenu.ResourceInstances[item.Name].Count < item.Value) {
                 canAfford = false;
                 break;
             }
         }
         if(canAfford) {
             foreach(var item in Price) {
-                if(Quantity < item.UnlockQuantity) {
-                    continue;
+                if(Quantity >= item.UnlockQuantity) {
+                    equipmentMenu.ResourceInstances[item.Name].Count -= item.Value;
+                    item.Value *= 2;
                 }
-                equipmentMenu.ResourceInstances[item.Name].Count -= item.Value;
-                item.Value *= 2;
             }
             if(ResultType == "Power") {
                 mainView.StoneIncrement += ResultValue;
             }
             else if(ResultType == "Worker") {
-                mainView.AutomaticStoneGain += ResultValue;
+                mainView.AutomaticStoneIncrement += ResultValue;
             }
             Quantity += 1;
         }

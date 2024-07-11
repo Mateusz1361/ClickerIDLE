@@ -25,6 +25,30 @@
             }
         },
         {
+            "unlockLevel": 3,
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 40,
+                    "unlockQuantity": 0
+                },
+                {
+                    "name": "Coal",
+                    "value": 30,
+                    "unlockQuantity": 3
+                },
+                {
+                    "name": "Copper",
+                    "value": 20,
+                    "unlockQuantity": 7
+                }
+            ],
+            "result": {
+                "type": "Power",
+                "value": 4
+            }
+        },
+        {
             "unlockLevel": 1,
             "price": [
                 {

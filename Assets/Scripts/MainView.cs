@@ -60,15 +60,15 @@ public class MainView : MonoBehaviour {
         }
     }
 
-    private ulong _automaticStoneGain;
-    public ulong AutomaticStoneGain {
+    private ulong _automaticStoneIncrement;
+    public ulong AutomaticStoneIncrement {
         get {
-            return _automaticStoneGain;
+            return _automaticStoneIncrement;
         }
         set {
-            _automaticStoneGain = value;
-            workerInfo.SetActive(_automaticStoneGain != 0);
-            workerGainText.text = $"{NumberFormat.ShortForm(_automaticStoneGain)} / s";
+            _automaticStoneIncrement = value;
+            workerInfo.SetActive(_automaticStoneIncrement != 0);
+            workerGainText.text = $"{NumberFormat.ShortForm(_automaticStoneIncrement)} / s";
         }
     }
 
@@ -81,7 +81,7 @@ public class MainView : MonoBehaviour {
         Experience = 0.0f;
         experienceIncrementMin = 1.0;
         experienceIncrementMax = 3.5;
-        AutomaticStoneGain = 0;
+        AutomaticStoneIncrement = 0;
         equipmentMenu.Stone.Count = 0;
         equipmentMenu.Money.Count = 0;
     }
@@ -101,10 +101,10 @@ public class MainView : MonoBehaviour {
 
     private float automaticStoneGainTimer = 0.0f;
     private void Update() {
-        if(AutomaticStoneGain > 0) {
+        if(AutomaticStoneIncrement > 0) {
             automaticStoneGainTimer += Time.deltaTime;
             while(automaticStoneGainTimer >= 1.0f) {
-                equipmentMenu.Stone.Count += AutomaticStoneGain;
+                equipmentMenu.Stone.Count += AutomaticStoneIncrement;
                 automaticStoneGainTimer -= 1.0f;
             }
         }
