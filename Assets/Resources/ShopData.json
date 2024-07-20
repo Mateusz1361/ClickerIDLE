@@ -6,17 +6,17 @@
                 {
                     "name": "Stone",
                     "value": 10,
-                    "unlockQuantity": 0
+                    "unlockCount": 0
                 },
                 {
                     "name": "Coal",
                     "value": 5,
-                    "unlockQuantity": 3
+                    "unlockCount": 3
                 },
                 {
                     "name": "Copper",
                     "value": 13,
-                    "unlockQuantity": 7
+                    "unlockCount": 7
                 }
             ],
             "result": {
@@ -30,17 +30,17 @@
                 {
                     "name": "Stone",
                     "value": 40,
-                    "unlockQuantity": 0
+                    "unlockCount": 0
                 },
                 {
                     "name": "Coal",
                     "value": 30,
-                    "unlockQuantity": 3
+                    "unlockCount": 3
                 },
                 {
                     "name": "Copper",
                     "value": 20,
-                    "unlockQuantity": 7
+                    "unlockCount": 7
                 }
             ],
             "result": {
@@ -54,12 +54,12 @@
                 {
                     "name": "Stone",
                     "value": 10,
-                    "unlockQuantity": 0
+                    "unlockCount": 0
                 },
                 {
                     "name": "Iron",
                     "value": 10,
-                    "unlockQuantity": 3
+                    "unlockCount": 3
                 }
             ],
             "result": {

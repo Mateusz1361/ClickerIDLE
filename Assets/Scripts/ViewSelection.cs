@@ -11,7 +11,7 @@ public class ViewSelection : MonoBehaviour {
     [SerializeField]
     private GameObject adMenu;
     [SerializeField]
-    private GameObject equipmentMenu;
+    private GameObject inventoryMenu;
     [SerializeField]
     private GameObject worldMenu;
     [SerializeField]
@@ -23,7 +23,7 @@ public class ViewSelection : MonoBehaviour {
     [SerializeField]
     private Button adMenuButton;
     [SerializeField]
-    private Button equipmentMenuButton;
+    private Button inventoryMenuButton;
     [SerializeField]
     private Button worldMenuButton;
 
@@ -33,7 +33,7 @@ public class ViewSelection : MonoBehaviour {
         investorsMenuButton.onClick.AddListener(() => SwitchState(investorsMenu));
         tradeMenuButton.onClick.AddListener(() => SwitchState(tradeMenu));
         adMenuButton.onClick.AddListener(() => SwitchState(adMenu));
-        equipmentMenuButton.onClick.AddListener(() => SwitchState(equipmentMenu));
+        inventoryMenuButton.onClick.AddListener(() => SwitchState(inventoryMenu));
         worldMenuButton.onClick.AddListener(() => SwitchState(worldMenu));
     }
 
@@ -42,7 +42,7 @@ public class ViewSelection : MonoBehaviour {
         investorsMenu.SetActive(obj == investorsMenu);
         tradeMenu.SetActive(obj == tradeMenu);
         adMenu.SetActive(obj == adMenu);
-        equipmentMenu.SetActive(obj == equipmentMenu);
+        inventoryMenu.SetActive(obj == inventoryMenu);
         worldMenu.SetActive(obj == worldMenu);
     }
 }

@@ -217,6 +217,10 @@ public struct Rational {
         return new(BigInteger.Abs(value.Num),value.Denom);
     }
 
+    public static Rational Truncate(Rational value) {
+        return new(value.Num / value.Denom);
+    }
+
     //@TODO: This is really hacky and doesn't always work.
     public static Rational Parse(string str) {
         if(str.Contains('.')) {

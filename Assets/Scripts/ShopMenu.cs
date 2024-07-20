@@ -3,56 +3,44 @@ using UnityEngine.UI;
 
 public class ShopMenu : MonoBehaviour {
     [SerializeField]
-    private MainView mainView;
+    private WorldMenu worldMenu;
     [SerializeField]
-    private EquipmentMenu equipmentMenu;
+    private InventoryMenu inventoryMenu;
     [SerializeField]
     private Button closeButton;
     [SerializeField]
-    private GameObject buyOptionPrefab;
+    private GameObject shopItemPrefab;
     [SerializeField]
-    private Transform itemOptionsParent;
+    private RectTransform shopItemsContent;
     [SerializeField]
-    private Transform workerOptionsParent;
-    [SerializeField]
-    private Button itemShowButton;
-    [SerializeField]
-    private Button workerShowButton;
-    [SerializeField]
-    private TextAsset shopData;
+    private TextAsset shopDataTextAsset;
 
     private void Awake() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
-        itemShowButton.onClick.AddListener(() => {
-            itemOptionsParent.gameObject.SetActive(true);
-            workerOptionsParent.gameObject.SetActive(false);
-        });
-        workerShowButton.onClick.AddListener(() => {
-            itemOptionsParent.gameObject.SetActive(false);
-            workerOptionsParent.gameObject.SetActive(true);
-        });
-        InitBuyOptions();
+        var shopData = JsonUtility.FromJson<InstanceWrapper<ShopItemData>>(shopDataTextAsset.text);
+        foreach(var worldLocation in worldMenu.WorldLocations) {
+            foreach(var item in shopData.data) {
+                var prefab = Instantiate(shopItemPrefab,shopItemsContent);
+                var component = prefab.GetComponent<ShopItem>();
+                component.InitItem(worldLocation,inventoryMenu,item);
+                prefab.SetActive(false);
+                worldLocation.ShopItems.Add(component);
+            }
+        }
+        worldMenu.OnWorldLocationLeft += OnWorldLocationLeft;
+        worldMenu.OnWorldLocationEntered += OnWorldLocationEntered;
+        OnWorldLocationEntered(worldMenu.CurrentWorldLocation);
     }
 
-    private void OnEnable() {
-        itemOptionsParent.gameObject.SetActive(true);
-        workerOptionsParent.gameObject.SetActive(false);
+    private void OnWorldLocationLeft(WorldLocation location) {
+        foreach(var item in location.ShopItems) {
+            item.gameObject.SetActive(false);
+        }
     }
 
-    private void InitBuyOptions() {
-        var buyOptionInstanceDatas = JsonUtility.FromJson<InstanceWrapper<BuyOptionInstanceData>>(shopData.text);
-        foreach(var buyOptionInstanceData in buyOptionInstanceDatas.data) {
-            GameObject prefab = null;
-            if(buyOptionInstanceData.result.type == "Power") {
-                prefab = Instantiate(buyOptionPrefab,itemOptionsParent);
-            }
-            else if(buyOptionInstanceData.result.type == "Worker") {
-                prefab = Instantiate(buyOptionPrefab,workerOptionsParent);
-            }
-            if(prefab != null) {
-                var buyOptionInstance = prefab.GetComponent<BuyOptionInstance>();
-                buyOptionInstance.InitInstance(mainView,equipmentMenu,buyOptionInstanceData);
-            }
+    private void OnWorldLocationEntered(WorldLocation location) {
+        foreach(var item in location.ShopItems) {
+            item.gameObject.SetActive(true);
         }
     }
 }

@@ -3,9 +3,7 @@ using UnityEngine.UI;
 
 public class TradeMenu : MonoBehaviour {
     [SerializeField]
-    private MainView mainView;
-    [SerializeField]
-    private EquipmentMenu equipmentMenu;
+    private InventoryMenu inventoryMenu;
     [SerializeField]
     private Button closeButton;
     [SerializeField]
@@ -25,7 +23,7 @@ public class TradeMenu : MonoBehaviour {
         foreach(var tradeOptionInstanceData in tradeOptionInstanceDatas.data) {
             var prefab = Instantiate(tradeOptionPrefab,parent.transform);
             var tradeOptionInstance = prefab.GetComponent<TradeOptionInstance>();
-            tradeOptionInstance.InitInstance(equipmentMenu,tradeOptionInstanceData);
+            tradeOptionInstance.InitInstance(inventoryMenu,tradeOptionInstanceData);
         }
     }
 }

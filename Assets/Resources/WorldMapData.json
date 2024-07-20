@@ -1,0 +1,55 @@
+{
+    "sizeX": 2000,
+    "sizeY": 2000,
+    "data": [
+        {
+            "name": "Stone Mine",
+            "mainResource": "Stone",
+            "price": 0,
+            "posX": 200,
+            "posY": 200
+        },
+        {
+            "name": "Coal Mine",
+            "mainResource": "Coal",
+            "price": 1,
+            "posX": 800,
+            "posY": 200
+        },
+        {
+            "name": "Iron Mine",
+            "mainResource": "Iron",
+            "price": 1,
+            "posX": 1400,
+            "posY": 200
+        },
+        {
+            "name": "Gold Mine",
+            "mainResource": "Gold",
+            "price": 1,
+            "posX": 400,
+            "posY": 600
+        },
+        {
+            "name": "Copper Mine",
+            "mainResource": "Copper",
+            "price": 1,
+            "posX": 400,
+            "posY": 1400
+        },
+        {
+            "name": "Diamond Mine",
+            "mainResource": "Diamond",
+            "price": 1,
+            "posX": 200,
+            "posY": 1000
+        },
+        {
+            "name": "Emerald Mine",
+            "mainResource": "Emerald",
+            "price": 1,
+            "posX": 1200,
+            "posY": 1200
+        }
+    ]
+}

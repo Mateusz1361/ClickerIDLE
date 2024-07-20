@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class EquipmentMenu : MonoBehaviour {
+public class InventoryMenu : MonoBehaviour {
     [SerializeField]
     private Button closeButton;
     [SerializeField]

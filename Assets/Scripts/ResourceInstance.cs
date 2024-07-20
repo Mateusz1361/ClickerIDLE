@@ -17,8 +17,6 @@ public class ResourceInstance : MonoBehaviour {
 
     public Sprite Icon => iconImage.sprite;
     public string Name => data.name;
-    public ref float MinDropChance => ref data.minDropChance;
-    public ref float MaxDropChance => ref data.maxDropChance;
 
     public void InitInstance(ResourceInstanceData _data) {
         data = _data;

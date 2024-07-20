@@ -3,8 +3,6 @@ using System;
 [Serializable]
 public class ResourceInstanceData {
     public string name;
-    public float minDropChance;
-    public float maxDropChance;
     public string iconPath;
 }
 
@@ -17,24 +15,40 @@ public class TradeOptionInstanceData {
 }
 
 [Serializable]
-public class BuyOptionCurrencyInstanceData {
+public class ShopItemPriceData {
     public string name;
     public ulong value;
-    public int unlockQuantity;
+    public ulong unlockCount;
 }
 
 [Serializable]
-public class BuyOptionResultInstanceData {
+public class ShopItemResultData {
     public string type;
     public ulong value;
 }
 
 [Serializable]
-public class BuyOptionInstanceData {
-    public int unlockLevel;
-    public BuyOptionCurrencyInstanceData[] price;
-    public BuyOptionResultInstanceData result;
+public class ShopItemData {
+    public ulong unlockLevel;
+    public ShopItemPriceData[] price;
+    public ShopItemResultData result;
 }
+
+[Serializable]
+public class WorldLocationData {
+    public string name;
+    public string mainResource;
+    public ulong price;
+    public float posX;
+    public float posY;
+}
+
+[Serializable]
+public class WorldMapData {
+    public float sizeX;
+    public float sizeY;
+    public WorldLocationData[] data;
+};
 
 [Serializable]
 public class InstanceWrapper<T> {

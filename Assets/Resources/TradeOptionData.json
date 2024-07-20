@@ -2,7 +2,7 @@
     "data": [
         {
             "buyPrice": 1.0,
-            "sellPrice": 0.01,
+            "sellPrice": 0.1,
             "currencyIn": "Stone",
             "currencyOut": "Money"
         },

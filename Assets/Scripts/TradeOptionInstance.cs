@@ -26,7 +26,7 @@ public class TradeOptionInstance : MonoBehaviour {
     [SerializeField]
     private TMP_InputField quantityInput;
     [HideInInspector]
-    private EquipmentMenu equipmentMenu;
+    private InventoryMenu inventoryMenu;
 
     public string CurrencyOut { get; private set; }
     public string CurrencyIn { get; private set; }
@@ -48,10 +48,10 @@ public class TradeOptionInstance : MonoBehaviour {
         });
     }
 
-    public void InitInstance(EquipmentMenu _equipmentMenu,TradeOptionInstanceData _data) {
-        equipmentMenu = _equipmentMenu;
-        currencyInIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyIn].Icon;
-        currencyOutIcon.sprite = equipmentMenu.ResourceInstances[_data.currencyOut].Icon;
+    public void InitInstance(InventoryMenu _inventoryMenu,TradeOptionInstanceData _data) {
+        inventoryMenu = _inventoryMenu;
+        currencyInIcon.sprite = inventoryMenu.ResourceInstances[_data.currencyIn].Icon;
+        currencyOutIcon.sprite = inventoryMenu.ResourceInstances[_data.currencyOut].Icon;
         BuyPrice = new(_data.buyPrice);
         SellPrice = new(_data.sellPrice);
         CurrencyIn = _data.currencyIn;
@@ -66,7 +66,7 @@ public class TradeOptionInstance : MonoBehaviour {
         }
         private set {
             _buyPrice = value;
-            buyText.text = _buyPrice.ToString();
+            buyText.text = NumberFormat.ShortForm(_buyPrice);
         }
     }
 
@@ -77,7 +77,7 @@ public class TradeOptionInstance : MonoBehaviour {
         }
         private set {
             _sellPrice = value;
-            sellText.text = _sellPrice.ToString();
+            sellText.text = NumberFormat.ShortForm(_sellPrice);
         }
     }
 
@@ -89,24 +89,24 @@ public class TradeOptionInstance : MonoBehaviour {
         set {
             _quantity = value;
             quantityInput.text = _quantity.ToString();
-            totalBuyAmountText.text = (_quantity * BuyPrice).ToString();
-            totalSellAmountText.text = (_quantity * SellPrice).ToString();
+            totalBuyAmountText.text = NumberFormat.ShortForm(_quantity * BuyPrice);
+            totalSellAmountText.text = NumberFormat.ShortForm(_quantity * SellPrice);
         }
     }
 
     private void OnBuyButtonClick() {
         Rational quantity = Quantity;
-        if(equipmentMenu.ResourceInstances[CurrencyOut].Count >= quantity * BuyPrice) {
-            equipmentMenu.ResourceInstances[CurrencyOut].Count -= quantity * BuyPrice;
-            equipmentMenu.ResourceInstances[CurrencyIn].Count += quantity;
+        if(inventoryMenu.ResourceInstances[CurrencyOut].Count >= quantity * BuyPrice) {
+            inventoryMenu.ResourceInstances[CurrencyOut].Count -= quantity * BuyPrice;
+            inventoryMenu.ResourceInstances[CurrencyIn].Count += quantity;
         }
     }
 
     private void OnSellButtonClick() {
         Rational quantity = Quantity;
-        if(equipmentMenu.ResourceInstances[CurrencyIn].Count >= quantity) {
-            equipmentMenu.ResourceInstances[CurrencyIn].Count -= quantity;
-            equipmentMenu.ResourceInstances[CurrencyOut].Count += quantity * SellPrice;
+        if(inventoryMenu.ResourceInstances[CurrencyIn].Count >= quantity) {
+            inventoryMenu.ResourceInstances[CurrencyIn].Count -= quantity;
+            inventoryMenu.ResourceInstances[CurrencyOut].Count += quantity * SellPrice;
         }
     }
 }
