@@ -60,6 +60,10 @@ public class WorldLocation : MonoBehaviour {
         }
     }
 
+    public BigInteger investors = 0;
+    public Rational differenceOfStone = 0;
+    public Rational quantityToAddInvestor = 10;
+
     private List<ShopItem> _shopItems;
     public List<ShopItem> ShopItems {
         get {

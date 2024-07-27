@@ -108,6 +108,7 @@ public class ShopItem : MonoBehaviour {
         if(canAffordPurchase) {
             foreach(var price in shopItemsPrices) {
                 if(price.UnlockCount <= Count) {
+                    inventoryMenu.ResourceInstances[price.Name].Count -= price.Value;
                     price.Value *= 2;
                 }
             }

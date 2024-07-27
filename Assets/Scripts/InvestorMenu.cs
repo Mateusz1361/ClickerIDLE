@@ -1,3 +1,4 @@
+using System.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,24 +8,36 @@ public class InvestorMenu : MonoBehaviour {
     private Button closeButton;
     [SerializeField]
     private TMP_Text investorsText;
-
-    private EquipmentMenu data;
+    [SerializeField]
+    private InventoryMenu data;
+    [SerializeField]
+    private WorldMenu worldMenu;
     
-    private ulong investors = 0;
-    private void Awake() {
+    public void Init() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
-        
-    }
-    public void OnEnable() {
-        CountingInvestors();
-    }
-    public void CountingInvestors()
-    {
-        if (data.Stone.Count >= 10)
+        worldMenu.OnWorldLocationLeft += (WorldLocation location) => {
+            if (location != null) {
+                data.ResourceInstances[location.MainResourceName].OnCountIncreament -= CountingInvestors;
+            }
+        };
+        worldMenu.OnWorldLocationEntered += (WorldLocation location) =>
         {
-            Rational rational = data.Stone.Count - 10*investors;
-            investors = (ulong)rational; 
-            investorsText.text = investors.ToString();
-        }
+            data.ResourceInstances[location.MainResourceName].OnCountIncreament += CountingInvestors;
+            CountingInvestors(0);
+        };
     }
+    
+    public void CountingInvestors(Rational resourceToInvestors)
+    {
+        var cWL = worldMenu.CurrentWorldLocation;
+        cWL.differenceOfStone += resourceToInvestors;
+        while (cWL.differenceOfStone >= cWL.quantityToAddInvestor)
+        {
+            cWL.differenceOfStone -= cWL.quantityToAddInvestor;
+            cWL.investors += 1;
+            
+        }
+        investorsText.text = cWL.investors.ToString();
+    }
+    
 }

@@ -26,15 +26,18 @@ public class ViewSelection : MonoBehaviour {
     private Button inventoryMenuButton;
     [SerializeField]
     private Button worldMenuButton;
+    
 
     private void Start() {
         SwitchState(null);
-        shopMenuButton.onClick.AddListener(() => SwitchState(shopMenu));
-        investorsMenuButton.onClick.AddListener(() => SwitchState(investorsMenu));
-        tradeMenuButton.onClick.AddListener(() => SwitchState(tradeMenu));
-        adMenuButton.onClick.AddListener(() => SwitchState(adMenu));
-        inventoryMenuButton.onClick.AddListener(() => SwitchState(inventoryMenu));
-        worldMenuButton.onClick.AddListener(() => SwitchState(worldMenu));
+        shopMenuButton.onClick.AddListener(() =>  SwitchState(shopMenu.activeSelf?null:shopMenu) );
+        investorsMenuButton.onClick.AddListener(() => SwitchState(investorsMenu.activeSelf?null:investorsMenu));
+        tradeMenuButton.onClick.AddListener(() => SwitchState(tradeMenu.activeSelf?null:tradeMenu));
+        adMenuButton.onClick.AddListener(() => SwitchState(adMenu.activeSelf ? null : adMenu));
+        inventoryMenuButton.onClick.AddListener(() => SwitchState(inventoryMenu.activeSelf ? null : inventoryMenu));
+        worldMenuButton.onClick.AddListener(() => SwitchState(worldMenu.activeSelf ? null : worldMenu));
+        investorsMenu.GetComponent<InvestorMenu>().Init();
+
     }
 
     private void SwitchState(GameObject obj) {
