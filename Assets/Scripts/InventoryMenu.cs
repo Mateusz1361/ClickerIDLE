@@ -8,7 +8,15 @@ public class InventoryMenu : MonoBehaviour {
     [SerializeField]
     private GameObject resourceInstancePrefab;
     [SerializeField]
-    private GameObject parent;
+    private GameObject oresScrollRect;
+    [SerializeField]
+    private GameObject oresParent;
+    [SerializeField]
+    private Button oresButton;
+    [SerializeField]
+    private GameObject itemsScroll;
+    [SerializeField]
+    private Button itemsButton;
     [SerializeField]
     private TextAsset resourcesData;
 
@@ -44,7 +52,17 @@ public class InventoryMenu : MonoBehaviour {
     }
 
     private void Awake() {
+        oresScrollRect.SetActive(true);
+        itemsScroll.SetActive(false);
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+        oresButton.onClick.AddListener(() => {
+            oresScrollRect.SetActive(true);
+            itemsScroll.SetActive(false);
+        });
+        itemsButton.onClick.AddListener(() => {
+            oresScrollRect.SetActive(false);
+            itemsScroll.SetActive(true);
+        });
         if(_resourceInstances == null) {
             InitResourceInstances();
         }
@@ -54,7 +72,7 @@ public class InventoryMenu : MonoBehaviour {
         _resourceInstances = new();
         var resourceInstanceDatas = JsonUtility.FromJson<InstanceWrapper<ResourceInstanceData>>(resourcesData.text);
         foreach(var resourceInstanceData in resourceInstanceDatas.data) {
-            var prefab = Instantiate(resourceInstancePrefab,parent.transform);
+            var prefab = Instantiate(resourceInstancePrefab,oresParent.transform);
             var resourceInstance = prefab.GetComponent<ResourceInstance>();
             resourceInstance.InitInstance(resourceInstanceData);
             _resourceInstances.Add(resourceInstanceData.name,resourceInstance);

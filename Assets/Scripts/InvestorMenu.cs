@@ -17,12 +17,12 @@ public class InvestorMenu : MonoBehaviour {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
         worldMenu.OnWorldLocationLeft += (WorldLocation location) => {
             if (location != null) {
-                data.ResourceInstances[location.MainResourceName].OnCountIncreament -= CountingInvestors;
+                data.ResourceInstances[location.MainResourceName].OnCountIncrement -= CountingInvestors;
             }
         };
         worldMenu.OnWorldLocationEntered += (WorldLocation location) =>
         {
-            data.ResourceInstances[location.MainResourceName].OnCountIncreament += CountingInvestors;
+            data.ResourceInstances[location.MainResourceName].OnCountIncrement += CountingInvestors;
             CountingInvestors(0);
         };
     }

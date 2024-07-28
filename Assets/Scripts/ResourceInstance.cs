@@ -14,7 +14,7 @@ public class ResourceInstance : MonoBehaviour {
     private ResourceInstanceData data;
 
     public event Action<Rational> OnCountChanged;
-    public event Action<Rational> OnCountIncreament;
+    public event Action<Rational> OnCountIncrement;
 
     public Sprite Icon => iconImage.sprite;
     public string Name => data.name;
@@ -32,12 +32,11 @@ public class ResourceInstance : MonoBehaviour {
             return _count;
         }
         set {
-            if(value > _count)
-            {
-                OnCountIncreament?.Invoke(value - _count);
+            if(value > _count) {
+                OnCountIncrement?.Invoke(value - _count);
             }
             _count = value;
-            countText.text = _count.ToString();
+            countText.text = NumberFormat.ShortForm(_count);
             OnCountChanged?.Invoke(_count);
         }
     }
