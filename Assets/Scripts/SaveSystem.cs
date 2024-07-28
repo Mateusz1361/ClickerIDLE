@@ -79,10 +79,8 @@ public class SaveSystem : MonoBehaviour
 
             for (int j=0; j<location.ShopItems.Count;j++)
             {
-                
                 var item = location.ShopItems[j];
-                saveData.worldLocationsToSaveData[i].shopItemsToSaveData[j] = new SaveShopItemData{index=item.indexOfShopItem,resultQuantity=item.ResultQuantity.ToString(),count=item.Count};
-                
+                saveData.worldLocationsToSaveData[i].shopItemsToSaveData[j] = new SaveShopItemData{index=item.indexOfShopItem,resultQuantity=item.ResultQuantity.ToString(),count=item.Count};   
             }
         }
 
@@ -118,7 +116,6 @@ public class SaveSystem : MonoBehaviour
             worldMenu.WorldLocations[i].Purchased = location.purchased;
             for (int j = 0; j < location.shopItemsToSaveData.Length; j++)
             {
-
                 var item = location.shopItemsToSaveData[j];
                 worldMenu.WorldLocations[i].ShopItems[j].indexOfShopItem = item.index;
                 worldMenu.WorldLocations[i].ShopItems[j].ResultQuantity = BigInteger.Parse(item.resultQuantity);
@@ -135,11 +132,9 @@ public class SaveSystem : MonoBehaviour
                 }
                 
             }
-
         }
     }
-    private void OnApplicationQuit()
-    {
+    private void OnApplicationQuit() {
         SaveGame();
     }
 }

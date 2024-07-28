@@ -51,6 +51,13 @@ public class WorldMapData {
 };
 
 [Serializable]
+public class InventoryItemData {
+    public string name;
+    public string iconPath;
+    public uint maxStackCount;
+}
+
+[Serializable]
 public class InstanceWrapper<T> {
     public T[] data;
 }

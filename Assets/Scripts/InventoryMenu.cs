@@ -16,9 +16,13 @@ public class InventoryMenu : MonoBehaviour {
     [SerializeField]
     private GameObject itemsScroll;
     [SerializeField]
+    private Transform itemsParent;
+    [SerializeField]
     private Button itemsButton;
     [SerializeField]
     private TextAsset resourcesData;
+    [SerializeField]
+    private GameObject inventoryItemSlotPrefab;
 
     private Dictionary<string,ResourceInstance> _resourceInstances;
 
@@ -51,6 +55,8 @@ public class InventoryMenu : MonoBehaviour {
         }
     }
 
+    private List<InventoryItemSlot> inventoryItemSlots;
+
     public void Init() {
         oresScrollRect.SetActive(true);
         itemsScroll.SetActive(false);
@@ -65,6 +71,19 @@ public class InventoryMenu : MonoBehaviour {
         });
         if(_resourceInstances == null) {
             InitResourceInstances();
+        }
+    }
+
+    private void OnEnable() {
+        if(inventoryItemSlots == null) {
+            inventoryItemSlots = new();
+            for(int i = 0;i < 20;i += 1) {
+                var prefab = Instantiate(inventoryItemSlotPrefab,itemsParent);
+                var component = prefab.GetComponent<InventoryItemSlot>();
+                component.Icon = null;
+                component.SetCount(0);
+                inventoryItemSlots.Add(component);
+            }
         }
     }
 
