@@ -51,7 +51,7 @@ public class InventoryMenu : MonoBehaviour {
         }
     }
 
-    private void Awake() {
+    public void Init() {
         oresScrollRect.SetActive(true);
         itemsScroll.SetActive(false);
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));

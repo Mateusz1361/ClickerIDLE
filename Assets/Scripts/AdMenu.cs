@@ -5,7 +5,7 @@ public class AdMenu : MonoBehaviour {
     [SerializeField]
     private Button closeButton;
 
-    private void Awake() {
+    public void Init() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
     }
 }

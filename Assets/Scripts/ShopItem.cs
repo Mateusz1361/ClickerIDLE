@@ -22,8 +22,9 @@ public class ShopItem : MonoBehaviour {
     private TMP_Text unlockLevelText;
     private WorldLocation worldLocation;
     private InventoryMenu inventoryMenu;
+    public int indexOfShopItem = 0;
 
-    private List<ShopItemPrice> shopItemsPrices;
+    public List<ShopItemPrice> shopItemsPrices;
 
     public string ResultType { get; private set; }
 
@@ -45,11 +46,11 @@ public class ShopItem : MonoBehaviour {
         }
     }
 
-    public void InitItem(WorldLocation _worldLocation,InventoryMenu _inventoryMenu,ShopItemData data) {
+    public void InitItem(WorldLocation _worldLocation,InventoryMenu _inventoryMenu,ShopItemData data,int index) {
         worldLocation = _worldLocation;
         inventoryMenu = _inventoryMenu;
         UnlockLevel = data.unlockLevel;
-
+        indexOfShopItem = index;
         ResultType = data.result.type;
         if(ResultType == "Power") {
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/MineButton");

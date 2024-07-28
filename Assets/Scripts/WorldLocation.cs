@@ -60,9 +60,11 @@ public class WorldLocation : MonoBehaviour {
         }
     }
 
-    public BigInteger investors = 0;
-    public Rational differenceOfStone = 0;
+    public BigInteger investorsYouHave = 0;
+    public BigInteger investorsToClaim = 0;
+    public Rational differenceOfMaterial = 0;
     public Rational quantityToAddInvestor = 10;
+    
 
     private List<ShopItem> _shopItems;
     public List<ShopItem> ShopItems {
@@ -77,7 +79,7 @@ public class WorldLocation : MonoBehaviour {
         get {
             return _purchased;
         }
-        private set {
+        set {
             _purchased = value;
             lockedMarker.SetActive(!_purchased);
             priceText.gameObject.SetActive(lockedMarker.activeSelf);

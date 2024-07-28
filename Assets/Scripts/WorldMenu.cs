@@ -45,7 +45,7 @@ public class WorldMenu : MonoBehaviour {
         }
     }
 
-    private void Awake() {
+    public void Init() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
         scrollRect.horizontalNormalizedPosition = 0.0f;
         scrollRect.verticalNormalizedPosition = 1.0f;

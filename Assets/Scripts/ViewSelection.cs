@@ -28,7 +28,8 @@ public class ViewSelection : MonoBehaviour {
     private Button worldMenuButton;
     
 
-    private void Start() {
+    public void Init() {
+        
         SwitchState(null);
         shopMenuButton.onClick.AddListener(() =>  SwitchState(shopMenu.activeSelf?null:shopMenu) );
         investorsMenuButton.onClick.AddListener(() => SwitchState(investorsMenu.activeSelf?null:investorsMenu));
@@ -37,7 +38,11 @@ public class ViewSelection : MonoBehaviour {
         inventoryMenuButton.onClick.AddListener(() => SwitchState(inventoryMenu.activeSelf ? null : inventoryMenu));
         worldMenuButton.onClick.AddListener(() => SwitchState(worldMenu.activeSelf ? null : worldMenu));
         investorsMenu.GetComponent<InvestorMenu>().Init();
-
+        shopMenu.GetComponent<ShopMenu>().Init();
+        tradeMenu.GetComponent<TradeMenu>().Init();
+        adMenu.GetComponent<AdMenu>().Init();
+        inventoryMenu.GetComponent<InventoryMenu>().Init();
+        worldMenu.GetComponent<WorldMenu>().Init();
     }
 
     private void SwitchState(GameObject obj) {

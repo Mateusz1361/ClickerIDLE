@@ -15,16 +15,19 @@ public class ShopMenu : MonoBehaviour {
     [SerializeField]
     private TextAsset shopDataTextAsset;
 
-    private void Awake() {
+    public void Init() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
         var shopData = JsonUtility.FromJson<InstanceWrapper<ShopItemData>>(shopDataTextAsset.text);
+        
         foreach(var worldLocation in worldMenu.WorldLocations) {
+            int index = 0;
             foreach(var item in shopData.data) {
                 var prefab = Instantiate(shopItemPrefab,shopItemsContent);
                 var component = prefab.GetComponent<ShopItem>();
-                component.InitItem(worldLocation,inventoryMenu,item);
+                component.InitItem(worldLocation,inventoryMenu,item,index);
                 prefab.SetActive(false);
                 worldLocation.ShopItems.Add(component);
+                index++;
             }
         }
         worldMenu.OnWorldLocationLeft += OnWorldLocationLeft;

@@ -13,7 +13,7 @@ public class TradeMenu : MonoBehaviour {
     [SerializeField]
     private TextAsset tradeOptionData;
 
-    private void Awake() {
+    public void Init() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
         InitTradeOptions();
     }

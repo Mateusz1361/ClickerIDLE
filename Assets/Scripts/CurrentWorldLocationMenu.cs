@@ -27,8 +27,13 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private TMP_Text workerGainText;
     [SerializeField]
     private GameObject workersInfo;
+    [SerializeField]
+    private ViewSelection viewSelection;
+    [SerializeField]
+    private SaveSystem saveSystem;
 
     private void Awake() {
+        
         mainButton.onClick.AddListener(OnMainButtonClick);
         levelUpButton.onClick.AddListener(OnLevelUpButtonClick);
         inventoryMenu.Money.OnCountChanged += OnMoneyCountChanged;
@@ -52,6 +57,8 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
             location.OnExperienceChange += OnExperienceChange;
             OnExperienceChange(location.Experience,location.maxExperience);
         };
+        viewSelection.Init();
+        saveSystem.LoadGame();
     }
 
     private void Update() {
