@@ -32,7 +32,7 @@ public class InvestorUpgradeData
     public string whatYouGetText;
     public string whatYouMultiply;
     public ulong price;
-    public ulong multiplier;
+    public string multiplier;
 
 }
 

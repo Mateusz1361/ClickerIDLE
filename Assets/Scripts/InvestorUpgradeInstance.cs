@@ -28,7 +28,7 @@ public class InvestorUpgradeInstance : MonoBehaviour
        
         worldLocation = _worldLocation;
         whatYouMultiply = investorUpgradeData.whatYouMultiply;
-        multiplier = investorUpgradeData.multiplier;
+        multiplier = Rational.Parse(investorUpgradeData.multiplier);
         whatYouGetText.text = investorUpgradeData.whatYouGetText;
         price = investorUpgradeData.price;
         iconOfInvestorsUpgrade.sprite = Resources.Load<Sprite>("Images/WorkersButton");
