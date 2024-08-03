@@ -69,6 +69,15 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
                 location.mainResourceAutoIncrementTimer -= 1.0f;
             }
         }
+        worldMenu.CurrentWorldLocation.mainResourceClickIncrement = 1;
+        foreach (ShopItem item in worldMenu.CurrentWorldLocation.ShopItems)
+        {
+            worldMenu.CurrentWorldLocation.mainResourceClickIncrement += item.mainResourceClickIncrement;
+
+        }
+        
+        worldMenu.CurrentWorldLocation.mainResourceClickIncrement *= (1 + new Rational(2, 100) * worldMenu.CurrentWorldLocation.InvestorsYouHave);
+        Debug.Log(worldMenu.CurrentWorldLocation.mainResourceClickIncrement);
     }
 
     private void OnMoneyCountChanged(Rational value) {
@@ -79,7 +88,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
         mainResourceCountText.text = NumberFormat.ShortForm(value);
     }
 
-    private void OnMainResourceAutoIncrementChange(BigInteger value) {
+    private void OnMainResourceAutoIncrementChange(Rational value) {
         workersInfo.SetActive(value > 0);
         workerGainText.text = $"{NumberFormat.ShortForm(value)} / s";
     }

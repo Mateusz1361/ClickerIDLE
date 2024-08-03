@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "whatYouGetText": "Rock Drill profit x1.25",
+            "multiplier": 1.25,
+            "price": 50,
+            "whatYouMultiply": "Rock Drill"
+        },
+        {
+            "whatYouGetText": "LHD Loader profit x1.25",
+            "multiplier": 1.25,
+            "price": 200,
+            "whatYouMultiply": "LHD Loader"
+        },
+        {
+            "whatYouGetText": "Drilling Jumbo profit x1.25",
+            "multiplier": 1.25,
+            "price": 400,
+            "whatYouMultiply": "Drilling Jumbo"
+        },
+        {
+            "whatYouGetText": "Mining Locomotive profit x2",
+            "multiplier": 2,
+            "price": 1000,
+            "whatYouMultiply": "Mining Locomotive"
+        }
+    ]
+}

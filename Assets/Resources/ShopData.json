@@ -1,6 +1,7 @@
 {
     "data": [
         {
+            "name" : "Rock Drill",
             "unlockLevel": 1,
             "price": [
                 {
@@ -25,6 +26,7 @@
             }
         },
         {
+            "name": "LHD Loader",
             "unlockLevel": 3,
             "price": [
                 {
@@ -49,6 +51,7 @@
             }
         },
         {
+            "name": "Drilling Jumbo",
             "unlockLevel": 1,
             "price": [
                 {
@@ -58,13 +61,43 @@
                 },
                 {
                     "name": "Iron",
-                    "value": 10,
+                    "value": 15,
                     "unlockCount": 3
+                },
+                {
+                    "name": "Gold",
+                    "value": 7,
+                    "unlockCount": 7
                 }
             ],
             "result": {
                 "type": "Worker",
                 "value": 1
+            }
+        },
+        {
+            "name": "Mining Locomotive",
+            "unlockLevel": 1,
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 100,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Iron",
+                    "value": 25,
+                    "unlockCount": 3
+                },
+                {
+                    "name": "Diamond",
+                    "value": 10,
+                    "unlockCount": 7
+                }
+            ],
+            "result": {
+                "type": "Worker",
+                "value": 10
             }
         }
     ]

@@ -34,6 +34,7 @@ public class ShopMenu : MonoBehaviour {
         worldMenu.OnWorldLocationEntered += OnWorldLocationEntered;
         OnWorldLocationEntered(worldMenu.CurrentWorldLocation);
     }
+    
 
     private void OnWorldLocationLeft(WorldLocation location) {
         foreach(var item in location.ShopItems) {

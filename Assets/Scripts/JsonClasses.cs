@@ -26,9 +26,19 @@ public class ShopItemResultData {
     public string type;
     public ulong value;
 }
+[Serializable]
+public class InvestorUpgradeData
+{
+    public string whatYouGetText;
+    public string whatYouMultiply;
+    public ulong price;
+    public ulong multiplier;
+
+}
 
 [Serializable]
 public class ShopItemData {
+    public string name;
     public ulong unlockLevel;
     public ShopItemPriceData[] price;
     public ShopItemResultData result;

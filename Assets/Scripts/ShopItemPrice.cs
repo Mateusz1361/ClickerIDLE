@@ -10,7 +10,7 @@ public class ShopItemPrice : MonoBehaviour {
     private TMP_Text resourceQuantity;
     [SerializeField]
     private RectTransform content;
-
+    private ShopItemPriceData defaultSettings;
     public string Name { get; private set; }
 
     public void InitPrice(InventoryMenu inventoryMenu,ShopItem shopItem,ShopItemPriceData data) {
@@ -20,8 +20,12 @@ public class ShopItemPrice : MonoBehaviour {
         UnlockCount = data.unlockCount;
         shopItem.OnCountChange += OnCountChange;
         OnCountChange(0);
+        defaultSettings = data;
     }
-
+    public void ResetPrice() { 
+        Value = defaultSettings.value;
+        OnCountChange(0);
+    }
     private void OnCountChange(ulong count) {
         content.gameObject.SetActive(UnlockCount <= count);
     }

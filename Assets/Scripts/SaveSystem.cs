@@ -12,6 +12,8 @@ public class SaveShopItemData
     public int index;
     public string resultQuantity;
     public ulong count;
+    public string clickIncrement;
+    public string multiplier;
 }
 [Serializable]
 public class SaveWorldLocationData
@@ -50,6 +52,8 @@ public class SaveSystem : MonoBehaviour
     private WorldMenu worldMenu;
     [SerializeField]
     private InventoryMenu inventoryMenu;
+    [SerializeField]
+    private InvestorMenu investorMenu;
     public void SaveGame() {
         SaveData saveData = new();
         saveData.inventoryToSaveData = new SaveInventoryData[inventoryMenu.ResourceInstances.Count];
@@ -68,11 +72,11 @@ public class SaveSystem : MonoBehaviour
             saveData.worldLocationsToSaveData[i].maxExperience=location.maxExperience;
             saveData.worldLocationsToSaveData[i].differenceOfMaterial=location.differenceOfMaterial.ToString();
             saveData.worldLocationsToSaveData[i].quantityToAddInvestor = location.quantityToAddInvestor.ToString();
-            saveData.worldLocationsToSaveData[i].mainResourceClickIncrement=location.mainResourceClickIncrement.ToString();
+            //saveData.worldLocationsToSaveData[i].mainResourceClickIncrement=location.mainResourceClickIncrement.ToString();
             saveData.worldLocationsToSaveData[i].mainResourceAutoIncrement=location.MainResourceAutoIncrement.ToString();
             saveData.worldLocationsToSaveData[i].mainResourceAutoIncrementTimer = location.mainResourceAutoIncrementTimer;
-            saveData.worldLocationsToSaveData[i].investorsToClaim = location.investorsToClaim.ToString();
-            saveData.worldLocationsToSaveData[i].investorsYouHave = location.investorsYouHave.ToString();
+            saveData.worldLocationsToSaveData[i].investorsToClaim = location.InvestorsToClaim.ToString();
+            saveData.worldLocationsToSaveData[i].investorsYouHave = location.InvestorsYouHave.ToString();
             saveData.worldLocationsToSaveData[i].purchased = location.Purchased;
             saveData.worldLocationsToSaveData[i].name = location.Name;
             saveData.worldLocationsToSaveData[i].shopItemsToSaveData = new SaveShopItemData[location.ShopItems.Count];
@@ -81,7 +85,7 @@ public class SaveSystem : MonoBehaviour
             {
                 
                 var item = location.ShopItems[j];
-                saveData.worldLocationsToSaveData[i].shopItemsToSaveData[j] = new SaveShopItemData{index=item.indexOfShopItem,resultQuantity=item.ResultQuantity.ToString(),count=item.Count};
+                saveData.worldLocationsToSaveData[i].shopItemsToSaveData[j] = new SaveShopItemData{index=item.indexOfShopItem,resultQuantity=item.ResultQuantity.ToString(),count=item.Count,clickIncrement = item.mainResourceClickIncrement.ToString(),multiplier = item.multiplier.ToString()};
                 
             }
         }
@@ -104,16 +108,15 @@ public class SaveSystem : MonoBehaviour
         for (int i = 0;i<savaData.worldLocationsToSaveData.Length; i++)
         {
             var location = savaData.worldLocationsToSaveData[i];
-            worldMenu.WorldLocations[i].investorsToClaim = BigInteger.Parse(location.investorsToClaim);
-            worldMenu.WorldLocations[i].investorsYouHave = BigInteger.Parse(location.investorsYouHave);
+            worldMenu.WorldLocations[i].InvestorsToClaim = BigInteger.Parse(location.investorsToClaim);
+            worldMenu.WorldLocations[i].InvestorsYouHave = BigInteger.Parse(location.investorsYouHave);
             worldMenu.WorldLocations[i].Level = location.level;
             worldMenu.WorldLocations[i].maxExperience = location.maxExperience;
             worldMenu.WorldLocations[i].Experience = location.experience;
-            
             worldMenu.WorldLocations[i].differenceOfMaterial = Rational.Parse(location.differenceOfMaterial);
             worldMenu.WorldLocations[i].quantityToAddInvestor = Rational.Parse(location.quantityToAddInvestor);
-            worldMenu.WorldLocations[i].mainResourceClickIncrement = BigInteger.Parse(location.mainResourceClickIncrement);
-            worldMenu.WorldLocations[i].MainResourceAutoIncrement = BigInteger.Parse(location.mainResourceAutoIncrement);
+            //worldMenu.WorldLocations[i].mainResourceClickIncrement = Rational.Parse(location.mainResourceClickIncrement);
+            worldMenu.WorldLocations[i].MainResourceAutoIncrement = Rational.Parse(location.mainResourceAutoIncrement);
             worldMenu.WorldLocations[i].mainResourceAutoIncrementTimer = location.mainResourceAutoIncrementTimer;
             worldMenu.WorldLocations[i].Purchased = location.purchased;
             for (int j = 0; j < location.shopItemsToSaveData.Length; j++)
@@ -123,6 +126,9 @@ public class SaveSystem : MonoBehaviour
                 worldMenu.WorldLocations[i].ShopItems[j].indexOfShopItem = item.index;
                 worldMenu.WorldLocations[i].ShopItems[j].ResultQuantity = BigInteger.Parse(item.resultQuantity);
                 worldMenu.WorldLocations[i].ShopItems[j].Count = item.count;
+                worldMenu.WorldLocations[i].ShopItems[j].multiplier = Rational.Parse(item.multiplier);
+                worldMenu.WorldLocations[i].ShopItems[j].mainResourceClickIncrement = Rational.Parse(item.clickIncrement);
+
                 for (ulong c = 0; c < item.count; c++)
                 {
                     for (int k = 0; k < worldMenu.WorldLocations[i].ShopItems[j].shopItemsPrices.Count; k++)
@@ -135,7 +141,7 @@ public class SaveSystem : MonoBehaviour
                 }
                 
             }
-
+            investorMenu.UpdateInvestors();
         }
     }
     private void OnApplicationQuit()
