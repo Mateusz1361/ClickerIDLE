@@ -128,7 +128,11 @@ public class ShopItem : MonoBehaviour {
             }
             Count += 1;
             if (ResultType == "Power") {
+                Debug.Log(ResultQuantity);
+                Debug.Log(Count);
+                Debug.Log(multiplier);
                 mainResourceClickIncrement = ResultQuantity*Count*multiplier;
+                Debug.Log(mainResourceClickIncrement);
             }
             else if(ResultType == "Worker") {
                 worldLocation.MainResourceAutoIncrement += ResultQuantity;

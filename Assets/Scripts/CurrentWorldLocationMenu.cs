@@ -77,7 +77,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
         }
         
         worldMenu.CurrentWorldLocation.mainResourceClickIncrement *= (1 + new Rational(2, 100) * worldMenu.CurrentWorldLocation.InvestorsYouHave);
-        Debug.Log(worldMenu.CurrentWorldLocation.mainResourceClickIncrement);
+        //Debug.Log(worldMenu.CurrentWorldLocation.mainResourceClickIncrement);
     }
 
     private void OnMoneyCountChanged(Rational value) {
