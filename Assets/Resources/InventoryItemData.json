@@ -1,0 +1,19 @@
+{
+    "data": [
+        {
+            "name": "Wooden Pickaxe",
+            "iconPath": "Pickaxe",
+            "maxStackCount": 1
+        },
+        {
+            "name": "Stone Pickaxe",
+            "iconPath": "StonePickaxe",
+            "maxStackCount": 1
+        },
+        {
+            "name": "Dynamite",
+            "iconPath": "Dynamite",
+            "maxStackCount": 8
+        }
+    ]
+}

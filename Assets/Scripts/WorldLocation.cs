@@ -18,13 +18,14 @@ public class WorldLocation : MonoBehaviour {
     private GameObject lockedMarker;
     private WorldMenu worldMenu;
     private InventoryMenu inventoryMenu;
+    private InvestorMenu investorMenu;
 
-    public BigInteger mainResourceClickIncrement;
+    public Rational mainResourceClickIncrement;
     public float mainResourceAutoIncrementTimer;
 
-    public event Action<BigInteger> OnMainResourceAutoIncrementChange;
-    private BigInteger _mainResourceAutoIncrement;
-    public BigInteger MainResourceAutoIncrement {
+    public event Action<Rational> OnMainResourceAutoIncrementChange;
+    private Rational _mainResourceAutoIncrement;
+    public Rational MainResourceAutoIncrement {
         get {
             return _mainResourceAutoIncrement;
         }
@@ -60,8 +61,30 @@ public class WorldLocation : MonoBehaviour {
         }
     }
 
-    public BigInteger investorsYouHave = 0;
-    public BigInteger investorsToClaim = 0;
+    private BigInteger _investorsYouHave;
+    public BigInteger InvestorsYouHave { 
+        get { 
+            return _investorsYouHave; 
+        } 
+        set 
+        {
+            _investorsYouHave = value;
+            investorMenu.investorsYouHaveText.text = _investorsYouHave.ToString();
+        } 
+    }
+    private BigInteger _investorsToClaim;
+    public BigInteger InvestorsToClaim
+    {
+        get
+        {
+            return _investorsToClaim;
+        }
+        set
+        {
+            _investorsToClaim = value;
+            investorMenu.investorsToClaimText.text = _investorsToClaim.ToString();
+        }
+    }
     public Rational differenceOfMaterial = 0;
     public Rational quantityToAddInvestor = 10;
     
@@ -73,6 +96,7 @@ public class WorldLocation : MonoBehaviour {
             return _shopItems;
         }
     }
+   
 
     private bool _purchased;
     public bool Purchased {
@@ -98,9 +122,10 @@ public class WorldLocation : MonoBehaviour {
         });
     }
 
-    public void InitLocation(WorldMenu _worldMenu,InventoryMenu _inventoryMenu,WorldLocationData location) {
+    public void InitLocation(WorldMenu _worldMenu,InventoryMenu _inventoryMenu,InvestorMenu _investorMenu,WorldLocationData location) {
         worldMenu = _worldMenu;
         inventoryMenu = _inventoryMenu;
+        investorMenu = _investorMenu;
         Name = location.name;
         Price = location.price;
         MainResourceName = location.mainResource;

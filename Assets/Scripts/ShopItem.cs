@@ -23,9 +23,11 @@ public class ShopItem : MonoBehaviour {
     private WorldLocation worldLocation;
     private InventoryMenu inventoryMenu;
     public int indexOfShopItem = 0;
-
+    public Rational multiplier = 1;
     public List<ShopItemPrice> shopItemsPrices;
-
+    public Rational mainResourceClickIncrement;
+    private ShopItemData defaultSettings;
+    public new string name;
     public string ResultType { get; private set; }
 
     private ulong _unlockLevel;
@@ -45,12 +47,22 @@ public class ShopItem : MonoBehaviour {
             purchaseButton.interactable = !unlockMarker.activeSelf;
         }
     }
-
+    public void ResetItem()
+    {
+        ResultQuantity = defaultSettings.result.value;
+        Count = 0;
+        mainResourceClickIncrement = 0;
+        foreach(var price in shopItemsPrices)
+        {
+            price.ResetPrice();
+        }
+    }
     public void InitItem(WorldLocation _worldLocation,InventoryMenu _inventoryMenu,ShopItemData data,int index) {
         worldLocation = _worldLocation;
         inventoryMenu = _inventoryMenu;
         UnlockLevel = data.unlockLevel;
         indexOfShopItem = index;
+        name = data.name;
         ResultType = data.result.type;
         if(ResultType == "Power") {
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/MineButton");
@@ -67,6 +79,7 @@ public class ShopItem : MonoBehaviour {
             component.InitPrice(inventoryMenu,this,shopItemPriceData);
             shopItemsPrices.Add(component);
         }
+        defaultSettings = data;
     }
 
     private BigInteger _resultQuantity;
@@ -95,7 +108,7 @@ public class ShopItem : MonoBehaviour {
     private void Awake() {
         purchaseButton.onClick.AddListener(Purchase);
     }
-
+    //TO DO Bo kurwa chujnia 
     private void Purchase() {
         bool canAffordPurchase = true;
         foreach(var price in shopItemsPrices) {
@@ -114,12 +127,17 @@ public class ShopItem : MonoBehaviour {
                 }
             }
             Count += 1;
-            if(ResultType == "Power") {
-                worldLocation.mainResourceClickIncrement += ResultQuantity;
+            if (ResultType == "Power") {
+                Debug.Log(ResultQuantity);
+                Debug.Log(Count);
+                Debug.Log(multiplier);
+                mainResourceClickIncrement = ResultQuantity*Count*multiplier;
+                Debug.Log(mainResourceClickIncrement);
             }
             else if(ResultType == "Worker") {
                 worldLocation.MainResourceAutoIncrement += ResultQuantity;
             }
+            
             ResultQuantity += 1;
         }
     }
