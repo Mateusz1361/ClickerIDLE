@@ -8,17 +8,19 @@ public class InventoryItemSlot : MonoBehaviour {
     [SerializeField]
     private TMP_Text countText;
 
-    public Sprite Icon {
-        get {
-            return icon.sprite;
-        }
-        set {
-            icon.enabled = (value != null);
-            icon.sprite = value;
-        }
+    public void SetIcon(Sprite sprite) {
+        icon.sprite = sprite;
+        icon.enabled = sprite != null;
     }
 
-    public void SetCount(uint count) {
-        countText.text = (count <= 1) ? "" : count.ToString();
+    private uint _count;
+    public uint Count {
+        get {
+            return _count;
+        }
+        set {
+            _count = value;
+            countText.text = _count <= 1 ? "" : _count.ToString();
+        }
     }
 }

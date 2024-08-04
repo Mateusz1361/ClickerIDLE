@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using System.Numerics;
 using System.Diagnostics;
-using System.Globalization;
 
 public struct Rational {
     public BigInteger Num { get; private set; }
@@ -31,11 +30,10 @@ public struct Rational {
 
         BigInteger fractNum = 0;
         BigInteger fractDenom = 1;
-
         if(Math.Abs(value) > 0.00001) {
             //@TODO: This is slow.
             var str = value.ToString()[2..];
-            fractNum = long.Parse(str);
+            fractNum = BigInteger.Parse(str);
             fractDenom = BigInteger.Pow(10,str.Length);
         }
 
@@ -196,13 +194,15 @@ public struct Rational {
         if(numerator == 0) {
             return "0";
         }
+        bool isNegative = (numerator < 0);
+        numerator = BigInteger.Abs(numerator);
         if(numerator >= denominator) {
             var div = BigInteger.DivRem(numerator,denominator,out var rem);
             var str = DecimalExpansionToString(rem,denominator,precision);
-            return numerator < 0 ? $"-{div}{str}" : $"{div}{str}";
+            return isNegative ? $"-{div}{str}" : $"{div}{str}";
         }
-        var str2 = DecimalExpansionToString(BigInteger.Abs(numerator),denominator,precision);
-        return numerator < 0 ? $"-0{str2}" : $"0{str2}";
+        var str2 = DecimalExpansionToString(numerator,denominator,precision);
+        return isNegative ? $"-0{str2}" : $"0{str2}";
     }
 
     public readonly override bool Equals(object obj) {
@@ -221,11 +221,38 @@ public struct Rational {
         return new(value.Num / value.Denom);
     }
 
-    //@TODO: This is really hacky and doesn't always work.
     public static Rational Parse(string str) {
-        if(str.Contains('.')) {
-            return new(double.Parse(str,CultureInfo.InvariantCulture));
+        if(string.IsNullOrEmpty(str)) {
+            throw new ArgumentNullException();
         }
-        return new(long.Parse(str));
+        bool isNegative = false;
+        str = str.TrimStart(' ');
+        if(str[0] == '+' || str[0] == '-') {
+            isNegative = (str[0] == '-');
+            str = str.Remove(0,1);
+        }
+        int decimalPointIndex = str.Length;
+        for(int i = 0;i < str.Length;i += 1) {
+            if(str[i] == '.') {
+                if(decimalPointIndex != str.Length) {
+                    throw new FormatException($"More than one decimal separator.");
+                }
+                decimalPointIndex = i;
+            }
+            else if(!char.IsDigit(str[i])) {
+                throw new FormatException($"'{str[i]}' isn't a digit.");
+            }
+        }
+        BigInteger integerPart = 0;
+        BigInteger decimalPartNum = 0;
+        BigInteger decimalPartDenom = 1;
+        if(decimalPointIndex > 0) {
+            integerPart = BigInteger.Parse(str[..decimalPointIndex]);
+        }
+        if(decimalPointIndex < str.Length - 1) {
+            decimalPartNum = BigInteger.Parse(str[(decimalPointIndex + 1)..]);
+            decimalPartDenom = BigInteger.Pow(10,str.Length - (decimalPointIndex + 1));
+        }
+        return new((isNegative ? -1 : 1) * (integerPart * decimalPartDenom + decimalPartNum),decimalPartDenom);
     }
 }

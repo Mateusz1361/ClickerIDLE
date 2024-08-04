@@ -1,31 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Numerics;
 
-
-public class InvestorUpgradeInstance : MonoBehaviour
-{
+public class InvestorUpgradeInstance : MonoBehaviour {
+    [SerializeField]
+    private TMP_Text whatYouGetText;
+    [SerializeField]
+    private Button buyUpgradeButton;
+    [SerializeField]
+    private Image iconOfInvestorsUpgrade;
+    [HideInInspector]
     public WorldLocation worldLocation;
-    string whatYouMultiply;
-    Rational multiplier;
-    Rational price;
+    [HideInInspector]
+    public string whatYouMultiply;
+    public Rational multiplier;
+    public Rational price;
+    private WorldMenu worldMenu;
+    private InvestorMenu investorMenu;
 
-    [SerializeField]
-    public TMP_Text whatYouGetText;
-    [SerializeField]
-    public Button buyUpgradeButton;
-    [SerializeField]
-    public Image iconOfInvestorsUpgrade;
-    
+    public string WhatYouGetText {
+        get {
+            return whatYouGetText.text;
+        }
+    }
 
-    
-       
-    public void Init(InvestorUpgradeData investorUpgradeData, WorldLocation _worldLocation)
-    {
-       
+    public void Init(InvestorUpgradeData investorUpgradeData,WorldLocation _worldLocation,WorldMenu _worldMenu,InvestorMenu _investorMenu) {
+        worldMenu = _worldMenu;
+        investorMenu = _investorMenu;
         worldLocation = _worldLocation;
         whatYouMultiply = investorUpgradeData.whatYouMultiply;
         multiplier = Rational.Parse(investorUpgradeData.multiplier);
@@ -33,32 +35,35 @@ public class InvestorUpgradeInstance : MonoBehaviour
         price = investorUpgradeData.price;
         iconOfInvestorsUpgrade.sprite = Resources.Load<Sprite>("Images/WorkersButton");
         buyUpgradeButton.onClick.AddListener(BuyInvestorUpgrade);
+        Purchased = false;
     }
+
+    public void MakeVisible() {
+        gameObject.SetActive(!Purchased && worldLocation == worldMenu.CurrentWorldLocation);
+    }
+
+    private bool _purchased;
+    public bool Purchased {
+        get {
+            return _purchased;
+        }
+        set {
+            _purchased = value;
+            MakeVisible();
+        }
+    }
+
     public void BuyInvestorUpgrade() {
-        Debug.Log("dupa1");
-        Debug.Log(price);
-        Debug.Log(worldLocation.InvestorsYouHave);
-        if (worldLocation.InvestorsYouHave >= price)
-        {
-            Debug.Log("dupa2");
-            foreach (var shopitem in worldLocation.ShopItems)
-            {
-                Debug.Log("dupa3");
-                if (whatYouMultiply == shopitem.name)
-                {
-                    Debug.Log("dupa4");
+        if(worldLocation.InvestorsYouHave >= price) {
+            foreach(var shopitem in worldLocation.ShopItems) {
+                if(whatYouMultiply == shopitem.name) {
                     worldLocation.InvestorsYouHave -= (BigInteger)price;
+                    investorMenu.UpdateInvestors();
                     shopitem.multiplier *= multiplier;
-                    gameObject.SetActive(false);
+                    Purchased = true;
+                    break;
                 }
             }
         }
-        
-        
     }
-
-
-
 }
-
-

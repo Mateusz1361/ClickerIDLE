@@ -1,7 +1,7 @@
-using System;
-using UnityEngine;
 
+/*
 public class InventoryItem {
-    public InventoryItemData data;
+    public InventoryItemTemplate data;
     public uint stackCount;
 }
+*/

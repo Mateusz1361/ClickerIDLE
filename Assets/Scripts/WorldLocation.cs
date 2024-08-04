@@ -20,7 +20,17 @@ public class WorldLocation : MonoBehaviour {
     private InventoryMenu inventoryMenu;
     private InvestorMenu investorMenu;
 
-    public Rational mainResourceClickIncrement;
+    private readonly Rational ClickFraction = new(2,100);
+
+    public Rational MainResourceClickIncrement() {
+        Rational result = 1;
+        foreach(var item in ShopItems) {
+            result += item.mainResourceClickIncrement;
+        }
+        result *= (1 + ClickFraction * InvestorsYouHave);
+        return result;
+    }
+
     public float mainResourceAutoIncrementTimer;
 
     public event Action<Rational> OnMainResourceAutoIncrementChange;
@@ -87,7 +97,6 @@ public class WorldLocation : MonoBehaviour {
     }
     public Rational differenceOfMaterial = 0;
     public Rational quantityToAddInvestor = 10;
-    
 
     private List<ShopItem> _shopItems;
     public List<ShopItem> ShopItems {
@@ -96,7 +105,14 @@ public class WorldLocation : MonoBehaviour {
             return _shopItems;
         }
     }
-   
+
+    private List<InvestorUpgradeInstance> _investorUpgrades;
+    public List<InvestorUpgradeInstance> InvestorUpgrades {
+        get {
+            _investorUpgrades ??= new();
+            return _investorUpgrades;
+        }
+    }
 
     private bool _purchased;
     public bool Purchased {
@@ -131,7 +147,6 @@ public class WorldLocation : MonoBehaviour {
         MainResourceName = location.mainResource;
         mainResourceIcon.sprite = inventoryMenu.ResourceInstances[MainResourceName].Icon;
         Purchased = (Price == 0);
-        mainResourceClickIncrement = 1;
         mainResourceAutoIncrementTimer = 0.0f;
         MainResourceAutoIncrement = 0;
         Level = 0;

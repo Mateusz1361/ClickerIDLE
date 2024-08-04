@@ -2,6 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+public class InventoryItemTemplate {
+    public Sprite icon;
+    public uint maxStackCount;
+}
+
 public class InventoryMenu : MonoBehaviour {
     [SerializeField]
     private Button closeButton;
@@ -23,6 +28,8 @@ public class InventoryMenu : MonoBehaviour {
     private TextAsset resourcesData;
     [SerializeField]
     private GameObject inventoryItemSlotPrefab;
+    [SerializeField]
+    private TextAsset inventoryItemDataAsset;
 
     private Dictionary<string,ResourceInstance> _resourceInstances;
 
@@ -55,7 +62,26 @@ public class InventoryMenu : MonoBehaviour {
         }
     }
 
-    private List<InventoryItemSlot> inventoryItemSlots;
+    private Dictionary<string,InventoryItemTemplate> itemTemplates;
+    private List<InventoryItemSlot> itemSlots;
+
+    public bool AddItem(string name) {
+        /*var itemTemplate = itemTemplates[name] ?? throw new ArgumentException($"There's no item named '{name}'.");
+        for(int i = 0;i < items.Count;i += 1) {
+            if(items[i].data == itemTemplate && items[i].stackCount < itemTemplate.maxStackCount) {
+                items[i].stackCount += 1;
+                itemSlots[i].Count += 1;
+                return true;
+            }
+        }
+        if(items.Count < itemSlots.Count) {
+            items.Add(new() { data = itemTemplate,stackCount = 1 });
+            itemSlots[items.Count - 1].SetIcon(itemTemplate.icon);
+            itemSlots[items.Count - 1].Count = 1;
+            return true;
+        }*/
+        return false;
+    }
 
     public void Init() {
         oresScrollRect.SetActive(true);
@@ -72,19 +98,33 @@ public class InventoryMenu : MonoBehaviour {
         if(_resourceInstances == null) {
             InitResourceInstances();
         }
-    }
 
-    private void OnEnable() {
-        if(inventoryItemSlots == null) {
-            inventoryItemSlots = new();
-            for(int i = 0;i < 20;i += 1) {
-                var prefab = Instantiate(inventoryItemSlotPrefab,itemsParent);
-                var component = prefab.GetComponent<InventoryItemSlot>();
-                component.Icon = null;
-                component.SetCount(0);
-                inventoryItemSlots.Add(component);
-            }
+        itemTemplates = new();
+        var inventoryItemDataWrapper = JsonUtility.FromJson<InstanceWrapper<InventoryItemData>>(inventoryItemDataAsset.text);
+        foreach(var item in inventoryItemDataWrapper.data) {
+            itemTemplates.Add(item.name,new() {
+                icon = Resources.Load<Sprite>($"Images/{item.iconPath}"),
+                maxStackCount = item.maxStackCount
+            });
         }
+
+        itemSlots = new();
+        for(int i = 0;i < 20;i += 1) {
+            var prefab = Instantiate(inventoryItemSlotPrefab,itemsParent);
+            var component = prefab.GetComponent<InventoryItemSlot>();
+            component.SetIcon(null);
+            component.Count = 0;
+            itemSlots.Add(component);
+        }
+
+        /*
+        items = new();
+        AddItem("Wooden Pickaxe");
+        for(int i = 0;i < 12;i += 1) {
+            AddItem("Dynamite");
+        }
+        AddItem("Stone Pickaxe");
+        */
     }
 
     private void InitResourceInstances() {

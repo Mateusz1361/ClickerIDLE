@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,79 +25,67 @@ public class InvestorMenu : MonoBehaviour {
     private GameObject prefabOfInvestorsUpgrades;
     [SerializeField]
     private InventoryMenu inventoryMenu;
-    public List<InvestorUpgradeInstance> _investorUpgradeInstances;
 
     public void Init() {
         claimInvestors.onClick.AddListener(() => ClaimAllInvestors());
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
         worldMenu.OnWorldLocationLeft += (WorldLocation location) => {
-            if (location != null) {
+            if(location != null) {
                 data.ResourceInstances[location.MainResourceName].OnCountIncrement -= CountingInvestors;
-                foreach (var investorsUpgrades in _investorUpgradeInstances)
-                {
-                    investorsUpgrades.gameObject.SetActive(false);
+                foreach(var upgrade in location.InvestorUpgrades) {
+                    upgrade.gameObject.SetActive(false);
                 }
             }
         };
-        worldMenu.OnWorldLocationEntered += (WorldLocation location) =>
-        {
+        worldMenu.OnWorldLocationEntered += (WorldLocation location) => {
             data.ResourceInstances[location.MainResourceName].OnCountIncrement += CountingInvestors;
-            CountingInvestors(0);
-            foreach (var investorsUpgrades in _investorUpgradeInstances)
-            {
-                investorsUpgrades.gameObject.SetActive(investorsUpgrades.worldLocation == location);
+            foreach(var upgrade in location.InvestorUpgrades) {
+                if(!upgrade.Purchased) {
+                    upgrade.MakeVisible();
+                }
             }
+            CountingInvestors(0);
         };
-        _investorUpgradeInstances = new();
         var investorUpgradeInstancesDatas = JsonUtility.FromJson<InstanceWrapper<InvestorUpgradeData>>(jsonInvestors.text);
-        
-        for (int i = 0;i < worldMenu.WorldLocations.Count; i++)
-        {
-            var location = worldMenu.WorldLocations[i];
-            foreach (var investorUpgradeInstancesData in investorUpgradeInstancesDatas.data)
-            {
-                var prefab = Instantiate(prefabOfInvestorsUpgrades, parentForInvestorsUpgrades.transform);
-                prefab.SetActive(location == worldMenu.CurrentWorldLocation);
+        foreach(var location in worldMenu.WorldLocations) {
+            foreach(var investorUpgradeInstancesData in investorUpgradeInstancesDatas.data) {
+                var prefab = Instantiate(prefabOfInvestorsUpgrades,parentForInvestorsUpgrades.transform);
                 var investorUpgradeInstance = prefab.GetComponent<InvestorUpgradeInstance>();
-                investorUpgradeInstance.Init(investorUpgradeInstancesData,location);
-                _investorUpgradeInstances.Add(investorUpgradeInstance);
+                investorUpgradeInstance.Init(investorUpgradeInstancesData,location,worldMenu,this);
+                location.InvestorUpgrades.Add(investorUpgradeInstance);
             }
         }
     }
     
-    public void CountingInvestors(Rational resourceToInvestors)
-    {
-        var cWL = worldMenu.CurrentWorldLocation;
-        cWL.differenceOfMaterial += resourceToInvestors;
-        while (cWL.differenceOfMaterial >= cWL.quantityToAddInvestor)
-        {
-            cWL.differenceOfMaterial -= cWL.quantityToAddInvestor;
-            cWL.InvestorsToClaim += 1;
-            
+    public void CountingInvestors(Rational resourceToInvestors) {
+        var cwl = worldMenu.CurrentWorldLocation;
+        cwl.differenceOfMaterial += resourceToInvestors;
+        while(cwl.differenceOfMaterial >= cwl.quantityToAddInvestor) {
+            cwl.differenceOfMaterial -= cwl.quantityToAddInvestor;
+            cwl.InvestorsToClaim += 1;
         }
         UpdateInvestors();
     }
-    public void UpdateInvestors()
-    {
-        var cWL = worldMenu.CurrentWorldLocation;
-        investorsYouHaveText.text = cWL.InvestorsYouHave.ToString();
-        investorsToClaimText.text = cWL.InvestorsToClaim.ToString();
+
+    public void UpdateInvestors() {
+        var cwl = worldMenu.CurrentWorldLocation;
+        investorsYouHaveText.text = cwl.InvestorsYouHave.ToString();
+        investorsToClaimText.text = cwl.InvestorsToClaim.ToString();
     }
-    public void ClaimAllInvestors()
-    {
-        worldMenu.CurrentWorldLocation.MainResourceAutoIncrement = 0;
-        worldMenu.CurrentWorldLocation.mainResourceAutoIncrementTimer = 0;
-        foreach (var shopitem in worldMenu.CurrentWorldLocation.ShopItems) { 
+
+    public void ClaimAllInvestors() {
+        var cwl = worldMenu.CurrentWorldLocation;
+        cwl.MainResourceAutoIncrement = 0;
+        cwl.mainResourceAutoIncrementTimer = 0;
+        foreach(var shopitem in cwl.ShopItems) { 
             shopitem.ResetItem();
         }
-        worldMenu.CurrentWorldLocation.InvestorsYouHave += worldMenu.CurrentWorldLocation.InvestorsToClaim;
-        worldMenu.CurrentWorldLocation.InvestorsToClaim = 0;
-        worldMenu.CurrentWorldLocation.Level = 0;
-        worldMenu.CurrentWorldLocation.Experience = 0;
-        worldMenu.CurrentWorldLocation.maxExperience = 40;
-        worldMenu.CurrentWorldLocation.differenceOfMaterial = 0;
-        inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].Count = 0;
-        saveSystem.SaveGame();
+        cwl.InvestorsYouHave += cwl.InvestorsToClaim;
+        cwl.InvestorsToClaim = 0;
+        cwl.Level = 0;
+        cwl.Experience = 0;
+        cwl.maxExperience = 40;
+        cwl.differenceOfMaterial = 0;
+        inventoryMenu.ResourceInstances[cwl.MainResourceName].Count = 0;
     }
-    
 }

@@ -2,7 +2,6 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Numerics;
 
 public class CurrentWorldLocationMenu : MonoBehaviour {
     [SerializeField]
@@ -33,7 +32,6 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private SaveSystem saveSystem;
 
     private void Awake() {
-        
         mainButton.onClick.AddListener(OnMainButtonClick);
         levelUpButton.onClick.AddListener(OnLevelUpButtonClick);
         inventoryMenu.Money.OnCountChanged += OnMoneyCountChanged;
@@ -69,15 +67,6 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
                 location.mainResourceAutoIncrementTimer -= 1.0f;
             }
         }
-        worldMenu.CurrentWorldLocation.mainResourceClickIncrement = 1;
-        foreach (ShopItem item in worldMenu.CurrentWorldLocation.ShopItems)
-        {
-            worldMenu.CurrentWorldLocation.mainResourceClickIncrement += item.mainResourceClickIncrement;
-
-        }
-        
-        worldMenu.CurrentWorldLocation.mainResourceClickIncrement *= (1 + new Rational(2, 100) * worldMenu.CurrentWorldLocation.InvestorsYouHave);
-        //Debug.Log(worldMenu.CurrentWorldLocation.mainResourceClickIncrement);
     }
 
     private void OnMoneyCountChanged(Rational value) {
@@ -103,7 +92,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     }
 
     private void OnMainButtonClick() {
-        inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].Count += worldMenu.CurrentWorldLocation.mainResourceClickIncrement;
+        inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].Count += worldMenu.CurrentWorldLocation.MainResourceClickIncrement();
         worldMenu.CurrentWorldLocation.Experience += new System.Random().NextDouble(1.0,5.0);
     }
 

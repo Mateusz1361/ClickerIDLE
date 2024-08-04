@@ -71,6 +71,7 @@ public class ShopItem : MonoBehaviour {
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/WorkersButton");
         }
 
+        mainResourceClickIncrement = 0;
         ResultQuantity = data.result.value;
         shopItemsPrices = new();
         foreach(var shopItemPriceData in data.price) {
