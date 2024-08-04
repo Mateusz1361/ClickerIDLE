@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
+using static UnityEditor.Progress;
 
 public class InventoryItemTemplate {
     public Sprite icon;
@@ -30,6 +32,8 @@ public class InventoryMenu : MonoBehaviour {
     private GameObject inventoryItemSlotPrefab;
     [SerializeField]
     private TextAsset inventoryItemDataAsset;
+    [SerializeField]
+    private InventoryItemSlot pickaxeItemSlot;
 
     private Dictionary<string,ResourceInstance> _resourceInstances;
 
@@ -66,20 +70,18 @@ public class InventoryMenu : MonoBehaviour {
     private List<InventoryItemSlot> itemSlots;
 
     public bool AddItem(string name) {
-        /*var itemTemplate = itemTemplates[name] ?? throw new ArgumentException($"There's no item named '{name}'.");
-        for(int i = 0;i < items.Count;i += 1) {
-            if(items[i].data == itemTemplate && items[i].stackCount < itemTemplate.maxStackCount) {
-                items[i].stackCount += 1;
+        var itemTemplate = itemTemplates[name] ?? throw new ArgumentException($"There's no item named '{name}'.");
+        for(int i = 0;i < itemSlots.Count;i += 1) {
+            if(itemSlots[i].ItemTemplate == null) {
+                itemSlots[i].SetItemTemplate(itemTemplate);
+                itemSlots[i].Count = 1;
+                return true;
+            }
+            else if(itemSlots[i].ItemTemplate == itemTemplate && itemSlots[i].Count < itemTemplate.maxStackCount) {
                 itemSlots[i].Count += 1;
                 return true;
             }
         }
-        if(items.Count < itemSlots.Count) {
-            items.Add(new() { data = itemTemplate,stackCount = 1 });
-            itemSlots[items.Count - 1].SetIcon(itemTemplate.icon);
-            itemSlots[items.Count - 1].Count = 1;
-            return true;
-        }*/
         return false;
     }
 
@@ -108,23 +110,23 @@ public class InventoryMenu : MonoBehaviour {
             });
         }
 
+        pickaxeItemSlot.SetItemTemplate(null);
+        pickaxeItemSlot.Count = 0;
+
         itemSlots = new();
         for(int i = 0;i < 20;i += 1) {
             var prefab = Instantiate(inventoryItemSlotPrefab,itemsParent);
             var component = prefab.GetComponent<InventoryItemSlot>();
-            component.SetIcon(null);
+            component.SetItemTemplate(null);
             component.Count = 0;
             itemSlots.Add(component);
         }
 
-        /*
-        items = new();
         AddItem("Wooden Pickaxe");
         for(int i = 0;i < 12;i += 1) {
             AddItem("Dynamite");
         }
         AddItem("Stone Pickaxe");
-        */
     }
 
     private void InitResourceInstances() {

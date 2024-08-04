@@ -8,10 +8,7 @@ public class InventoryItemSlot : MonoBehaviour {
     [SerializeField]
     private TMP_Text countText;
 
-    public void SetIcon(Sprite sprite) {
-        icon.sprite = sprite;
-        icon.enabled = sprite != null;
-    }
+    public InventoryItemTemplate ItemTemplate { get; private set; }
 
     private uint _count;
     public uint Count {
@@ -22,5 +19,11 @@ public class InventoryItemSlot : MonoBehaviour {
             _count = value;
             countText.text = _count <= 1 ? "" : _count.ToString();
         }
+    }
+
+    public void SetItemTemplate(InventoryItemTemplate itemTemplate) {
+        ItemTemplate = itemTemplate;
+        icon.sprite = ItemTemplate?.icon;
+        icon.enabled = icon.sprite != null;
     }
 }
