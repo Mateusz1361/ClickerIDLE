@@ -4,6 +4,7 @@ using System;
 public class ResourceInstanceData {
     public string name;
     public string iconPath;
+    public int clicksToPop;
 }
 
 [Serializable]

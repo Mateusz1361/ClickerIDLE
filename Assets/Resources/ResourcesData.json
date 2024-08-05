@@ -2,35 +2,43 @@
     "data": [
         {
             "name": "Stone",
-            "iconPath": "Stone"
+            "iconPath": "Stone",
+            "clicksToPop": 1
         },
         {
             "name": "Money",
-            "iconPath": "DollarSign"
+            "iconPath": "DollarSign",
+            "clicksToPop": 0
         },
         {
             "name": "Coal",
-            "iconPath": "OreIcons/CoalIcon"
+            "iconPath": "OreIcons/CoalIcon",
+            "clicksToPop": 2
         },
         {
             "name": "Copper",
-            "iconPath": "OreIcons/CopperIcon"
+            "iconPath": "OreIcons/CopperIcon",
+            "clicksToPop": 3
         },
         {
             "name": "Iron",
-            "iconPath": "OreIcons/IronIcon"
+            "iconPath": "OreIcons/IronIcon",
+            "clicksToPop": 5
         },
         {
             "name": "Gold",
-            "iconPath": "OreIcons/GoldIcon"
+            "iconPath": "OreIcons/GoldIcon",
+            "clicksToPop": 8
         },
         {
             "name": "Diamond",
-            "iconPath": "OreIcons/DiamondIcon"
+            "iconPath": "OreIcons/DiamondIcon",
+            "clicksToPop": 13
         },
         {
             "name": "Emerald",
-            "iconPath": "OreIcons/EmeraldIcon"
+            "iconPath": "OreIcons/EmeraldIcon",
+            "clicksToPop": 21
         }
     ]
 }
