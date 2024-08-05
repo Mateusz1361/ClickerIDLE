@@ -65,6 +65,7 @@ public class InventoryItemData {
     public string name;
     public string iconPath;
     public uint maxStackCount;
+    public string type;
 }
 
 [Serializable]

@@ -1,12 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System;
-using static UnityEditor.Progress;
 
 public class InventoryItemTemplate {
     public Sprite icon;
     public uint maxStackCount;
+    public string type;
 }
 
 public class InventoryMenu : MonoBehaviour {
@@ -33,7 +33,7 @@ public class InventoryMenu : MonoBehaviour {
     [SerializeField]
     private TextAsset inventoryItemDataAsset;
     [SerializeField]
-    private InventoryItemSlot pickaxeItemSlot;
+    public InventoryItemSlot pickaxeItemSlot;
 
     private Dictionary<string,ResourceInstance> _resourceInstances;
 
@@ -69,16 +69,92 @@ public class InventoryMenu : MonoBehaviour {
     private Dictionary<string,InventoryItemTemplate> itemTemplates;
     private List<InventoryItemSlot> itemSlots;
 
-    public bool AddItem(string name) {
+    public bool CanAddItems(string name,uint count = 1) {
         var itemTemplate = itemTemplates[name] ?? throw new ArgumentException($"There's no item named '{name}'.");
-        for(int i = 0;i < itemSlots.Count;i += 1) {
-            if(itemSlots[i].ItemTemplate == null) {
-                itemSlots[i].SetItemTemplate(itemTemplate);
-                itemSlots[i].Count = 1;
+        return CanAddItems(itemTemplate,count);
+    }
+
+    public bool CanAddItems(InventoryItemTemplate itemTemplate,uint count = 1) {
+        foreach(var slot in itemSlots) {
+            if(slot.ItemTemplate == null) {
+                if(count <= itemTemplate.maxStackCount) {
+                    return true;
+                }
+                count -= itemTemplate.maxStackCount;
+            }
+            else if(slot.ItemTemplate == itemTemplate && slot.Count < itemTemplate.maxStackCount) {
+                if(slot.Count + count <= itemTemplate.maxStackCount) {
+                    return true;
+                }
+                count -= (slot.Count + count) - itemTemplate.maxStackCount;
+            }
+        }
+        return false;
+    }
+
+    public bool AddItems(string name,uint count = 1) {
+        var itemTemplate = itemTemplates[name] ?? throw new ArgumentException($"There's no item named '{name}'.");
+        return AddItems(itemTemplate,count);
+    }
+
+    public bool AddItems(InventoryItemTemplate itemTemplate,uint count = 1) {
+        if(count == 0) {
+            return true;
+        }
+        if(!CanAddItems(itemTemplate,count)) {
+            return false;
+        }
+        foreach(var slot in itemSlots) {
+            if(slot.ItemTemplate == null) {
+                if(count <= itemTemplate.maxStackCount) {
+                    slot.SetItemTemplate(itemTemplate);
+                    slot.Count = count;
+                    return true;
+                }
+                slot.SetItemTemplate(itemTemplate);
+                slot.Count = itemTemplate.maxStackCount;
+                count -= itemTemplate.maxStackCount;
+            }
+            else if(slot.ItemTemplate == itemTemplate && slot.Count < itemTemplate.maxStackCount) {
+                if(slot.Count + count <= itemTemplate.maxStackCount) {
+                    slot.Count += count;
+                    return true;
+                }
+                slot.Count += itemTemplate.maxStackCount;
+                count -= (slot.Count + count) - itemTemplate.maxStackCount;
+            }
+        }
+        return false;
+    }
+
+    public bool RemoveItem(string name) {
+        var itemTemplate = itemTemplates[name] ?? throw new ArgumentException($"There's no item named '{name}'.");
+        return RemoveItem(itemTemplate);
+    }
+
+    public bool RemoveItem(InventoryItemTemplate itemTemplate) {
+        foreach(var slot in itemSlots) {
+            if(slot.ItemTemplate == itemTemplate) {
+                if(slot.Count == 1) {
+                    slot.SetItemTemplate(null);
+                    slot.Count = 0;
+                    return true;
+                }
+                slot.Count -= 1;
                 return true;
             }
-            else if(itemSlots[i].ItemTemplate == itemTemplate && itemSlots[i].Count < itemTemplate.maxStackCount) {
-                itemSlots[i].Count += 1;
+        }
+        return false;
+    }
+
+    public bool HasItem(string name) {
+        var itemTemplate = itemTemplates[name] ?? throw new ArgumentException($"There's no item named '{name}'.");
+        return HasItem(itemTemplate);
+    }
+
+    public bool HasItem(InventoryItemTemplate itemTemplate) {
+        foreach(var slot in itemSlots) {
+            if(slot.ItemTemplate == itemTemplate && slot.Count > 0) {
                 return true;
             }
         }
@@ -106,10 +182,12 @@ public class InventoryMenu : MonoBehaviour {
         foreach(var item in inventoryItemDataWrapper.data) {
             itemTemplates.Add(item.name,new() {
                 icon = Resources.Load<Sprite>($"Images/{item.iconPath}"),
-                maxStackCount = item.maxStackCount
+                maxStackCount = item.maxStackCount,
+                type = item.type
             });
         }
 
+        pickaxeItemSlot.Init(this);
         pickaxeItemSlot.SetItemTemplate(null);
         pickaxeItemSlot.Count = 0;
 
@@ -117,16 +195,18 @@ public class InventoryMenu : MonoBehaviour {
         for(int i = 0;i < 20;i += 1) {
             var prefab = Instantiate(inventoryItemSlotPrefab,itemsParent);
             var component = prefab.GetComponent<InventoryItemSlot>();
+            component.Init(this);
             component.SetItemTemplate(null);
             component.Count = 0;
             itemSlots.Add(component);
         }
 
-        AddItem("Wooden Pickaxe");
+        AddItems("Wooden Pickaxe");
         for(int i = 0;i < 12;i += 1) {
-            AddItem("Dynamite");
+            AddItems("Dynamite");
         }
-        AddItem("Stone Pickaxe");
+        AddItems("Stone Pickaxe");
+        AddItems("Key");
     }
 
     private void InitResourceInstances() {

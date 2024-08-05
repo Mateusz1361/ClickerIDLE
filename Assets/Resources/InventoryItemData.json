@@ -3,17 +3,26 @@
         {
             "name": "Wooden Pickaxe",
             "iconPath": "Pickaxe",
-            "maxStackCount": 1
+            "maxStackCount": 1,
+            "type": "Pickaxe"
         },
         {
             "name": "Stone Pickaxe",
             "iconPath": "StonePickaxe",
-            "maxStackCount": 1
+            "maxStackCount": 1,
+            "type": "Pickaxe"
         },
         {
             "name": "Dynamite",
             "iconPath": "Dynamite",
-            "maxStackCount": 8
+            "maxStackCount": 8,
+            "type": "Explosive"
+        },
+        {
+            "name": "Key",
+            "iconPath": "Key",
+            "maxStackCount": 1,
+            "type": "Key"
         }
     ]
 }
