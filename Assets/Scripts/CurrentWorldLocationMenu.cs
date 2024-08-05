@@ -2,6 +2,7 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.Experimental.GraphView;
 
 public class CurrentWorldLocationMenu : MonoBehaviour {
     [SerializeField]
@@ -30,6 +31,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private ViewSelection viewSelection;
     [SerializeField]
     private SaveSystem saveSystem;
+    private int clicks = 0;
 
     private void Awake() {
         mainButton.onClick.AddListener(OnMainButtonClick);
@@ -92,8 +94,14 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     }
 
     private void OnMainButtonClick() {
-        inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].Count += worldMenu.CurrentWorldLocation.MainResourceClickIncrement();
-        worldMenu.CurrentWorldLocation.Experience += new System.Random().NextDouble(1.0,5.0);
+        clicks++;
+        if(inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].ClicksToPop == clicks)
+        {
+            inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].Count += worldMenu.CurrentWorldLocation.MainResourceClickIncrement();
+            worldMenu.CurrentWorldLocation.Experience += new System.Random().NextDouble(1.0, 5.0);
+            clicks = 0;
+        }
+        
     }
 
     private void OnLevelUpButtonClick() {

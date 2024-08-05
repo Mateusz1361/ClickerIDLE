@@ -12,13 +12,13 @@ public class ResourceInstance : MonoBehaviour {
     private TMP_Text countText;
 
     private ResourceInstanceData data;
-
+    
     public event Action<Rational> OnCountChanged;
     public event Action<Rational> OnCountIncrement;
 
     public Sprite Icon => iconImage.sprite;
     public string Name => data.name;
-
+    public int ClicksToPop { get { return data.clicksToPop; }  }
     public void InitInstance(ResourceInstanceData _data) {
         data = _data;
         iconImage.sprite = Resources.Load<Sprite>($"Images/{data.iconPath}");
