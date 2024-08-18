@@ -1,0 +1,92 @@
+{
+    "data": [
+        {
+            "name": "Factory of Electronic Circuits",
+            "toUnlock": "IronMine",
+            "price": [
+                {
+                    "name": "Iron",
+                    "value": 10
+                },
+                {
+                    "name": "Coal",
+                    "value": 5
+                },
+                {
+                    "name": "Copper",
+                    "value": 13
+                }
+            ],
+            "result": {
+                "type": "Electronic Circuits",
+                "value": 1
+            }
+        },
+        {
+            "name": "Factory of High-Quality Cabling",
+            "toUnlock": "GoldMine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 40
+                },
+                {
+                    "name": "Coal",
+                    "value": 30
+                },
+                {
+                    "name": "Copper",
+                    "value": 20
+                }
+            ],
+            "result": {
+                "type": "High-Quality Cabling",
+                "value": 2
+            }
+        },
+        {
+            "name": "Factory of High-End Cookware Set",
+            "toUnlock": "DiamondMine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 10
+                },
+                {
+                    "name": "Iron",
+                    "value": 15
+                },
+                {
+                    "name": "Gold",
+                    "value": 7
+                }
+            ],
+            "result": {
+                "type": "High-End Cookware Set",
+                "value": 1
+            }
+        },
+        {
+            "name": "Factory of Luxury Jewelry",
+            "toUnlock": "EmeraldMine",
+            "price": [
+                {
+                    "name": "Gold",
+                    "value": 100
+                },
+                {
+                    "name": "Emerald",
+                    "value": 25
+                },
+                {
+                    "name": "Diamond",
+                    "value": 10
+                }
+            ],
+            "result": {
+                "type": "Luxury Jewelry",
+                "value": 10
+            }
+        }
+    ]
+}

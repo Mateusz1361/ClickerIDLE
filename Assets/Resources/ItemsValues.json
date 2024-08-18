@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "name" : "Electronic Circuits",
+            "price": 100
+        },
+        {
+            "name": "High-Quality Cabling",
+            "price": 10000
+        },
+        {
+            "name": "High-End Cookware Set",
+            "price": 1000000
+        },
+        {
+            "name": "Luxury Jewelry",
+            "price": 5000000
+        }
+    ]
+}
