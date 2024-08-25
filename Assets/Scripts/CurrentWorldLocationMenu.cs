@@ -56,6 +56,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
             OnLevelChange(location.Level);
             location.OnExperienceChange += OnExperienceChange;
             OnExperienceChange(location.Experience,location.maxExperience);
+            clicks = 0;
         };
         viewSelection.Init();
         saveSystem.LoadGame();
@@ -95,6 +96,8 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
 
     private void OnMainButtonClick() {
         clicks++;
+        
+        
         if(inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].ClicksToPop == clicks)
         {
             inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].Count += worldMenu.CurrentWorldLocation.MainResourceClickIncrement();

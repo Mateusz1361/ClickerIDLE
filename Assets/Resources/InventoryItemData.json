@@ -4,25 +4,57 @@
             "name": "Wooden Pickaxe",
             "iconPath": "Pickaxe",
             "maxStackCount": 1,
-            "type": "Pickaxe"
+            "type": "Pickaxe",
+            "price": 10
         },
         {
             "name": "Stone Pickaxe",
             "iconPath": "StonePickaxe",
             "maxStackCount": 1,
-            "type": "Pickaxe"
+            "type": "Pickaxe",
+            "price": 10
         },
         {
             "name": "Dynamite",
             "iconPath": "Dynamite",
             "maxStackCount": 8,
-            "type": "Explosive"
+            "type": "Explosive",
+            "price": 10
         },
         {
             "name": "Key",
             "iconPath": "Key",
             "maxStackCount": 1,
-            "type": "Key"
+            "type": "Key",
+            "price": 10
+        },
+        {
+            "name": "Electronic Circuits",
+            "iconPath": "Key",
+            "maxStackCount": 64,
+            "type": "SellableItem",
+            "price": 100
+        },
+        {
+            "name": "High-Quality Cabling",
+            "iconPath": "High-Quality Cabling",
+            "maxStackCount": 64,
+            "type": "SellableItem",
+            "price": 10000
+        },
+        {
+            "name": "High-End Cookware Set",
+            "iconPath": "High-End Cookware Set",
+            "maxStackCount": 64,
+            "type": "SellableItem",
+            "price": 1000000
+        },
+        {
+            "name": "Luxury Jewelry",
+            "iconPath": "Luxury Jewelry",
+            "maxStackCount": 64,
+            "type": "SellableItem",
+            "price": 50000000
         }
     ]
 }

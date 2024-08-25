@@ -68,6 +68,7 @@ public class InventoryItemData {
     public string iconPath;
     public uint maxStackCount;
     public string type;
+    public ulong price;
 }
 [Serializable]
 public class FactoryPriceItemData
@@ -81,13 +82,13 @@ public class FactoryItemData
     public string name;
     public string toUnlock;
     public FactoryPriceItemData[] price;
-    public FactoryResultData[] result;
+    public FactoryResultData result;
 }
 [Serializable]
 public class FactoryResultData
 {
     public string type;
-    public string value;
+    public ulong value;
 }
 [Serializable]
 public class InstanceWrapper<T> {

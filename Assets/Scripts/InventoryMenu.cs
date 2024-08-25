@@ -160,7 +160,7 @@ public class InventoryMenu : MonoBehaviour {
         }
         return false;
     }
-
+    //ToDo stacks when you add more than one at once
     public void Init() {
         oresScrollRect.SetActive(true);
         itemsScroll.SetActive(false);

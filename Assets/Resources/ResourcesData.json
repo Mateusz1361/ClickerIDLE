@@ -13,32 +13,32 @@
         {
             "name": "Coal",
             "iconPath": "OreIcons/CoalIcon",
-            "clicksToPop": 2
+            "clicksToPop": 1
         },
         {
             "name": "Copper",
             "iconPath": "OreIcons/CopperIcon",
-            "clicksToPop": 3
+            "clicksToPop": 1
         },
         {
             "name": "Iron",
             "iconPath": "OreIcons/IronIcon",
-            "clicksToPop": 5
+            "clicksToPop": 1
         },
         {
             "name": "Gold",
             "iconPath": "OreIcons/GoldIcon",
-            "clicksToPop": 8
+            "clicksToPop": 1
         },
         {
             "name": "Diamond",
             "iconPath": "OreIcons/DiamondIcon",
-            "clicksToPop": 13
+            "clicksToPop": 1
         },
         {
             "name": "Emerald",
             "iconPath": "OreIcons/EmeraldIcon",
-            "clicksToPop": 21
+            "clicksToPop": 1
         }
     ]
 }
