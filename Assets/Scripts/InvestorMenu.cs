@@ -75,17 +75,19 @@ public class InvestorMenu : MonoBehaviour {
 
     public void ClaimAllInvestors() {
         var cwl = worldMenu.CurrentWorldLocation;
-        cwl.MainResourceAutoIncrement = 0;
-        cwl.mainResourceAutoIncrementTimer = 0;
-        foreach(var shopitem in cwl.ShopItems) { 
-            shopitem.ResetItem();
+        if(cwl.InvestorsToClaim > 0) {
+            cwl.MainResourceAutoIncrement = 0;
+            cwl.mainResourceAutoIncrementTimer = 0;
+            foreach(var shopitem in cwl.ShopItems) {
+                shopitem.ResetItem();
+            }
+            cwl.InvestorsYouHave += cwl.InvestorsToClaim;
+            cwl.InvestorsToClaim = 0;
+            cwl.Level = 0;
+            cwl.Experience = 0;
+            cwl.maxExperience = 40;
+            cwl.differenceOfMaterial = 0;
+            inventoryMenu.ResourceInstances[cwl.MainResourceName].Count = 0;
         }
-        cwl.InvestorsYouHave += cwl.InvestorsToClaim;
-        cwl.InvestorsToClaim = 0;
-        cwl.Level = 0;
-        cwl.Experience = 0;
-        cwl.maxExperience = 40;
-        cwl.differenceOfMaterial = 0;
-        inventoryMenu.ResourceInstances[cwl.MainResourceName].Count = 0;
     }
 }

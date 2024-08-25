@@ -22,7 +22,6 @@ public static class NumberFormat {
         var lastNewValue = Rational.Truncate(value / (counter / 1000) * 100) / 100;
         return $"{(isNegative ? "-" : "")}{lastNewValue}{numberSuffixes.Last()}";
     }
-
     public static readonly string[] numberSuffixes = { "k","M","B","T","Q" };
 }
 

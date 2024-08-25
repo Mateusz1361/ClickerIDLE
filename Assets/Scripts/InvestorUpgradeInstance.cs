@@ -9,15 +9,27 @@ public class InvestorUpgradeInstance : MonoBehaviour {
     [SerializeField]
     private Button buyUpgradeButton;
     [SerializeField]
+    private TMP_Text buyUpgradeButtonText;
+    [SerializeField]
     private Image iconOfInvestorsUpgrade;
     [HideInInspector]
     public WorldLocation worldLocation;
     [HideInInspector]
     public string whatYouMultiply;
     public Rational multiplier;
-    public Rational price;
     private WorldMenu worldMenu;
     private InvestorMenu investorMenu;
+
+    private Rational _price;
+    public Rational Price {
+        get {
+            return _price;
+        }
+        set {
+            _price = value;
+            buyUpgradeButtonText.text = $"Buy for\n{NumberFormat.ShortForm(_price)}";
+        }
+    }
 
     public string WhatYouGetText {
         get {
@@ -32,7 +44,7 @@ public class InvestorUpgradeInstance : MonoBehaviour {
         whatYouMultiply = investorUpgradeData.whatYouMultiply;
         multiplier = Rational.Parse(investorUpgradeData.multiplier);
         whatYouGetText.text = investorUpgradeData.whatYouGetText;
-        price = investorUpgradeData.price;
+        Price = investorUpgradeData.price;
         iconOfInvestorsUpgrade.sprite = Resources.Load<Sprite>("Images/WorkersButton");
         buyUpgradeButton.onClick.AddListener(BuyInvestorUpgrade);
         Purchased = false;
@@ -54,10 +66,10 @@ public class InvestorUpgradeInstance : MonoBehaviour {
     }
 
     public void BuyInvestorUpgrade() {
-        if(worldLocation.InvestorsYouHave >= price) {
+        if(worldLocation.InvestorsYouHave >= Price) {
             foreach(var shopitem in worldLocation.ShopItems) {
                 if(whatYouMultiply == shopitem.name) {
-                    worldLocation.InvestorsYouHave -= (BigInteger)price;
+                    worldLocation.InvestorsYouHave -= (BigInteger)Price;
                     investorMenu.UpdateInvestors();
                     shopitem.multiplier *= multiplier;
                     Purchased = true;

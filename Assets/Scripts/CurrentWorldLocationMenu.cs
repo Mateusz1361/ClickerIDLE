@@ -2,7 +2,6 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor.Experimental.GraphView;
 
 public class CurrentWorldLocationMenu : MonoBehaviour {
     [SerializeField]
@@ -70,6 +69,14 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
                 location.mainResourceAutoIncrementTimer -= 1.0f;
             }
         }
+#if UNITY_EDITOR
+        if(Input.GetKeyDown(KeyCode.Tab)) {
+            Debug.LogWarning("CHEATER!!!");
+            foreach(var resource in inventoryMenu.ResourceInstances.Values) {
+                resource.Count += 1000000;
+            }
+        }
+#endif
     }
 
     private void OnMoneyCountChanged(Rational value) {
@@ -96,15 +103,11 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
 
     private void OnMainButtonClick() {
         clicks++;
-        
-        
-        if(inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].ClicksToPop == clicks)
-        {
+        if(inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].ClicksToPop == clicks) {
             inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].Count += worldMenu.CurrentWorldLocation.MainResourceClickIncrement();
-            worldMenu.CurrentWorldLocation.Experience += new System.Random().NextDouble(1.0, 5.0);
+            worldMenu.CurrentWorldLocation.Experience += new System.Random().NextDouble(1.0,5.0);
             clicks = 0;
         }
-        
     }
 
     private void OnLevelUpButtonClick() {

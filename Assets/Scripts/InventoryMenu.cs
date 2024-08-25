@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class InventoryItemTemplate {
+    public string name;
     public Sprite icon;
     public uint maxStackCount;
     public string type;
@@ -66,8 +67,8 @@ public class InventoryMenu : MonoBehaviour {
         }
     }
 
-    private Dictionary<string,InventoryItemTemplate> itemTemplates;
-    private List<InventoryItemSlot> itemSlots;
+    public Dictionary<string,InventoryItemTemplate> itemTemplates;
+    public List<InventoryItemSlot> itemSlots;
 
     public bool CanAddItems(string name,uint count = 1) {
         var itemTemplate = itemTemplates[name] ?? throw new ArgumentException($"There's no item named '{name}'.");
@@ -86,7 +87,7 @@ public class InventoryMenu : MonoBehaviour {
                 if(slot.Count + count <= itemTemplate.maxStackCount) {
                     return true;
                 }
-                count -= (slot.Count + count) - itemTemplate.maxStackCount;
+                count -= itemTemplate.maxStackCount - slot.Count;
             }
         }
         return false;
@@ -106,22 +107,21 @@ public class InventoryMenu : MonoBehaviour {
         }
         foreach(var slot in itemSlots) {
             if(slot.ItemTemplate == null) {
+                slot.ItemTemplate = itemTemplate;
                 if(count <= itemTemplate.maxStackCount) {
-                    slot.SetItemTemplate(itemTemplate);
                     slot.Count = count;
                     return true;
                 }
-                slot.SetItemTemplate(itemTemplate);
                 slot.Count = itemTemplate.maxStackCount;
                 count -= itemTemplate.maxStackCount;
             }
             else if(slot.ItemTemplate == itemTemplate && slot.Count < itemTemplate.maxStackCount) {
                 if(slot.Count + count <= itemTemplate.maxStackCount) {
-                    slot.Count += count;
+                    slot.Count = itemTemplate.maxStackCount;
                     return true;
                 }
-                slot.Count += itemTemplate.maxStackCount;
-                count -= (slot.Count + count) - itemTemplate.maxStackCount;
+                count -= itemTemplate.maxStackCount - slot.Count;
+                slot.Count = itemTemplate.maxStackCount;
             }
         }
         return false;
@@ -136,9 +136,7 @@ public class InventoryMenu : MonoBehaviour {
         foreach(var slot in itemSlots) {
             if(slot.ItemTemplate == itemTemplate) {
                 if(slot.Count == 1) {
-                    slot.SetItemTemplate(null);
-                    slot.Count = 0;
-                    return true;
+                    slot.ItemTemplate = null;
                 }
                 slot.Count -= 1;
                 return true;
@@ -160,7 +158,7 @@ public class InventoryMenu : MonoBehaviour {
         }
         return false;
     }
-    //ToDo stacks when you add more than one at once
+
     public void Init() {
         oresScrollRect.SetActive(true);
         itemsScroll.SetActive(false);
@@ -181,6 +179,7 @@ public class InventoryMenu : MonoBehaviour {
         var inventoryItemDataWrapper = JsonUtility.FromJson<InstanceWrapper<InventoryItemData>>(inventoryItemDataAsset.text);
         foreach(var item in inventoryItemDataWrapper.data) {
             itemTemplates.Add(item.name,new() {
+                name = item.name,
                 icon = Resources.Load<Sprite>($"Images/{item.iconPath}"),
                 maxStackCount = item.maxStackCount,
                 type = item.type
@@ -188,25 +187,13 @@ public class InventoryMenu : MonoBehaviour {
         }
 
         pickaxeItemSlot.Init(this);
-        pickaxeItemSlot.SetItemTemplate(null);
-        pickaxeItemSlot.Count = 0;
-
         itemSlots = new();
         for(int i = 0;i < 20;i += 1) {
             var prefab = Instantiate(inventoryItemSlotPrefab,itemsParent);
             var component = prefab.GetComponent<InventoryItemSlot>();
             component.Init(this);
-            component.SetItemTemplate(null);
-            component.Count = 0;
             itemSlots.Add(component);
         }
-
-        AddItems("Wooden Pickaxe");
-        for(int i = 0;i < 12;i += 1) {
-            AddItems("Dynamite");
-        }
-        AddItems("Stone Pickaxe");
-        AddItems("Key");
     }
 
     private void InitResourceInstances() {

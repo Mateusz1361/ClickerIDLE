@@ -30,28 +30,28 @@
         },
         {
             "name": "Electronic Circuits",
-            "iconPath": "Key",
+            "iconPath": "Missing",
             "maxStackCount": 64,
             "type": "SellableItem",
             "price": 100
         },
         {
             "name": "High-Quality Cabling",
-            "iconPath": "High-Quality Cabling",
+            "iconPath": "Missing",
             "maxStackCount": 64,
             "type": "SellableItem",
             "price": 10000
         },
         {
             "name": "High-End Cookware Set",
-            "iconPath": "High-End Cookware Set",
+            "iconPath": "Missing",
             "maxStackCount": 64,
             "type": "SellableItem",
             "price": 1000000
         },
         {
             "name": "Luxury Jewelry",
-            "iconPath": "Luxury Jewelry",
+            "iconPath": "Missing",
             "maxStackCount": 64,
             "type": "SellableItem",
             "price": 50000000
