@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class FactoryMenu : MonoBehaviour {
     [SerializeField]
@@ -13,6 +13,8 @@ public class FactoryMenu : MonoBehaviour {
     private Transform factoryPrefabParent;
     [SerializeField]
     private InventoryMenu inventoryMenu;
+    [SerializeField]
+    private WorldMenu worldMenu;
     private readonly List<FactoryItem> factoryItems = new();
     
     public void Init() {
@@ -21,7 +23,7 @@ public class FactoryMenu : MonoBehaviour {
         foreach(var item in factoryData.data) {
             var prefab = Instantiate(factoryPrefab,factoryPrefabParent);
             var component = prefab.GetComponent<FactoryItem>();
-            component.Init(item,inventoryMenu);
+            component.Init(item,inventoryMenu,worldMenu);
             factoryItems.Add(component);
         }
     }

@@ -8712,6 +8712,7 @@ MonoBehaviour:
   factoryPrefab: {fileID: 1665786130354457785, guid: f93afd9785c68264591673813273b2fb, type: 3}
   factoryPrefabParent: {fileID: 1499768949}
   inventoryMenu: {fileID: 729976306}
+  worldMenu: {fileID: 1795580187}
 --- !u!1 &1852863236
 GameObject:
   m_ObjectHideFlags: 0

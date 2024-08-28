@@ -1,9 +1,14 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FactoryItem : MonoBehaviour {
     [SerializeField]
-    private Image iconOfFactory;
+    private Image resultItemIcon;
+    [SerializeField]
+    private TMP_Text resultItemCountText;
+    [SerializeField]
+    private TMP_Text nameText;
     [SerializeField]
     private Button startProcessButton;
     [SerializeField]
@@ -12,26 +17,43 @@ public class FactoryItem : MonoBehaviour {
     private Transform parentOfPrices;
     [SerializeField]
     private GameObject factoryPricePrefab;
+    [SerializeField]
+    private GameObject unlockMarker;
+    [SerializeField]
+    private TMP_Text unlockLevelText;
     private InventoryMenu inventoryMenu;
+    private WorldMenu worldMenu;
     private float duration = 5.0f;
     private float elapsed = 0.0f;
     private bool isUpdating = false;
+    private string mineToUnlock = "";
     private FactoryResultData factoryResultData;
 
     private void Awake() {
         startProcessButton.onClick.AddListener(StartFactory);
     }
 
-    public void Init(FactoryItemData factoryItemData,InventoryMenu _inventoryMenu) {
+    private void OnEnable() {
+        if(worldMenu) {
+            unlockMarker.SetActive(!worldMenu.WorldLocations.Find((location) => location.Name.Equals(mineToUnlock)).Purchased);
+        }
+    }
+
+    public void Init(FactoryItemData factoryItemData,InventoryMenu _inventoryMenu,WorldMenu _worldMenu) {
         inventoryMenu = _inventoryMenu;
+        worldMenu = _worldMenu;
+        nameText.text = factoryItemData.name;
         progressSlider.value = 0;
         foreach(var price in factoryItemData.price) {
             var prefab = Instantiate(factoryPricePrefab,parentOfPrices);
             var component  = prefab.GetComponent<ShopItemPrice>();
             component.InitPrice(inventoryMenu,null,new() { name = price.name, unlockCount = 0, value = price.value });
-            iconOfFactory.sprite = Resources.Load<Sprite>("Images/FactoryButton");
         }
         factoryResultData = factoryItemData.result;
+        resultItemIcon.sprite = inventoryMenu.itemTemplates[factoryResultData.type].icon;
+        resultItemCountText.text = factoryResultData.value.ToString();
+        mineToUnlock = factoryItemData.toUnlock;
+        unlockLevelText.text = $"Unlocked when {mineToUnlock} is unlocked";
     }
 
     public void StartFactory() {

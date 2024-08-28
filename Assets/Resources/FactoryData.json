@@ -2,7 +2,7 @@
     "data": [
         {
             "name": "Factory of Electronic Circuits",
-            "toUnlock": "IronMine",
+            "toUnlock": "Iron Mine",
             "price": [
                 {
                     "name": "Iron",
@@ -24,7 +24,7 @@
         },
         {
             "name": "Factory of High-Quality Cabling",
-            "toUnlock": "GoldMine",
+            "toUnlock": "Gold Mine",
             "price": [
                 {
                     "name": "Stone",
@@ -46,7 +46,7 @@
         },
         {
             "name": "Factory of High-End Cookware Set",
-            "toUnlock": "DiamondMine",
+            "toUnlock": "Diamond Mine",
             "price": [
                 {
                     "name": "Stone",
@@ -68,7 +68,7 @@
         },
         {
             "name": "Factory of Luxury Jewelry",
-            "toUnlock": "EmeraldMine",
+            "toUnlock": "Emerald Mine",
             "price": [
                 {
                     "name": "Gold",

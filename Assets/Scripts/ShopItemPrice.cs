@@ -18,16 +18,18 @@ public class ShopItemPrice : MonoBehaviour {
         Name = data.name;
         Value = data.value;
         UnlockCount = data.unlockCount;
-        if (shopItem != null) {
+        if(shopItem != null) {
             shopItem.OnCountChange += OnCountChange;
             OnCountChange(0);
         }
         defaultSettings = data;
     }
+
     public void ResetPrice() { 
         Value = defaultSettings.value;
         OnCountChange(0);
     }
+
     private void OnCountChange(ulong count) {
         content.gameObject.SetActive(UnlockCount <= count);
     }
