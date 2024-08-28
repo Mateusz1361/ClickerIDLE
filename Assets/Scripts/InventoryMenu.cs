@@ -117,7 +117,7 @@ public class InventoryMenu : MonoBehaviour {
             }
             else if(slot.ItemTemplate == itemTemplate && slot.Count < itemTemplate.maxStackCount) {
                 if(slot.Count + count <= itemTemplate.maxStackCount) {
-                    slot.Count = itemTemplate.maxStackCount;
+                    slot.Count += count;
                     return true;
                 }
                 count -= itemTemplate.maxStackCount - slot.Count;

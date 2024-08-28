@@ -11,6 +11,8 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     [SerializeField]
     private WorldMenu worldMenu;
     [SerializeField]
+    private FactoryMenu factoryMenu;
+    [SerializeField]
     private TMP_Text levelText;
     [SerializeField]
     private Button levelUpButton;
@@ -69,6 +71,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
                 location.mainResourceAutoIncrementTimer -= 1.0f;
             }
         }
+        factoryMenu.UpdateFactories();
 #if UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.Tab)) {
             Debug.LogWarning("CHEATER!!!");
@@ -103,16 +106,18 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
 
     private void OnMainButtonClick() {
         clicks++;
-        if(inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].ClicksToPop == clicks) {
-            inventoryMenu.ResourceInstances[worldMenu.CurrentWorldLocation.MainResourceName].Count += worldMenu.CurrentWorldLocation.MainResourceClickIncrement();
-            worldMenu.CurrentWorldLocation.Experience += new System.Random().NextDouble(1.0,5.0);
+        var cwl = worldMenu.CurrentWorldLocation;
+        if(inventoryMenu.ResourceInstances[cwl.MainResourceName].ClicksToPop == clicks) {
+            inventoryMenu.ResourceInstances[cwl.MainResourceName].Count += cwl.MainResourceClickIncrement();
+            cwl.Experience += new System.Random().NextDouble(1.0,5.0);
             clicks = 0;
         }
     }
 
     private void OnLevelUpButtonClick() {
-        worldMenu.CurrentWorldLocation.Level += 1;
-        worldMenu.CurrentWorldLocation.maxExperience = worldMenu.CurrentWorldLocation.Level * 20.0 + new System.Random().NextDouble(30.0,60.0);
-        worldMenu.CurrentWorldLocation.Experience = 0.0;
+        var cwl = worldMenu.CurrentWorldLocation;
+        cwl.Level += 1;
+        cwl.maxExperience = cwl.Level * 20.0 + new System.Random().NextDouble(30.0,60.0);
+        cwl.Experience = 0.0;
     }
 }

@@ -7182,6 +7182,7 @@ MonoBehaviour:
   mainButton: {fileID: 897663068}
   inventoryMenu: {fileID: 729976306}
   worldMenu: {fileID: 1795580187}
+  factoryMenu: {fileID: 1842000988}
   levelText: {fileID: 1196147475}
   levelUpButton: {fileID: 2005110801}
   expierienceSlider: {fileID: 826929337}

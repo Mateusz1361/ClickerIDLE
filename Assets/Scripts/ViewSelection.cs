@@ -30,10 +30,8 @@ public class ViewSelection : MonoBehaviour {
     private Button worldMenuButton;
     [SerializeField]
     private Button factoryMenuButton;
-    
 
     public void Init() {
-        
         SwitchState(null);
         shopMenuButton.onClick.AddListener(() =>  SwitchState(shopMenu.activeSelf?null:shopMenu) );
         investorsMenuButton.onClick.AddListener(() => SwitchState(investorsMenu.activeSelf?null:investorsMenu));

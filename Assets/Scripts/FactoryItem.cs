@@ -19,7 +19,7 @@ public class FactoryItem : MonoBehaviour {
     private FactoryResultData factoryResultData;
 
     private void Awake() {
-        startProcessButton.onClick.AddListener(StartTheProcess);
+        startProcessButton.onClick.AddListener(StartFactory);
     }
 
     public void Init(FactoryItemData factoryItemData,InventoryMenu _inventoryMenu) {
@@ -34,7 +34,7 @@ public class FactoryItem : MonoBehaviour {
         factoryResultData = factoryItemData.result;
     }
 
-    public void StartTheProcess() {
+    public void StartFactory() {
         var children = parentOfPrices.GetComponentsInChildren<ShopItemPrice>();
         bool canAfford = true;
         foreach(var price in children) {
@@ -53,7 +53,7 @@ public class FactoryItem : MonoBehaviour {
         }
     }
 
-    private void Update() {
+    public void UpdateFactory() {
         if(isUpdating) {
             elapsed += Time.deltaTime;
             progressSlider.value = Mathf.Clamp01(elapsed / duration);
