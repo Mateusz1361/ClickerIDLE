@@ -21,29 +21,42 @@ public class WorldLocation : MonoBehaviour {
     private InvestorMenu investorMenu;
 
     private readonly Rational ClickFraction = new(2,100);
+    private Rational cacheMainResourceClickIncrement = 1;
+    private Rational cacheMainResourceAutoIncrement = 0;
 
-    public Rational MainResourceClickIncrement() {
-        Rational result = 1;
-        foreach(var item in ShopItems) {
-            result += item.mainResourceClickIncrement;
-        }
-        result *= (1 + ClickFraction * InvestorsYouHave);
-        return result;
+    public Rational MainResourceClickIncrement() 
+    {
+        return cacheMainResourceClickIncrement;
+    }
+
+    public Rational MainResourceAutoIncrement()
+    {
+        return cacheMainResourceAutoIncrement;
     }
 
     public float mainResourceAutoIncrementTimer;
 
     public event Action<Rational> OnMainResourceAutoIncrementChange;
-    private Rational _mainResourceAutoIncrement;
-    public Rational MainResourceAutoIncrement {
-        get {
-            return _mainResourceAutoIncrement;
+    public void RecalculateMainResourceClickIncrement() 
+    {
+        cacheMainResourceClickIncrement = 1;
+        foreach (var item in ShopItems)
+        {
+            cacheMainResourceClickIncrement += item.MainResourceClickIncrement();
         }
-        set {
-            _mainResourceAutoIncrement = value;
-            OnMainResourceAutoIncrementChange?.Invoke(_mainResourceAutoIncrement);
-        }
+        cacheMainResourceClickIncrement *= (1+ ClickFraction * InvestorsYouHave);
     }
+    public void RecalculateMainResourceAutoIncrement()
+    {
+        cacheMainResourceAutoIncrement = 0;
+        foreach (var item in ShopItems)
+        {
+            cacheMainResourceAutoIncrement += item.MainResourceAutoIncrement();
+        }
+        cacheMainResourceAutoIncrement *= (1 + ClickFraction * InvestorsYouHave);
+        OnMainResourceAutoIncrementChange?.Invoke(cacheMainResourceAutoIncrement);
+    }
+    
 
     public event Action<ulong> OnLevelChange;
     private ulong _level;
@@ -80,6 +93,8 @@ public class WorldLocation : MonoBehaviour {
         {
             _investorsYouHave = value;
             investorMenu.investorsYouHaveText.text = _investorsYouHave.ToString();
+            RecalculateMainResourceClickIncrement();
+            RecalculateMainResourceAutoIncrement();
         } 
     }
     private BigInteger _investorsToClaim;
@@ -148,7 +163,7 @@ public class WorldLocation : MonoBehaviour {
         mainResourceIcon.sprite = inventoryMenu.ResourceInstances[MainResourceName].Icon;
         Purchased = (Price == 0);
         mainResourceAutoIncrementTimer = 0.0f;
-        MainResourceAutoIncrement = 0;
+        //MainResourceAutoIncrement = 0;
         Level = 0;
         maxExperience = 40.0;
         Experience = 0.0;

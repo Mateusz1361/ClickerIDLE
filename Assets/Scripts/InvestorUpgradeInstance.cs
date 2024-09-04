@@ -73,9 +73,14 @@ public class InvestorUpgradeInstance : MonoBehaviour {
                     investorMenu.UpdateInvestors();
                     shopitem.multiplier *= multiplier;
                     Purchased = true;
+                    shopitem.RecalculateMainResourceClickIncrement();
+                    shopitem.RecalculateMainResourceAutoIncrement();
                     break;
                 }
             }
+
+            worldLocation.RecalculateMainResourceClickIncrement();
+            worldLocation.RecalculateMainResourceAutoIncrement();
         }
     }
 }

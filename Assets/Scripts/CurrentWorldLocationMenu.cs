@@ -2,7 +2,7 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-
+//TOOOOOOOOOOOOOOO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOO Comments
 public class CurrentWorldLocationMenu : MonoBehaviour {
     [SerializeField]
     private Button mainButton;
@@ -52,7 +52,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
             resource.OnCountChanged += OnMainResourceCountChanged;
             OnMainResourceCountChanged(resource.Count);
             location.OnMainResourceAutoIncrementChange += OnMainResourceAutoIncrementChange;
-            OnMainResourceAutoIncrementChange(location.MainResourceAutoIncrement);
+            OnMainResourceAutoIncrementChange(location.MainResourceAutoIncrement());
             location.OnLevelChange += OnLevelChange;
             OnLevelChange(location.Level);
             location.OnExperienceChange += OnExperienceChange;
@@ -67,7 +67,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
         foreach(var location in worldMenu.WorldLocations) {
             location.mainResourceAutoIncrementTimer += Time.deltaTime;
             while(location.mainResourceAutoIncrementTimer >= 1.0f) {
-                inventoryMenu.ResourceInstances[location.MainResourceName].Count += location.MainResourceAutoIncrement;
+                inventoryMenu.ResourceInstances[location.MainResourceName].Count += location.MainResourceAutoIncrement();
                 location.mainResourceAutoIncrementTimer -= 1.0f;
             }
         }

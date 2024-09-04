@@ -14,6 +14,7 @@ public class SaveShopItemData {
     public string resultQuantity;
     public ulong count;
     public string clickIncrement;
+    public string autoIncrement;
     public string multiplier;
     public SaveShopItemPriceData[] shopItemPriceDatas;
 }
@@ -94,7 +95,6 @@ public class SaveSystem : MonoBehaviour {
                 maxExperience = location.maxExperience,
                 differenceOfMaterial = location.differenceOfMaterial.ToString(),
                 quantityToAddInvestor = location.quantityToAddInvestor.ToString(),
-                mainResourceAutoIncrement = location.MainResourceAutoIncrement.ToString(),
                 mainResourceAutoIncrementTimer = location.mainResourceAutoIncrementTimer,
                 investorsToClaim = location.InvestorsToClaim.ToString(),
                 investorsYouHave = location.InvestorsYouHave.ToString(),
@@ -110,7 +110,6 @@ public class SaveSystem : MonoBehaviour {
                     name = item.name,
                     resultQuantity = item.ResultQuantity.ToString(),
                     count = item.Count,
-                    clickIncrement = item.mainResourceClickIncrement.ToString(),
                     multiplier = item.multiplier.ToString(),
                     shopItemPriceDatas = new SaveShopItemPriceData[item.shopItemsPrices.Count]
                 };
@@ -167,7 +166,6 @@ public class SaveSystem : MonoBehaviour {
             currentLocation.Experience = savedLocation.experience;
             currentLocation.differenceOfMaterial = Rational.Parse(savedLocation.differenceOfMaterial);
             currentLocation.quantityToAddInvestor = Rational.Parse(savedLocation.quantityToAddInvestor);
-            currentLocation.MainResourceAutoIncrement = Rational.Parse(savedLocation.mainResourceAutoIncrement);
             currentLocation.mainResourceAutoIncrementTimer = savedLocation.mainResourceAutoIncrementTimer;
             currentLocation.Purchased = savedLocation.purchased;
 
@@ -178,8 +176,8 @@ public class SaveSystem : MonoBehaviour {
                     found.ResultQuantity = BigInteger.Parse(item.resultQuantity);
                     found.Count = item.count;
                     found.multiplier = Rational.Parse(item.multiplier);
-                    found.mainResourceClickIncrement = Rational.Parse(item.clickIncrement);
-
+                    found.RecalculateMainResourceAutoIncrement();
+                    found.RecalculateMainResourceClickIncrement();
                     for(int k = 0;k < item.shopItemPriceDatas.Length;k += 1) {
                         found.shopItemsPrices[k].Value = BigInteger.Parse(item.shopItemPriceDatas[k].value);
                     }
@@ -191,6 +189,8 @@ public class SaveSystem : MonoBehaviour {
                 if(found != null) found.Purchased = upgrade.purchased;
             }
             investorMenu.UpdateInvestors();
+            currentLocation.RecalculateMainResourceClickIncrement();
+            currentLocation.RecalculateMainResourceAutoIncrement();
         }
 
         if(inventoryMenu.itemTemplates.ContainsKey(savaData.saveInventoryItemPickaxeData.name)) {

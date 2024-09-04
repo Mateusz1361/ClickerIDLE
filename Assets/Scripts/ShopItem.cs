@@ -25,9 +25,32 @@ public class ShopItem : MonoBehaviour {
     public int indexOfShopItem = 0;
     public Rational multiplier = 1;
     public List<ShopItemPrice> shopItemsPrices;
-    public Rational mainResourceClickIncrement;
+    
     private ShopItemData defaultSettings;
     public new string name;
+
+    private Rational cacheMainResourceClickIncrement = 0;
+    private Rational cacheMainResourceAutoIncrement = 0;
+
+    public Rational MainResourceClickIncrement()
+    {
+        return cacheMainResourceClickIncrement;
+    }
+    public Rational MainResourceAutoIncrement()
+    {
+        return cacheMainResourceAutoIncrement;
+    }
+
+    public void RecalculateMainResourceClickIncrement()
+    {
+        cacheMainResourceClickIncrement = ResultQuantity * Count * multiplier;
+    }
+
+    public void RecalculateMainResourceAutoIncrement()
+    {
+        cacheMainResourceAutoIncrement = ResultQuantity * Count * multiplier;
+    }
+    
     public string ResultType { get; private set; }
 
     private ulong _unlockLevel;
@@ -51,10 +74,13 @@ public class ShopItem : MonoBehaviour {
     public void ResetItem() {
         ResultQuantity = defaultSettings.result.value;
         Count = 0;
-        mainResourceClickIncrement = 0;
         foreach(var price in shopItemsPrices) {
             price.ResetPrice();
         }
+        RecalculateMainResourceAutoIncrement();
+        RecalculateMainResourceClickIncrement();
+        worldLocation.RecalculateMainResourceAutoIncrement();
+        worldLocation.RecalculateMainResourceClickIncrement();
     }
 
     public void InitItem(WorldLocation _worldLocation,InventoryMenu _inventoryMenu,ShopItemData data,int index) {
@@ -70,8 +96,6 @@ public class ShopItem : MonoBehaviour {
         else if(ResultType == "Worker") {
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/WorkersButton");
         }
-
-        mainResourceClickIncrement = 0;
         ResultQuantity = data.result.value;
         shopItemsPrices = new();
         foreach(var shopItemPriceData in data.price) {
@@ -90,7 +114,7 @@ public class ShopItem : MonoBehaviour {
         }
         set {
             _resultQuantity = value;
-            buyItemQuantityText.text = NumberFormat.ShortForm(_resultQuantity);
+            
         }
     }
 
@@ -103,6 +127,7 @@ public class ShopItem : MonoBehaviour {
         set {
             _count = value;
             OnCountChange?.Invoke(_count);
+            buyItemQuantityText.text = NumberFormat.ShortForm(_count);
         }
     }
 
@@ -129,12 +154,14 @@ public class ShopItem : MonoBehaviour {
             }
             Count += 1;
             if(ResultType == "Power") {
-                mainResourceClickIncrement = ResultQuantity * Count * multiplier;
+                RecalculateMainResourceClickIncrement();
+                worldLocation.RecalculateMainResourceClickIncrement();
             }
             else if(ResultType == "Worker") {
-                worldLocation.MainResourceAutoIncrement += ResultQuantity;
+                RecalculateMainResourceAutoIncrement();
+                worldLocation.RecalculateMainResourceAutoIncrement();
             }
-            ResultQuantity += 1;
+            //ResultQuantity += 1;
         }
     }
 }

@@ -76,7 +76,7 @@ public class InvestorMenu : MonoBehaviour {
     public void ClaimAllInvestors() {
         var cwl = worldMenu.CurrentWorldLocation;
         if(cwl.InvestorsToClaim > 0) {
-            cwl.MainResourceAutoIncrement = 0;
+            //cwl.MainResourceAutoIncrement = 0;
             cwl.mainResourceAutoIncrementTimer = 0;
             foreach(var shopitem in cwl.ShopItems) {
                 shopitem.ResetItem();
@@ -88,6 +88,8 @@ public class InvestorMenu : MonoBehaviour {
             cwl.maxExperience = 40;
             cwl.differenceOfMaterial = 0;
             inventoryMenu.ResourceInstances[cwl.MainResourceName].Count = 0;
+            cwl.RecalculateMainResourceClickIncrement();
+            cwl.RecalculateMainResourceAutoIncrement();
         }
     }
 }
