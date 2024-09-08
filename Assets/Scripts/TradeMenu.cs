@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class TradeMenu : MonoBehaviour {
     [SerializeField]
-    private InventoryMenu inventoryMenu;
+    private ReferenceHub referenceHub;
     [SerializeField]
     private Button closeButton;
     [SerializeField]
@@ -19,11 +19,11 @@ public class TradeMenu : MonoBehaviour {
     }
 
     private void InitTradeOptions() {
-        var tradeOptionInstanceDatas = JsonUtility.FromJson<InstanceWrapper<TradeOptionInstanceData>>(tradeOptionData.text);
+        var tradeOptionInstanceDatas = JsonUtility.FromJson<InstanceWrapperData<TradeOptionInstanceData>>(tradeOptionData.text);
         foreach(var tradeOptionInstanceData in tradeOptionInstanceDatas.data) {
             var prefab = Instantiate(tradeOptionPrefab,parent.transform);
             var tradeOptionInstance = prefab.GetComponent<TradeOptionInstance>();
-            tradeOptionInstance.InitInstance(inventoryMenu,tradeOptionInstanceData);
+            tradeOptionInstance.InitInstance(referenceHub.inventoryMenu,tradeOptionInstanceData);
         }
     }
 }

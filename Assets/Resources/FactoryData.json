@@ -1,13 +1,39 @@
 {
     "data": [
         {
-            "name": "Factory of Electronic Circuits",
-            "toUnlock": "Iron Mine",
+            "name": "Stone -> Pickaxe",
+            "toUnlock": "Stone Mine",
             "price": [
                 {
-                    "name": "Iron",
-                    "value": 10
-                },
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Stone Pickaxe",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Pickaxe -> Stone",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone Pickaxe",
+                    "value": 1
+                }
+            ],
+            "result": {
+                "type": "Stone",
+                "value": 40
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Factory of Electronic Circuits",
+            "toUnlock": "Copper Mine",
+            "price": [
                 {
                     "name": "Coal",
                     "value": 5
@@ -20,19 +46,16 @@
             "result": {
                 "type": "Electronic Circuits",
                 "value": 10
-            }
+            },
+            "duration": 5.0
         },
         {
             "name": "Factory of High-Quality Cabling",
-            "toUnlock": "Gold Mine",
+            "toUnlock": "Iron Mine",
             "price": [
                 {
-                    "name": "Stone",
-                    "value": 40
-                },
-                {
-                    "name": "Coal",
-                    "value": 30
+                    "name": "Iron",
+                    "value": 10
                 },
                 {
                     "name": "Copper",
@@ -42,16 +65,13 @@
             "result": {
                 "type": "High-Quality Cabling",
                 "value": 2
-            }
+            },
+            "duration": 7.0
         },
         {
             "name": "Factory of High-End Cookware Set",
-            "toUnlock": "Diamond Mine",
+            "toUnlock": "Gold Mine",
             "price": [
-                {
-                    "name": "Stone",
-                    "value": 10
-                },
                 {
                     "name": "Iron",
                     "value": 15
@@ -64,19 +84,16 @@
             "result": {
                 "type": "High-End Cookware Set",
                 "value": 1
-            }
+            },
+            "duration": 9.0
         },
         {
             "name": "Factory of Luxury Jewelry",
-            "toUnlock": "Emerald Mine",
+            "toUnlock": "Diamond Mine",
             "price": [
                 {
                     "name": "Gold",
                     "value": 100
-                },
-                {
-                    "name": "Emerald",
-                    "value": 25
                 },
                 {
                     "name": "Diamond",
@@ -86,7 +103,8 @@
             "result": {
                 "type": "Luxury Jewelry",
                 "value": 10
-            }
+            },
+            "duration": 11.0
         }
     ]
 }

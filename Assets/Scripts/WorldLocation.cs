@@ -2,7 +2,6 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Numerics;
 using System.Collections.Generic;
 
 public class WorldLocation : MonoBehaviour {
@@ -16,50 +15,41 @@ public class WorldLocation : MonoBehaviour {
     private TMP_Text priceText;
     [SerializeField]
     private GameObject lockedMarker;
-    private WorldMenu worldMenu;
-    private InventoryMenu inventoryMenu;
-    private InvestorMenu investorMenu;
+    private ReferenceHub referenceHub;
 
-    private readonly Rational ClickFraction = new(2,100);
-    private Rational cacheMainResourceClickIncrement = 1;
-    private Rational cacheMainResourceAutoIncrement = 0;
+    private SafeInteger cacheMainResourceClickIncrement = 1;
+    private SafeInteger cacheMainResourceAutoIncrement = 0;
 
-    public Rational MainResourceClickIncrement() 
-    {
+    public SafeInteger MainResourceClickIncrement()  {
         return cacheMainResourceClickIncrement;
     }
 
-    public Rational MainResourceAutoIncrement()
-    {
+    public SafeInteger MainResourceAutoIncrement() {
         return cacheMainResourceAutoIncrement;
     }
 
-    public float mainResourceAutoIncrementTimer;
+    public float mainResourceAutoIncrementTimer = 0.0f;
 
-    public event Action<Rational> OnMainResourceAutoIncrementChange;
-    public void RecalculateMainResourceClickIncrement() 
-    {
+    public event Action<SafeInteger> OnMainResourceAutoIncrementChange;
+    public void RecalculateMainResourceClickIncrement()  {
         cacheMainResourceClickIncrement = 1;
-        foreach (var item in ShopItems)
-        {
+        foreach(var item in ShopItems) {
             cacheMainResourceClickIncrement += item.MainResourceClickIncrement();
         }
-        cacheMainResourceClickIncrement *= (1+ ClickFraction * InvestorsYouHave);
+        cacheMainResourceClickIncrement *= (1 + InvestorsYouHave);
     }
-    public void RecalculateMainResourceAutoIncrement()
-    {
+
+    public void RecalculateMainResourceAutoIncrement() {
         cacheMainResourceAutoIncrement = 0;
-        foreach (var item in ShopItems)
-        {
+        foreach(var item in ShopItems) {
             cacheMainResourceAutoIncrement += item.MainResourceAutoIncrement();
         }
-        cacheMainResourceAutoIncrement *= (1 + ClickFraction * InvestorsYouHave);
+        cacheMainResourceAutoIncrement *= (1 + InvestorsYouHave);
         OnMainResourceAutoIncrementChange?.Invoke(cacheMainResourceAutoIncrement);
     }
-    
 
     public event Action<ulong> OnLevelChange;
-    private ulong _level;
+    private ulong _level = 0;
     public ulong Level {
         get {
             return _level;
@@ -70,10 +60,10 @@ public class WorldLocation : MonoBehaviour {
         }
     }
 
-    public double maxExperience;
+    public double maxExperience = 0.0;
 
     public event Action<double,double> OnExperienceChange;
-    private double _experience;
+    private double _experience = 0.0;
     public double Experience {
         get {
             return _experience;
@@ -84,34 +74,30 @@ public class WorldLocation : MonoBehaviour {
         }
     }
 
-    private BigInteger _investorsYouHave;
-    public BigInteger InvestorsYouHave { 
+    private SafeInteger _investorsYouHave = 0;
+    public SafeInteger InvestorsYouHave { 
         get { 
             return _investorsYouHave; 
         } 
-        set 
-        {
+        set  {
             _investorsYouHave = value;
-            investorMenu.investorsYouHaveText.text = _investorsYouHave.ToString();
+            referenceHub.investorMenu.investorsYouHaveText.text = _investorsYouHave.ToString();
             RecalculateMainResourceClickIncrement();
             RecalculateMainResourceAutoIncrement();
         } 
     }
-    private BigInteger _investorsToClaim;
-    public BigInteger InvestorsToClaim
-    {
-        get
-        {
+    private SafeInteger _investorsToClaim = 0;
+    public SafeInteger InvestorsToClaim {
+        get {
             return _investorsToClaim;
         }
-        set
-        {
+        set {
             _investorsToClaim = value;
-            investorMenu.investorsToClaimText.text = _investorsToClaim.ToString();
+            referenceHub.investorMenu.investorsToClaimText.text = _investorsToClaim.ToString();
         }
     }
-    public Rational differenceOfMaterial = 0;
-    public Rational quantityToAddInvestor = 10;
+    public SafeInteger differenceOfMaterial = 0;
+    public SafeInteger quantityToAddInvestor = 10;
 
     private List<ShopItem> _shopItems;
     public List<ShopItem> ShopItems {
@@ -143,27 +129,24 @@ public class WorldLocation : MonoBehaviour {
 
     private void Awake() {
         acceptButton.onClick.AddListener(() => {
-            if(!Purchased && inventoryMenu.Money.Count >= Price) {
-                inventoryMenu.Money.Count -= Price;
+            if(!Purchased && referenceHub.inventoryMenu.Money.Count >= Price) {
+                referenceHub.inventoryMenu.Money.Count -= Price;
                 Purchased = true;
             }
             else if(Purchased) {
-                worldMenu.CurrentWorldLocation = this;
+                referenceHub.worldMenu.CurrentWorldLocation = this;
             }
         });
     }
 
-    public void InitLocation(WorldMenu _worldMenu,InventoryMenu _inventoryMenu,InvestorMenu _investorMenu,WorldLocationData location) {
-        worldMenu = _worldMenu;
-        inventoryMenu = _inventoryMenu;
-        investorMenu = _investorMenu;
+    public void InitLocation(ReferenceHub _referenceHub,WorldLocationData location) {
+        referenceHub = _referenceHub;
         Name = location.name;
         Price = location.price;
         MainResourceName = location.mainResource;
-        mainResourceIcon.sprite = inventoryMenu.ResourceInstances[MainResourceName].Icon;
+        mainResourceIcon.sprite = referenceHub.inventoryMenu.OreItemsSlots[MainResourceName].ItemTemplate.icon;
         Purchased = (Price == 0);
         mainResourceAutoIncrementTimer = 0.0f;
-        //MainResourceAutoIncrement = 0;
         Level = 0;
         maxExperience = 40.0;
         Experience = 0.0;
@@ -190,14 +173,14 @@ public class WorldLocation : MonoBehaviour {
         }
     }
 
-    private BigInteger _price;
-    public BigInteger Price {
+    private SafeInteger _price = 0;
+    public SafeInteger Price {
         get {
             return _price;
         }
         private set {
             _price = value;
-            priceText.text = $"Unlock for ${NumberFormat.ShortForm(_price)}";
+            priceText.text = $"Unlock for ${_price}";
         }
     }
 }

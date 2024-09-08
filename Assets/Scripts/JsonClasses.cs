@@ -1,18 +1,19 @@
 using System;
 
 [Serializable]
-public class ResourceInstanceData {
-    public string name;
-    public string iconPath;
-    public int clicksToPop;
+public class TradeOptionInstanceData {
+    public ulong buyPrice;
+    public ulong sellPrice;
+    public string currencyIn;
+    public string currencyOut;
 }
 
 [Serializable]
-public class TradeOptionInstanceData {
-    public double buyPrice;
-    public double sellPrice;
-    public string currencyIn;
-    public string currencyOut;
+public class InvestorUpgradeData {
+    public string whatYouGetText;
+    public string whatYouMultiply;
+    public ulong price;
+    public ulong multiplier;
 }
 
 [Serializable]
@@ -26,15 +27,6 @@ public class ShopItemPriceData {
 public class ShopItemResultData {
     public string type;
     public ulong value;
-}
-[Serializable]
-public class InvestorUpgradeData
-{
-    public string whatYouGetText;
-    public string whatYouMultiply;
-    public ulong price;
-    public string multiplier;
-
 }
 
 [Serializable]
@@ -65,9 +57,10 @@ public class WorldMapData {
 public class InventoryItemData {
     public string name;
     public string iconPath;
-    public uint maxStackCount;
+    public uint clicksToPop;
     public string type;
     public ulong price;
+    public ulong maxStackCount;
 }
 
 [Serializable]
@@ -77,20 +70,21 @@ public class FactoryPriceItemData {
 }
 
 [Serializable]
-public class FactoryItemData {
-    public string name;
-    public string toUnlock;
-    public FactoryPriceItemData[] price;
-    public FactoryResultData result;
-}
-
-[Serializable]
 public class FactoryResultData {
     public string type;
     public ulong value;
 }
 
 [Serializable]
-public class InstanceWrapper<T> {
+public class FactoryItemData {
+    public string name;
+    public string toUnlock;
+    public FactoryPriceItemData[] price;
+    public FactoryResultData result;
+    public float duration;
+}
+
+[Serializable]
+public class InstanceWrapperData<T> {
     public T[] data;
 }

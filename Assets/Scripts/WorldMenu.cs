@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class WorldMenu : MonoBehaviour {
     [SerializeField]
-    private InventoryMenu inventoryMenu;
+    private ReferenceHub referenceHub;
     [SerializeField]
     private Button closeButton;
     [SerializeField]
@@ -16,8 +16,7 @@ public class WorldMenu : MonoBehaviour {
     private TextAsset worldMapDataAsset;
     [SerializeField]
     private ScrollRect scrollRect;
-    [SerializeField]
-    private InvestorMenu investorMenu;
+
     private List<WorldLocation> _worldLocations;
     public List<WorldLocation> WorldLocations {
         get {
@@ -65,7 +64,7 @@ public class WorldMenu : MonoBehaviour {
             var prefab = Instantiate(worldLocationPrefab,worldMap);
             prefab.GetComponent<RectTransform>().anchoredPosition = new(worldLocationData.posX,-worldLocationData.posY);
             var component = prefab.GetComponent<WorldLocation>();
-            component.InitLocation(this,inventoryMenu,investorMenu,worldLocationData);
+            component.InitLocation(referenceHub,worldLocationData);
             if(worldLocationData.price == 0) {
                 CurrentWorldLocation = component;
             }

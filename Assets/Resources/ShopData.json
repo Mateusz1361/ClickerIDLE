@@ -1,23 +1,18 @@
 {
     "data": [
         {
-            "name" : "Rock Drill",
-            "unlockLevel": 1,
+            "name": "Rock Drill",
+            "unlockLevel": 0,
             "price": [
                 {
-                    "name": "Stone",
+                    "name": "Money",
                     "value": 10,
                     "unlockCount": 0
                 },
                 {
-                    "name": "Coal",
-                    "value": 5,
-                    "unlockCount": 3
-                },
-                {
-                    "name": "Copper",
-                    "value": 13,
-                    "unlockCount": 7
+                    "name": "Stone",
+                    "value": 15,
+                    "unlockCount": 0
                 }
             ],
             "result": {
@@ -27,22 +22,17 @@
         },
         {
             "name": "LHD Loader",
-            "unlockLevel": 3,
+            "unlockLevel": 1,
             "price": [
+                {
+                    "name": "Money",
+                    "value": 15,
+                    "unlockCount": 0
+                },
                 {
                     "name": "Stone",
                     "value": 40,
                     "unlockCount": 0
-                },
-                {
-                    "name": "Coal",
-                    "value": 30,
-                    "unlockCount": 3
-                },
-                {
-                    "name": "Copper",
-                    "value": 20,
-                    "unlockCount": 7
                 }
             ],
             "result": {
@@ -52,22 +42,17 @@
         },
         {
             "name": "Drilling Jumbo",
-            "unlockLevel": 1,
+            "unlockLevel": 2,
             "price": [
                 {
-                    "name": "Stone",
-                    "value": 10,
+                    "name": "Money",
+                    "value": 25,
                     "unlockCount": 0
                 },
                 {
-                    "name": "Iron",
-                    "value": 15,
-                    "unlockCount": 3
-                },
-                {
-                    "name": "Gold",
-                    "value": 7,
-                    "unlockCount": 7
+                    "name": "Stone",
+                    "value": 100,
+                    "unlockCount": 0
                 }
             ],
             "result": {
@@ -77,8 +62,88 @@
         },
         {
             "name": "Mining Locomotive",
-            "unlockLevel": 1,
+            "unlockLevel": 3,
             "price": [
+                {
+                    "name": "Money",
+                    "value": 50,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Stone",
+                    "value": 100,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Coal",
+                    "value": 25,
+                    "unlockCount": 3
+                }
+            ],
+            "result": {
+                "type": "Worker",
+                "value": 10
+            }
+        },
+        {
+            "name": "Roof Scaler",
+            "unlockLevel": 4,
+            "price": [
+                {
+                    "name": "Money",
+                    "value": 150,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Stone",
+                    "value": 150,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Coal",
+                    "value": 50,
+                    "unlockCount": 3
+                }
+            ],
+            "result": {
+                "type": "Power",
+                "value": 10
+            }
+        },
+        {
+            "name": "Mine Shaft Hoist",
+            "unlockLevel": 5,
+            "price": [
+                {
+                    "name": "Money",
+                    "value": 150,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Copper",
+                    "value": 50,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Iron",
+                    "value": 25,
+                    "unlockCount": 3
+                }
+            ],
+            "result": {
+                "type": "Power",
+                "value": 20
+            }
+        },
+        {
+            "name": "Rock Bolter",
+            "unlockLevel": 6,
+            "price": [
+                {
+                    "name": "Money",
+                    "value": 150,
+                    "unlockCount": 0
+                },
                 {
                     "name": "Stone",
                     "value": 100,
@@ -86,18 +151,38 @@
                 },
                 {
                     "name": "Iron",
-                    "value": 25,
+                    "value": 7,
                     "unlockCount": 3
-                },
-                {
-                    "name": "Diamond",
-                    "value": 10,
-                    "unlockCount": 7
                 }
             ],
             "result": {
                 "type": "Worker",
-                "value": 10
+                "value": 50
+            }
+        },
+        {
+            "name": "Explosive Charging Equipment",
+            "unlockLevel": 7,
+            "price": [
+                {
+                    "name": "Money",
+                    "value": 250,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Coal",
+                    "value": 10,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Iron",
+                    "value": 8,
+                    "unlockCount": 3
+                }
+            ],
+            "result": {
+                "type": "Worker",
+                "value": 100
             }
         }
     ]

@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Numerics;
 
 public class InvestorUpgradeInstance : MonoBehaviour {
     [SerializeField]
@@ -16,18 +15,17 @@ public class InvestorUpgradeInstance : MonoBehaviour {
     public WorldLocation worldLocation;
     [HideInInspector]
     public string whatYouMultiply;
-    public Rational multiplier;
-    private WorldMenu worldMenu;
-    private InvestorMenu investorMenu;
+    public SafeInteger multiplier;
+    private ReferenceHub referenceHub;
 
-    private Rational _price;
-    public Rational Price {
+    private SafeInteger _price = 0;
+    public SafeInteger Price {
         get {
             return _price;
         }
         set {
             _price = value;
-            buyUpgradeButtonText.text = $"Buy for\n{NumberFormat.ShortForm(_price)}";
+            buyUpgradeButtonText.text = $"Buy for\n{_price}";
         }
     }
 
@@ -37,12 +35,11 @@ public class InvestorUpgradeInstance : MonoBehaviour {
         }
     }
 
-    public void Init(InvestorUpgradeData investorUpgradeData,WorldLocation _worldLocation,WorldMenu _worldMenu,InvestorMenu _investorMenu) {
-        worldMenu = _worldMenu;
-        investorMenu = _investorMenu;
+    public void Init(InvestorUpgradeData investorUpgradeData,WorldLocation _worldLocation,ReferenceHub _referenceHub) {
+        referenceHub = _referenceHub;
         worldLocation = _worldLocation;
         whatYouMultiply = investorUpgradeData.whatYouMultiply;
-        multiplier = Rational.Parse(investorUpgradeData.multiplier);
+        multiplier = investorUpgradeData.multiplier;
         whatYouGetText.text = investorUpgradeData.whatYouGetText;
         Price = investorUpgradeData.price;
         iconOfInvestorsUpgrade.sprite = Resources.Load<Sprite>("Images/WorkersButton");
@@ -50,8 +47,12 @@ public class InvestorUpgradeInstance : MonoBehaviour {
         Purchased = false;
     }
 
+    public void ResetUpgrade() {
+        Purchased = false;
+    }
+
     public void MakeVisible() {
-        gameObject.SetActive(!Purchased && worldLocation == worldMenu.CurrentWorldLocation);
+        gameObject.SetActive(!Purchased && worldLocation == referenceHub.worldMenu.CurrentWorldLocation);
     }
 
     private bool _purchased;
@@ -69,8 +70,8 @@ public class InvestorUpgradeInstance : MonoBehaviour {
         if(worldLocation.InvestorsYouHave >= Price) {
             foreach(var shopitem in worldLocation.ShopItems) {
                 if(whatYouMultiply == shopitem.name) {
-                    worldLocation.InvestorsYouHave -= (BigInteger)Price;
-                    investorMenu.UpdateInvestors();
+                    worldLocation.InvestorsYouHave -= Price;
+                    referenceHub.investorMenu.UpdateInvestors();
                     shopitem.multiplier *= multiplier;
                     Purchased = true;
                     shopitem.RecalculateMainResourceClickIncrement();
@@ -78,7 +79,6 @@ public class InvestorUpgradeInstance : MonoBehaviour {
                     break;
                 }
             }
-
             worldLocation.RecalculateMainResourceClickIncrement();
             worldLocation.RecalculateMainResourceAutoIncrement();
         }

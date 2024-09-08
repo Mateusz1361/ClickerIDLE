@@ -1,60 +1,188 @@
 {
     "data": [
         {
+            "name": "Stone",
+            "iconPath": "OreIcons/Stone",
+            "clicksToPop": 1,
+            "type": "Ore",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Coal",
+            "iconPath": "OreIcons/CoalIcon",
+            "clicksToPop": 1,
+            "type": "Ore",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Copper",
+            "iconPath": "OreIcons/CopperIcon",
+            "clicksToPop": 1,
+            "type": "Ore",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Iron",
+            "iconPath": "OreIcons/IronIcon",
+            "clicksToPop": 1,
+            "type": "Ore",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Gold",
+            "iconPath": "OreIcons/GoldIcon",
+            "clicksToPop": 1,
+            "type": "Ore",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Diamond",
+            "iconPath": "OreIcons/DiamondIcon",
+            "clicksToPop": 1,
+            "type": "Ore",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Emerald",
+            "iconPath": "OreIcons/EmeraldIcon",
+            "clicksToPop": 1,
+            "type": "Ore",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Mega Stone",
+            "iconPath": "OreIcons/MegaStone",
+            "clicksToPop": 1,
+            "type": "MegaOre",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Mega Coal",
+            "iconPath": "OreIcons/MegaCoalIcon",
+            "clicksToPop": 1,
+            "type": "MegaOre",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Mega Copper",
+            "iconPath": "OreIcons/MegaCopperIcon",
+            "clicksToPop": 1,
+            "type": "MegaOre",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Mega Iron",
+            "iconPath": "OreIcons/MegaIronIcon",
+            "clicksToPop": 1,
+            "type": "MegaOre",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Mega Gold",
+            "iconPath": "OreIcons/MegaGoldIcon",
+            "clicksToPop": 1,
+            "type": "MegaOre",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Mega Diamond",
+            "iconPath": "OreIcons/MegaDiamondIcon",
+            "clicksToPop": 1,
+            "type": "MegaOre",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Mega Emerald",
+            "iconPath": "OreIcons/MegaEmeraldIcon",
+            "clicksToPop": 1,
+            "type": "MegaOre",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
+            "name": "Money",
+            "iconPath": "DollarSign",
+            "clicksToPop": 0,
+            "type": "MoneyOre",
+            "price": 0,
+            "maxStackCount": 0
+        },
+        {
             "name": "Wooden Pickaxe",
-            "iconPath": "Pickaxe",
-            "maxStackCount": 1,
+            "iconPath": "ItemIcons/Pickaxe",
+            "clicksToPop": 0,
             "type": "Pickaxe",
-            "price": 10
+            "price": 10,
+            "maxStackCount": 16
         },
         {
             "name": "Stone Pickaxe",
-            "iconPath": "StonePickaxe",
-            "maxStackCount": 1,
+            "iconPath": "ItemIcons/StonePickaxe",
+            "clicksToPop": 0,
             "type": "Pickaxe",
-            "price": 10
+            "price": 10,
+            "maxStackCount": 16
         },
         {
             "name": "Dynamite",
-            "iconPath": "Dynamite",
-            "maxStackCount": 8,
+            "iconPath": "ItemIcons/Dynamite",
+            "clicksToPop": 0,
             "type": "Explosive",
-            "price": 10
+            "price": 10,
+            "maxStackCount": 16
         },
         {
             "name": "Key",
-            "iconPath": "Key",
-            "maxStackCount": 1,
+            "iconPath": "ItemIcons/Key",
+            "clicksToPop": 0,
             "type": "Key",
-            "price": 10
+            "price": 10,
+            "maxStackCount": 16
         },
         {
             "name": "Electronic Circuits",
             "iconPath": "Missing",
-            "maxStackCount": 64,
+            "clicksToPop": 0,
             "type": "SellableItem",
-            "price": 100
+            "price": 100,
+            "maxStackCount": 64
         },
         {
             "name": "High-Quality Cabling",
             "iconPath": "Missing",
-            "maxStackCount": 64,
+            "clicksToPop": 0,
             "type": "SellableItem",
-            "price": 10000
+            "price": 10000,
+            "maxStackCount": 64
         },
         {
             "name": "High-End Cookware Set",
             "iconPath": "Missing",
-            "maxStackCount": 64,
+            "clicksToPop": 0,
             "type": "SellableItem",
-            "price": 1000000
+            "price": 1000000,
+            "maxStackCount": 64
         },
         {
             "name": "Luxury Jewelry",
             "iconPath": "Missing",
-            "maxStackCount": 64,
+            "clicksToPop": 0,
             "type": "SellableItem",
-            "price": 50000000
+            "price": 50000000,
+            "maxStackCount": 64
         }
     ]
 }

@@ -3,19 +3,7 @@ using UnityEngine.UI;
 
 public class ViewSelection : MonoBehaviour {
     [SerializeField]
-    private GameObject shopMenu;
-    [SerializeField]
-    private GameObject investorsMenu;
-    [SerializeField]
-    private GameObject tradeMenu;
-    [SerializeField]
-    private GameObject adMenu;
-    [SerializeField]
-    private GameObject inventoryMenu;
-    [SerializeField]
-    private GameObject worldMenu;
-    [SerializeField]
-    private GameObject factoryMenu;
+    private ReferenceHub referenceHub;
     [SerializeField]
     private Button shopMenuButton;
     [SerializeField]
@@ -33,29 +21,29 @@ public class ViewSelection : MonoBehaviour {
 
     public void Init() {
         SwitchState(null);
-        shopMenuButton.onClick.AddListener(() =>  SwitchState(shopMenu.activeSelf?null:shopMenu) );
-        investorsMenuButton.onClick.AddListener(() => SwitchState(investorsMenu.activeSelf?null:investorsMenu));
-        tradeMenuButton.onClick.AddListener(() => SwitchState(tradeMenu.activeSelf?null:tradeMenu));
-        adMenuButton.onClick.AddListener(() => SwitchState(adMenu.activeSelf ? null : adMenu));
-        inventoryMenuButton.onClick.AddListener(() => SwitchState(inventoryMenu.activeSelf ? null : inventoryMenu));
-        worldMenuButton.onClick.AddListener(() => SwitchState(worldMenu.activeSelf ? null : worldMenu));
-        factoryMenuButton.onClick.AddListener(() => SwitchState(factoryMenu.activeSelf ? null : factoryMenu));
-        investorsMenu.GetComponent<InvestorMenu>().Init();
-        shopMenu.GetComponent<ShopMenu>().Init();
-        tradeMenu.GetComponent<TradeMenu>().Init();
-        adMenu.GetComponent<AdMenu>().Init();
-        inventoryMenu.GetComponent<InventoryMenu>().Init();
-        worldMenu.GetComponent<WorldMenu>().Init();
-        factoryMenu.GetComponent<FactoryMenu>().Init();
+        shopMenuButton.onClick.AddListener(() =>  SwitchState(referenceHub.shopMenu.gameObject.activeSelf ? null : referenceHub.shopMenu.gameObject));
+        investorsMenuButton.onClick.AddListener(() => SwitchState(referenceHub.investorMenu.gameObject.activeSelf ? null : referenceHub.investorMenu.gameObject));
+        tradeMenuButton.onClick.AddListener(() => SwitchState(referenceHub.tradeMenu.gameObject.activeSelf ? null : referenceHub.tradeMenu.gameObject));
+        adMenuButton.onClick.AddListener(() => SwitchState(referenceHub.adMenu.gameObject.activeSelf ? null : referenceHub.adMenu.gameObject));
+        inventoryMenuButton.onClick.AddListener(() => SwitchState(referenceHub.inventoryMenu.gameObject.activeSelf ? null : referenceHub.inventoryMenu.gameObject));
+        worldMenuButton.onClick.AddListener(() => SwitchState(referenceHub.worldMenu.gameObject.activeSelf ? null : referenceHub.worldMenu.gameObject));
+        factoryMenuButton.onClick.AddListener(() => SwitchState(referenceHub.factoryMenu.gameObject.activeSelf ? null : referenceHub.factoryMenu.gameObject));
+        referenceHub.investorMenu.Init();
+        referenceHub.shopMenu.Init();
+        referenceHub.tradeMenu.Init();
+        referenceHub.adMenu.Init();
+        referenceHub.inventoryMenu.Init();
+        referenceHub.worldMenu.Init();
+        referenceHub.factoryMenu.Init();
     }
 
     private void SwitchState(GameObject obj) {
-        shopMenu.SetActive(obj == shopMenu);
-        investorsMenu.SetActive(obj == investorsMenu);
-        tradeMenu.SetActive(obj == tradeMenu);
-        adMenu.SetActive(obj == adMenu);
-        inventoryMenu.SetActive(obj == inventoryMenu);
-        worldMenu.SetActive(obj == worldMenu);
-        factoryMenu.SetActive(obj == factoryMenu);
+        referenceHub.shopMenu.gameObject.SetActive(obj == referenceHub.shopMenu.gameObject);
+        referenceHub.investorMenu.gameObject.SetActive(obj == referenceHub.investorMenu.gameObject);
+        referenceHub.tradeMenu.gameObject.SetActive(obj == referenceHub.tradeMenu.gameObject);
+        referenceHub.adMenu.gameObject.SetActive(obj == referenceHub.adMenu.gameObject);
+        referenceHub.inventoryMenu.gameObject.SetActive(obj == referenceHub.inventoryMenu.gameObject);
+        referenceHub.worldMenu.gameObject.SetActive(obj == referenceHub.worldMenu.gameObject);
+        referenceHub.factoryMenu.gameObject.SetActive(obj == referenceHub.factoryMenu.gameObject);
     }
 }

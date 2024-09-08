@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,9 +22,8 @@ public class FactoryItem : MonoBehaviour {
     private GameObject unlockMarker;
     [SerializeField]
     private TMP_Text unlockLevelText;
-    private InventoryMenu inventoryMenu;
-    private WorldMenu worldMenu;
-    private float duration = 5.0f;
+    private ReferenceHub referenceHub;
+    private float duration = 0.0f;
     private float elapsed = 0.0f;
     private bool isUpdating = false;
     private string mineToUnlock = "";
@@ -34,23 +34,23 @@ public class FactoryItem : MonoBehaviour {
     }
 
     private void OnEnable() {
-        if(worldMenu) {
-            unlockMarker.SetActive(!worldMenu.WorldLocations.Find((location) => location.Name.Equals(mineToUnlock)).Purchased);
+        if(referenceHub.worldMenu) {
+            unlockMarker.SetActive(!referenceHub.worldMenu.WorldLocations.Find((location) => location.Name.Equals(mineToUnlock)).Purchased);
         }
     }
 
-    public void Init(FactoryItemData factoryItemData,InventoryMenu _inventoryMenu,WorldMenu _worldMenu) {
-        inventoryMenu = _inventoryMenu;
-        worldMenu = _worldMenu;
+    public void Init(FactoryItemData factoryItemData,ReferenceHub _referenceHub) {
+        referenceHub = _referenceHub;
+        duration = factoryItemData.duration;
         nameText.text = factoryItemData.name;
         progressSlider.value = 0;
         foreach(var price in factoryItemData.price) {
             var prefab = Instantiate(factoryPricePrefab,parentOfPrices);
             var component  = prefab.GetComponent<ShopItemPrice>();
-            component.InitPrice(inventoryMenu,null,new() { name = price.name, unlockCount = 0, value = price.value });
+            component.InitPrice(referenceHub.inventoryMenu,null,new() { name = price.name, unlockCount = 0, value = price.value });
         }
         factoryResultData = factoryItemData.result;
-        resultItemIcon.sprite = inventoryMenu.itemTemplates[factoryResultData.type].icon;
+        resultItemIcon.sprite = referenceHub.inventoryMenu.ItemTemplates[factoryResultData.type].icon;
         resultItemCountText.text = factoryResultData.value.ToString();
         mineToUnlock = factoryItemData.toUnlock;
         unlockLevelText.text = $"Unlocked when {mineToUnlock} is unlocked";
@@ -60,14 +60,14 @@ public class FactoryItem : MonoBehaviour {
         var children = parentOfPrices.GetComponentsInChildren<ShopItemPrice>();
         bool canAfford = true;
         foreach(var price in children) {
-            if(price.Value > inventoryMenu.ResourceInstances[price.Name].Count) {
+            if(!referenceHub.inventoryMenu.CanRemoveItems(price.Name,price.Value)) {
                 canAfford = false;
                 break;
             }
         }
         if(canAfford) {
             foreach(var price in children) {
-                inventoryMenu.ResourceInstances[price.Name].Count -= price.Value;
+                referenceHub.inventoryMenu.RemoveItems(price.Name,price.Value);
             }
             isUpdating = true;
             elapsed = 0.0f;
@@ -80,10 +80,13 @@ public class FactoryItem : MonoBehaviour {
             elapsed += Time.deltaTime;
             progressSlider.value = Mathf.Clamp01(elapsed / duration);
             if(elapsed >= duration) {
-                progressSlider.value = 0.0f;
-                isUpdating = false;
-                startProcessButton.interactable = true;
-                inventoryMenu.AddItems(factoryResultData.type,(uint)factoryResultData.value);
+                elapsed = duration;
+                if(referenceHub.inventoryMenu.CanAddItems(factoryResultData.type,factoryResultData.value)) {
+                    referenceHub.inventoryMenu.AddItems(factoryResultData.type,factoryResultData.value);
+                    progressSlider.value = 0.0f;
+                    isUpdating = false;
+                    startProcessButton.interactable = true;
+                }
             }
         }
     }

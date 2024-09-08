@@ -1,21 +1,18 @@
 using System;
 using System.IO;
 using UnityEngine;
-using System.Numerics;
 
 [Serializable]
 public class SaveShopItemPriceData {
-    public string value;
+    public ulong value;
 }
 
 [Serializable]
 public class SaveShopItemData {
     public string name;
-    public string resultQuantity;
+    public ulong resultQuantity;
     public ulong count;
-    public string clickIncrement;
-    public string autoIncrement;
-    public string multiplier;
+    public ulong multiplier;
     public SaveShopItemPriceData[] shopItemPriceDatas;
 }
 
@@ -30,36 +27,30 @@ public class SaveWorldLocationData {
     public string name;
     public bool purchased;
     public SaveShopItemData[] shopItemsToSaveData;
-    public string investorsToClaim;
-    public string investorsYouHave;
+    public ulong investorsToClaim;
+    public ulong investorsYouHave;
     public ulong level;
     public double experience;
     public double maxExperience;
-    public string differenceOfMaterial;
-    public string quantityToAddInvestor;
-    public string mainResourceAutoIncrement;
+    public ulong differenceOfMaterial;
+    public ulong quantityToAddInvestor;
+    public ulong mainResourceAutoIncrement;
     public float mainResourceAutoIncrementTimer;
     public SaveInvestorUpgradeData[] investorUpgradeDatas;
 }
 
 [Serializable]
-public class SaveInventoryResourceData {
-    public string name;
-    public string count;
-}
-
-[Serializable]
 public class SaveInventoryItemData {
     public string name;
-    public uint count;
+    public ulong count;
 }
 
 [Serializable]
 public class SaveData {
-    public SaveInventoryResourceData[] inventoryResources;
-    public SaveWorldLocationData[] worldLocationsToSaveData;
+    public SaveWorldLocationData[] worldLocationSaveDatas;
+    public SaveInventoryItemData[] saveInventoryOreItemDatas;
     public SaveInventoryItemData[] saveInventoryItemDatas;
-    public SaveInventoryItemData saveInventoryItemPickaxeData;
+    public SaveInventoryItemData saveInventoryPickaxeItemData;
 }
 
 public class SaveSystem : MonoBehaviour {
@@ -78,26 +69,20 @@ public class SaveSystem : MonoBehaviour {
 
     public void SaveGame() {
         SaveData saveData = new() {
-            inventoryResources = new SaveInventoryResourceData[inventoryMenu.ResourceInstances.Count]
+            worldLocationSaveDatas = new SaveWorldLocationData[worldMenu.WorldLocations.Count]
         };
-        int index = 0;
-        foreach((var name,var resource) in inventoryMenu.ResourceInstances) { 
-            saveData.inventoryResources[index] = new SaveInventoryResourceData{name = name,count = resource.Count.ToString()};
-            index++;
-        }
-        saveData.worldLocationsToSaveData = new SaveWorldLocationData[worldMenu.WorldLocations.Count];
         for(int i = 0;i < worldMenu.WorldLocations.Count;i += 1) {
             var location = worldMenu.WorldLocations[i];
 
-            saveData.worldLocationsToSaveData[i] = new() {
+            saveData.worldLocationSaveDatas[i] = new() {
                 level = location.Level,
                 experience = location.Experience,
                 maxExperience = location.maxExperience,
-                differenceOfMaterial = location.differenceOfMaterial.ToString(),
-                quantityToAddInvestor = location.quantityToAddInvestor.ToString(),
+                differenceOfMaterial = (ulong)location.differenceOfMaterial,
+                quantityToAddInvestor = (ulong)location.quantityToAddInvestor,
                 mainResourceAutoIncrementTimer = location.mainResourceAutoIncrementTimer,
-                investorsToClaim = location.InvestorsToClaim.ToString(),
-                investorsYouHave = location.InvestorsYouHave.ToString(),
+                investorsToClaim = (ulong)location.InvestorsToClaim,
+                investorsYouHave = (ulong)location.InvestorsYouHave,
                 purchased = location.Purchased,
                 name = location.Name,
                 shopItemsToSaveData = new SaveShopItemData[location.ShopItems.Count],
@@ -106,38 +91,50 @@ public class SaveSystem : MonoBehaviour {
 
             for(int j = 0;j < location.ShopItems.Count;j += 1) {
                 var item = location.ShopItems[j];
-                saveData.worldLocationsToSaveData[i].shopItemsToSaveData[j] = new SaveShopItemData{
+                saveData.worldLocationSaveDatas[i].shopItemsToSaveData[j] = new SaveShopItemData{
                     name = item.name,
-                    resultQuantity = item.ResultQuantity.ToString(),
-                    count = item.Count,
-                    multiplier = item.multiplier.ToString(),
-                    shopItemPriceDatas = new SaveShopItemPriceData[item.shopItemsPrices.Count]
+                    resultQuantity = (ulong)item.ResultQuantity,
+                    count = (ulong)item.Count,
+                    multiplier = (ulong)item.multiplier,
+                    shopItemPriceDatas = new SaveShopItemPriceData[item.shopItemsPrices.Count],
                 };
                 for(int k = 0;k < item.shopItemsPrices.Count;k += 1) {
-                    saveData.worldLocationsToSaveData[i].shopItemsToSaveData[j].shopItemPriceDatas[k] = new SaveShopItemPriceData {
-                        value = item.shopItemsPrices[k].Value.ToString()
+                    saveData.worldLocationSaveDatas[i].shopItemsToSaveData[j].shopItemPriceDatas[k] = new SaveShopItemPriceData {
+                        value = (ulong)item.shopItemsPrices[k].Value
                     };
                 }
             }
 
             for(int j = 0;j < location.InvestorUpgrades.Count;j += 1) {
                 var upgrade = location.InvestorUpgrades[j];
-                saveData.worldLocationsToSaveData[i].investorUpgradeDatas[j] = new SaveInvestorUpgradeData {
+                saveData.worldLocationSaveDatas[i].investorUpgradeDatas[j] = new SaveInvestorUpgradeData {
                     purchased = upgrade.Purchased,
                     whatYouGetText = upgrade.WhatYouGetText
                 };
             }
         }
 
-        saveData.saveInventoryItemPickaxeData = new() {
-            name = inventoryMenu.pickaxeItemSlot.ItemTemplate?.name,
-            count = inventoryMenu.pickaxeItemSlot.Count
-        };
-        saveData.saveInventoryItemDatas = new SaveInventoryItemData[inventoryMenu.itemSlots.Count];
-        for(int i = 0;i < inventoryMenu.itemSlots.Count;i += 1) {
-            var slot = inventoryMenu.itemSlots[i];
-            saveData.saveInventoryItemDatas[i] = new() { name = slot.ItemTemplate?.name,count = slot.Count };
+        saveData.saveInventoryOreItemDatas = new SaveInventoryItemData[inventoryMenu.OreItemsSlots.Count];
+        int index = 0;
+        foreach(var slot in inventoryMenu.OreItemsSlots.Values) {
+            saveData.saveInventoryOreItemDatas[index] = new() {
+                name = slot.ItemTemplate.name,
+                count = (ulong)slot.Count
+            };
+            index += 1;
         }
+
+        saveData.saveInventoryItemDatas = new SaveInventoryItemData[inventoryMenu.itemSlots.Count];
+        for(int i = 0;i < inventoryMenu.itemSlots.Count;i +=1 ) {
+            saveData.saveInventoryItemDatas[i] = new() {
+                name = inventoryMenu.itemSlots[i].ItemTemplate?.name,
+                count = (ulong)inventoryMenu.itemSlots[i].Count
+            };
+        }
+        saveData.saveInventoryPickaxeItemData = new() {
+            name = inventoryMenu.pickaxeInventoryItemSlot.ItemTemplate?.name,
+            count = (ulong)inventoryMenu.pickaxeInventoryItemSlot.Count
+        };
 
         var temp = JsonUtility.ToJson(saveData);
         Directory.CreateDirectory(Application.persistentDataPath);
@@ -149,23 +146,19 @@ public class SaveSystem : MonoBehaviour {
         if(!File.Exists(Application.persistentDataPath + "/save.json")) return;
 
         var temp = File.ReadAllText(Application.persistentDataPath + "/save.json");
-        var savaData = JsonUtility.FromJson<SaveData>(temp);
-        for(int i = 0;i < savaData.inventoryResources.Length;i += 1) {
-            var item = savaData.inventoryResources[i];
-            inventoryMenu.ResourceInstances[item.name].Count = Rational.Parse(item.count);
-        }
+        var saveData = JsonUtility.FromJson<SaveData>(temp);
 
-        for(int i = 0;i < savaData.worldLocationsToSaveData.Length;i += 1) {
-            var savedLocation = savaData.worldLocationsToSaveData[i];
+        for(int i = 0;i < saveData.worldLocationSaveDatas.Length;i += 1) {
+            var savedLocation = saveData.worldLocationSaveDatas[i];
 
             var currentLocation = worldMenu.WorldLocations[i];
-            currentLocation.InvestorsToClaim = BigInteger.Parse(savedLocation.investorsToClaim);
-            currentLocation.InvestorsYouHave = BigInteger.Parse(savedLocation.investorsYouHave);
+            currentLocation.InvestorsToClaim = savedLocation.investorsToClaim;
+            currentLocation.InvestorsYouHave = savedLocation.investorsYouHave;
             currentLocation.Level = savedLocation.level;
             currentLocation.maxExperience = savedLocation.maxExperience;
             currentLocation.Experience = savedLocation.experience;
-            currentLocation.differenceOfMaterial = Rational.Parse(savedLocation.differenceOfMaterial);
-            currentLocation.quantityToAddInvestor = Rational.Parse(savedLocation.quantityToAddInvestor);
+            currentLocation.differenceOfMaterial = savedLocation.differenceOfMaterial;
+            currentLocation.quantityToAddInvestor = savedLocation.quantityToAddInvestor;
             currentLocation.mainResourceAutoIncrementTimer = savedLocation.mainResourceAutoIncrementTimer;
             currentLocation.Purchased = savedLocation.purchased;
 
@@ -173,13 +166,13 @@ public class SaveSystem : MonoBehaviour {
                 var item = savedLocation.shopItemsToSaveData[j];
                 var found = currentLocation.ShopItems.Find((instance) => instance.name == item.name);
                 if(found != null) {
-                    found.ResultQuantity = BigInteger.Parse(item.resultQuantity);
+                    found.ResultQuantity = item.resultQuantity;
                     found.Count = item.count;
-                    found.multiplier = Rational.Parse(item.multiplier);
+                    found.multiplier = item.multiplier;
                     found.RecalculateMainResourceAutoIncrement();
                     found.RecalculateMainResourceClickIncrement();
                     for(int k = 0;k < item.shopItemPriceDatas.Length;k += 1) {
-                        found.shopItemsPrices[k].Value = BigInteger.Parse(item.shopItemPriceDatas[k].value);
+                        found.shopItemsPrices[k].Value = item.shopItemPriceDatas[k].value;
                     }
                 }
             }
@@ -193,19 +186,23 @@ public class SaveSystem : MonoBehaviour {
             currentLocation.RecalculateMainResourceAutoIncrement();
         }
 
-        if(inventoryMenu.itemTemplates.ContainsKey(savaData.saveInventoryItemPickaxeData.name)) {
-            var pickaxeItemTemplate = inventoryMenu.itemTemplates[savaData.saveInventoryItemPickaxeData.name];
-            inventoryMenu.pickaxeItemSlot.ItemTemplate = pickaxeItemTemplate;
-            inventoryMenu.pickaxeItemSlot.Count = savaData.saveInventoryItemPickaxeData.count;
+        for(int i = 0;i < saveData.saveInventoryOreItemDatas.Length;i += 1) {
+            var itemData = saveData.saveInventoryOreItemDatas[i];
+            if(inventoryMenu.OreItemsSlots.ContainsKey(itemData.name)) {
+                inventoryMenu.OreItemsSlots[itemData.name].Count = itemData.count;
+            }
         }
-        for(int i = 0;i < savaData.saveInventoryItemDatas.Length;i += 1) {
-            if(i >= inventoryMenu.itemSlots.Count) break;
-            var itemData = savaData.saveInventoryItemDatas[i];
-            if(inventoryMenu.itemTemplates.ContainsKey(itemData.name)) {
-                var template = inventoryMenu.itemTemplates[itemData.name];
-                inventoryMenu.itemSlots[i].ItemTemplate = template;
+
+        for(int i = 0;i < saveData.saveInventoryItemDatas.Length;i += 1) {
+            var itemData = saveData.saveInventoryItemDatas[i];
+            if(itemData.name != null && inventoryMenu.ItemTemplates.ContainsKey(itemData.name) && i < inventoryMenu.itemSlots.Count) {
+                inventoryMenu.itemSlots[i].ItemTemplate = inventoryMenu.ItemTemplates[itemData.name];
                 inventoryMenu.itemSlots[i].Count = itemData.count;
             }
+        }
+        if(inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventoryPickaxeItemData.name)) {
+            inventoryMenu.pickaxeInventoryItemSlot.ItemTemplate = inventoryMenu.ItemTemplates[saveData.saveInventoryPickaxeItemData.name];
+            inventoryMenu.pickaxeInventoryItemSlot.Count = saveData.saveInventoryPickaxeItemData.count;
         }
     }
 }

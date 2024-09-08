@@ -2,10 +2,11 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Numerics;
 using System.Collections.Generic;
 
 public class ShopItem : MonoBehaviour {
+    [SerializeField]
+    private TMP_Text nameText;
     [SerializeField]
     private Image buyItemIcon;
     [SerializeField]
@@ -22,45 +23,43 @@ public class ShopItem : MonoBehaviour {
     private TMP_Text unlockLevelText;
     private WorldLocation worldLocation;
     private InventoryMenu inventoryMenu;
-    public int indexOfShopItem = 0;
-    public Rational multiplier = 1;
+    public SafeInteger multiplier = 1;
+    [HideInInspector]
     public List<ShopItemPrice> shopItemsPrices;
     
     private ShopItemData defaultSettings;
+    [HideInInspector]
     public new string name;
 
-    private Rational cacheMainResourceClickIncrement = 0;
-    private Rational cacheMainResourceAutoIncrement = 0;
+    private SafeInteger cacheMainResourceClickIncrement = 0;
+    private SafeInteger cacheMainResourceAutoIncrement = 0;
 
-    public Rational MainResourceClickIncrement()
-    {
+    public SafeInteger MainResourceClickIncrement() {
         return cacheMainResourceClickIncrement;
     }
-    public Rational MainResourceAutoIncrement()
-    {
+
+    public SafeInteger MainResourceAutoIncrement() {
         return cacheMainResourceAutoIncrement;
     }
 
-    public void RecalculateMainResourceClickIncrement()
-    {
-        cacheMainResourceClickIncrement = ResultQuantity * Count * multiplier;
+    public void RecalculateMainResourceClickIncrement() {
+        cacheMainResourceClickIncrement = (ResultType == "Power") ? ResultQuantity * Count * multiplier : 0;
     }
 
-    public void RecalculateMainResourceAutoIncrement()
-    {
-        cacheMainResourceAutoIncrement = ResultQuantity * Count * multiplier;
+    public void RecalculateMainResourceAutoIncrement() {
+        cacheMainResourceAutoIncrement = (ResultType == "Worker") ? ResultQuantity * Count * multiplier : 0;
     }
     
     public string ResultType { get; private set; }
 
-    private ulong _unlockLevel;
+    private ulong _unlockLevel = 0;
     public ulong UnlockLevel {
         get {
             return _unlockLevel;
         }
         private set {
             _unlockLevel = value;
-            unlockLevelText.text = $"Unlock at level {NumberFormat.ShortForm(_unlockLevel)}";
+            unlockLevelText.text = $"Unlock at level {_unlockLevel}";
         }
     }
 
@@ -83,19 +82,24 @@ public class ShopItem : MonoBehaviour {
         worldLocation.RecalculateMainResourceClickIncrement();
     }
 
-    public void InitItem(WorldLocation _worldLocation,InventoryMenu _inventoryMenu,ShopItemData data,int index) {
+    public void InitItem(WorldLocation _worldLocation,InventoryMenu _inventoryMenu,ShopItemData data) {
         worldLocation = _worldLocation;
         inventoryMenu = _inventoryMenu;
         UnlockLevel = data.unlockLevel;
-        indexOfShopItem = index;
         name = data.name;
+        nameText.text = name;
         ResultType = data.result.type;
+
         if(ResultType == "Power") {
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/MineButton");
         }
         else if(ResultType == "Worker") {
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/WorkersButton");
         }
+        else {
+            buyItemIcon.sprite = inventoryMenu.ItemTemplates[ResultType].icon;
+        }
+
         ResultQuantity = data.result.value;
         shopItemsPrices = new();
         foreach(var shopItemPriceData in data.price) {
@@ -107,27 +111,26 @@ public class ShopItem : MonoBehaviour {
         defaultSettings = data;
     }
 
-    private BigInteger _resultQuantity;
-    public BigInteger ResultQuantity {
+    private SafeInteger _resultQuantity = 0;
+    public SafeInteger ResultQuantity {
         get {
             return _resultQuantity;
         }
         set {
             _resultQuantity = value;
-            
+            buyItemQuantityText.text = _resultQuantity.ToString();
         }
     }
 
-    public event Action<ulong> OnCountChange;
-    private ulong _count;
-    public ulong Count {
+    public event Action<SafeInteger> OnCountChange;
+    private SafeInteger _count = 0;
+    public SafeInteger Count {
         get {
             return _count;
         }
         set {
             _count = value;
             OnCountChange?.Invoke(_count);
-            buyItemQuantityText.text = NumberFormat.ShortForm(_count);
         }
     }
 
@@ -139,7 +142,7 @@ public class ShopItem : MonoBehaviour {
         bool canAffordPurchase = true;
         foreach(var price in shopItemsPrices) {
             if(price.UnlockCount <= Count) {
-                if(inventoryMenu.ResourceInstances[price.Name].Count < price.Value) {
+                if(!inventoryMenu.CanRemoveItems(price.Name,price.Value)) {
                     canAffordPurchase = false;
                     break;
                 }
@@ -148,7 +151,7 @@ public class ShopItem : MonoBehaviour {
         if(canAffordPurchase) {
             foreach(var price in shopItemsPrices) {
                 if(price.UnlockCount <= Count) {
-                    inventoryMenu.ResourceInstances[price.Name].Count -= price.Value;
+                    inventoryMenu.RemoveItems(price.Name,price.Value);
                     price.Value *= 2;
                 }
             }
@@ -161,7 +164,9 @@ public class ShopItem : MonoBehaviour {
                 RecalculateMainResourceAutoIncrement();
                 worldLocation.RecalculateMainResourceAutoIncrement();
             }
-            //ResultQuantity += 1;
+            else {
+                inventoryMenu.AddItems(ResultType,ResultQuantity);
+            }
         }
     }
 }

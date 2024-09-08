@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Numerics;
 
 public class ShopItemPrice : MonoBehaviour {
     [SerializeField]
@@ -14,7 +13,7 @@ public class ShopItemPrice : MonoBehaviour {
     public string Name { get; private set; }
 
     public void InitPrice(InventoryMenu inventoryMenu,ShopItem shopItem,ShopItemPriceData data) {
-        resourceIcon.sprite = inventoryMenu.ResourceInstances[data.name].Icon;
+        resourceIcon.sprite = inventoryMenu.ItemTemplates[data.name].icon;
         Name = data.name;
         Value = data.value;
         UnlockCount = data.unlockCount;
@@ -30,20 +29,20 @@ public class ShopItemPrice : MonoBehaviour {
         OnCountChange(0);
     }
 
-    private void OnCountChange(ulong count) {
+    private void OnCountChange(SafeInteger count) {
         content.gameObject.SetActive(UnlockCount <= count);
     }
 
-    public ulong UnlockCount { get; private set; }
+    public SafeInteger UnlockCount { get; private set; }
 
-    private BigInteger _value;
-    public BigInteger Value {
+    private SafeInteger _value = 0;
+    public SafeInteger Value {
         get {
             return _value;
         }
         set {
             _value = value;
-            resourceQuantity.text = NumberFormat.ShortForm(_value);
+            resourceQuantity.text = _value.ToString();
         }
     }
 }

@@ -3,9 +3,7 @@ using UnityEngine.UI;
 
 public class ShopMenu : MonoBehaviour {
     [SerializeField]
-    private WorldMenu worldMenu;
-    [SerializeField]
-    private InventoryMenu inventoryMenu;
+    private ReferenceHub referenceHub;
     [SerializeField]
     private Button closeButton;
     [SerializeField]
@@ -17,22 +15,20 @@ public class ShopMenu : MonoBehaviour {
 
     public void Init() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
-        var shopData = JsonUtility.FromJson<InstanceWrapper<ShopItemData>>(shopDataTextAsset.text);
+        var shopData = JsonUtility.FromJson<InstanceWrapperData<ShopItemData>>(shopDataTextAsset.text);
         
-        foreach(var worldLocation in worldMenu.WorldLocations) {
-            int index = 0;
+        foreach(var worldLocation in referenceHub.worldMenu.WorldLocations) {
             foreach(var item in shopData.data) {
                 var prefab = Instantiate(shopItemPrefab,shopItemsContent);
                 var component = prefab.GetComponent<ShopItem>();
-                component.InitItem(worldLocation,inventoryMenu,item,index);
+                component.InitItem(worldLocation,referenceHub.inventoryMenu,item);
                 prefab.SetActive(false);
                 worldLocation.ShopItems.Add(component);
-                index++;
             }
         }
-        worldMenu.OnWorldLocationLeft += OnWorldLocationLeft;
-        worldMenu.OnWorldLocationEntered += OnWorldLocationEntered;
-        OnWorldLocationEntered(worldMenu.CurrentWorldLocation);
+        referenceHub.worldMenu.OnWorldLocationLeft += OnWorldLocationLeft;
+        referenceHub.worldMenu.OnWorldLocationEntered += OnWorldLocationEntered;
+        OnWorldLocationEntered(referenceHub.worldMenu.CurrentWorldLocation);
     }
     
 

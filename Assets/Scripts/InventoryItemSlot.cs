@@ -9,62 +9,86 @@ public class InventoryItemSlot : MonoBehaviour {
     private TMP_Text countText;
     [SerializeField]
     private Button clickButton;
-    private InventoryMenu inventoryMenu;
+    [SerializeField]
+    private GameObject buttonList;
+    [SerializeField]
+    private Button actionButton;
+    [SerializeField]
+    private Button sellButton;
 
-    private InventoryItemTemplate _itemTemplate;
-    public InventoryItemTemplate ItemTemplate {
+    private ItemTemplate _itemTemplate = null;
+    public ItemTemplate ItemTemplate {
         get {
             return _itemTemplate;
         }
         set {
             _itemTemplate = value;
             icon.sprite = _itemTemplate?.icon;
-            icon.enabled = icon.sprite != null;
+            icon.gameObject.SetActive(icon.sprite != null);
         }
     }
 
-    private uint _count;
-    public uint Count {
+    private SafeInteger _count = 0;
+    public SafeInteger Count {
         get {
             return _count;
         }
         set {
             _count = value;
-            countText.text = _count <= 1 ? "" : _count.ToString();
+            countText.text = _count.ToString();
+            countText.gameObject.SetActive(_count >= 2);
         }
     }
 
-    public void Init(InventoryMenu _inventoryMenu) {
-        inventoryMenu = _inventoryMenu;
-        clickButton.onClick.AddListener(OnItemButtonClick);
-        ItemTemplate = null;
-        Count = 0;
-    }
-
-    private void OnItemButtonClick() {
-        if(ItemTemplate != null) {
-            if(inventoryMenu.pickaxeItemSlot != this) {
-                if(ItemTemplate.type == "Pickaxe") {
-                    if(inventoryMenu.pickaxeItemSlot.ItemTemplate == null) {
-                        inventoryMenu.pickaxeItemSlot.ItemTemplate = ItemTemplate;
-                        inventoryMenu.pickaxeItemSlot.Count = Count;
-                        ItemTemplate = null;
-                        Count = 0;
-                    }
-                    else {
-                        var tempItem = ItemTemplate;
-                        var tempCount = Count;
-                        ItemTemplate = inventoryMenu.pickaxeItemSlot.ItemTemplate;
-                        Count = inventoryMenu.pickaxeItemSlot.Count;
-                        inventoryMenu.pickaxeItemSlot.ItemTemplate = tempItem;
-                        inventoryMenu.pickaxeItemSlot.Count = tempCount;
-                    }
+    private void Awake() {
+        buttonList.SetActive(false);
+        clickButton.onClick.AddListener(() => {
+            if(ItemTemplate != null && Count > 0) {
+                buttonList.SetActive(!buttonList.activeSelf);
+            }
+        });
+        sellButton.onClick.AddListener(() => {
+            if(ItemTemplate != null && Count > 0) {
+                inventoryMenu.Money.Count += ItemTemplate.price;
+                Count -= 1;
+                if(Count == 0) {
+                    ItemTemplate = null;
+                    buttonList.SetActive(false);
                 }
             }
-            else if(inventoryMenu.AddItems(ItemTemplate,Count)) {
-                ItemTemplate = null;
-                Count = 0;
+        });
+        actionButton.onClick.AddListener(() => {
+            if(ItemTemplate.type == "Pickaxe") {
+                EquipItem();
+                buttonList.SetActive(false);
             }
+        });
+    }
+
+    public void EquipItem() {
+        if(ItemTemplate == null || Count == 0) return;
+        var pis = inventoryMenu.pickaxeInventoryItemSlot;
+        if(this != pis && pis.ItemTemplate == null) {
+            pis.ItemTemplate = ItemTemplate;
+            pis.Count = 1;
+            Count -= 1;
+            if(Count == 0) ItemTemplate = null;
         }
+        else if(this == pis && inventoryMenu.CanAddItems(ItemTemplate.name,Count)) {
+            inventoryMenu.AddItems(ItemTemplate.name,Count);
+            ItemTemplate = null;
+            Count = 0;
+        }
+    }
+
+    private void OnEnable() {
+        if(ItemTemplate != null) {
+            actionButton.gameObject.SetActive(ItemTemplate.type == "Pickaxe");
+        }
+    }
+
+    private InventoryMenu inventoryMenu = null;
+    public void Init(InventoryMenu _inventoryMenu) {
+        inventoryMenu = _inventoryMenu;
     }
 }

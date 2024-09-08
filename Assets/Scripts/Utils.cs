@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Numerics;
 
+/*
 public static class NumberFormat {
     public static string ShortForm(Rational value) {
         bool isNegative = (value < 0);
@@ -24,6 +25,7 @@ public static class NumberFormat {
     }
     public static readonly string[] numberSuffixes = { "k","M","B","T","Q" };
 }
+*/
 
 public static class RandomExtensions {
     public static double NextDouble(this Random random,double min,double max) {

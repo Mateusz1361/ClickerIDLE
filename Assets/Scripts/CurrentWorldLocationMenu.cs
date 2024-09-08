@@ -2,16 +2,12 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-//TOOOOOOOOOOOOOOO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOO Comments
+
 public class CurrentWorldLocationMenu : MonoBehaviour {
     [SerializeField]
+    private ReferenceHub referenceHub;
+    [SerializeField]
     private Button mainButton;
-    [SerializeField]
-    private InventoryMenu inventoryMenu;
-    [SerializeField]
-    private WorldMenu worldMenu;
-    [SerializeField]
-    private FactoryMenu factoryMenu;
     [SerializeField]
     private TMP_Text levelText;
     [SerializeField]
@@ -30,25 +26,23 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private GameObject workersInfo;
     [SerializeField]
     private ViewSelection viewSelection;
-    [SerializeField]
-    private SaveSystem saveSystem;
     private int clicks = 0;
 
     private void Awake() {
         mainButton.onClick.AddListener(OnMainButtonClick);
         levelUpButton.onClick.AddListener(OnLevelUpButtonClick);
-        inventoryMenu.Money.OnCountChanged += OnMoneyCountChanged;
-        worldMenu.OnWorldLocationLeft += (WorldLocation location) => {
+        referenceHub.inventoryMenu.Money.OnCountChanged += OnMoneyCountChanged;
+        referenceHub.worldMenu.OnWorldLocationLeft += (WorldLocation location) => {
             if(location != null) {
-                inventoryMenu.ResourceInstances[location.MainResourceName].OnCountChanged -= OnMainResourceCountChanged;
+                referenceHub.inventoryMenu.OreItemsSlots[location.MainResourceName].OnCountChanged -= OnMainResourceCountChanged;
                 location.OnMainResourceAutoIncrementChange -= OnMainResourceAutoIncrementChange;
                 location.OnLevelChange -= OnLevelChange;
                 location.OnExperienceChange -= OnExperienceChange;
             }
         };
-        worldMenu.OnWorldLocationEntered += (WorldLocation location) => {
-            var resource = inventoryMenu.ResourceInstances[location.MainResourceName];
-            mainResourceIcon.sprite = resource.Icon;
+        referenceHub.worldMenu.OnWorldLocationEntered += (WorldLocation location) => {
+            var resource = referenceHub.inventoryMenu.OreItemsSlots[location.MainResourceName];
+            mainResourceIcon.sprite = resource.ItemTemplate.icon;
             resource.OnCountChanged += OnMainResourceCountChanged;
             OnMainResourceCountChanged(resource.Count);
             location.OnMainResourceAutoIncrementChange += OnMainResourceAutoIncrementChange;
@@ -60,43 +54,43 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
             clicks = 0;
         };
         viewSelection.Init();
-        saveSystem.LoadGame();
+        referenceHub.saveSystem.LoadGame();
     }
 
     private void Update() {
-        foreach(var location in worldMenu.WorldLocations) {
+        foreach(var location in referenceHub.worldMenu.WorldLocations) {
             location.mainResourceAutoIncrementTimer += Time.deltaTime;
             while(location.mainResourceAutoIncrementTimer >= 1.0f) {
-                inventoryMenu.ResourceInstances[location.MainResourceName].Count += location.MainResourceAutoIncrement();
+                referenceHub.inventoryMenu.OreItemsSlots[location.MainResourceName].Count += location.MainResourceAutoIncrement();
                 location.mainResourceAutoIncrementTimer -= 1.0f;
             }
         }
-        factoryMenu.UpdateFactories();
+        referenceHub.factoryMenu.UpdateFactories();
 #if UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.Tab)) {
             Debug.LogWarning("CHEATER!!!");
-            foreach(var resource in inventoryMenu.ResourceInstances.Values) {
+            foreach(var resource in referenceHub.inventoryMenu.OreItemsSlots.Values) {
                 resource.Count += 1000000;
             }
         }
 #endif
     }
 
-    private void OnMoneyCountChanged(Rational value) {
-        moneyCountText.text = NumberFormat.ShortForm(value);
+    private void OnMoneyCountChanged(SafeInteger value) {
+        moneyCountText.text = value.ToString();
     }
 
-    private void OnMainResourceCountChanged(Rational value) {
-        mainResourceCountText.text = NumberFormat.ShortForm(value);
+    private void OnMainResourceCountChanged(SafeInteger value) {
+        mainResourceCountText.text = value.ToString();
     }
 
-    private void OnMainResourceAutoIncrementChange(Rational value) {
+    private void OnMainResourceAutoIncrementChange(SafeInteger value) {
         workersInfo.SetActive(value > 0);
-        workerGainText.text = $"{NumberFormat.ShortForm(value)} / s";
+        workerGainText.text = $"{value} / s";
     }
 
     private void OnLevelChange(ulong level) {
-        levelText.text = NumberFormat.ShortForm(level);
+        levelText.text = level.ToString();
     }
 
     private void OnExperienceChange(double experience,double maxExperience) {
@@ -106,16 +100,17 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
 
     private void OnMainButtonClick() {
         clicks++;
-        var cwl = worldMenu.CurrentWorldLocation;
-        if(inventoryMenu.ResourceInstances[cwl.MainResourceName].ClicksToPop == clicks) {
-            inventoryMenu.ResourceInstances[cwl.MainResourceName].Count += cwl.MainResourceClickIncrement();
+        var cwl = referenceHub.worldMenu.CurrentWorldLocation;
+        var slots = referenceHub.inventoryMenu.OreItemsSlots;
+        if(slots[cwl.MainResourceName].ItemTemplate.clicksToPop <= clicks) {
+            slots[cwl.MainResourceName].Count += cwl.MainResourceClickIncrement();
             cwl.Experience += new System.Random().NextDouble(1.0,5.0);
             clicks = 0;
         }
     }
 
     private void OnLevelUpButtonClick() {
-        var cwl = worldMenu.CurrentWorldLocation;
+        var cwl = referenceHub.worldMenu.CurrentWorldLocation;
         cwl.Level += 1;
         cwl.maxExperience = cwl.Level * 20.0 + new System.Random().NextDouble(30.0,60.0);
         cwl.Experience = 0.0;
