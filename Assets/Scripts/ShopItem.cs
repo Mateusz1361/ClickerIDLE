@@ -23,7 +23,7 @@ public class ShopItem : MonoBehaviour {
     private TMP_Text unlockLevelText;
     private WorldLocation worldLocation;
     private InventoryMenu inventoryMenu;
-    public SafeInteger multiplier = 1;
+    public SafeUInteger multiplier = 1;
     [HideInInspector]
     public List<ShopItemPrice> shopItemsPrices;
     
@@ -31,14 +31,14 @@ public class ShopItem : MonoBehaviour {
     [HideInInspector]
     public new string name;
 
-    private SafeInteger cacheMainResourceClickIncrement = 0;
-    private SafeInteger cacheMainResourceAutoIncrement = 0;
+    private SafeUInteger cacheMainResourceClickIncrement = 0;
+    private SafeUInteger cacheMainResourceAutoIncrement = 0;
 
-    public SafeInteger MainResourceClickIncrement() {
+    public SafeUInteger MainResourceClickIncrement() {
         return cacheMainResourceClickIncrement;
     }
 
-    public SafeInteger MainResourceAutoIncrement() {
+    public SafeUInteger MainResourceAutoIncrement() {
         return cacheMainResourceAutoIncrement;
     }
 
@@ -111,8 +111,8 @@ public class ShopItem : MonoBehaviour {
         defaultSettings = data;
     }
 
-    private SafeInteger _resultQuantity = 0;
-    public SafeInteger ResultQuantity {
+    private SafeUInteger _resultQuantity = 0;
+    public SafeUInteger ResultQuantity {
         get {
             return _resultQuantity;
         }
@@ -122,9 +122,9 @@ public class ShopItem : MonoBehaviour {
         }
     }
 
-    public event Action<SafeInteger> OnCountChange;
-    private SafeInteger _count = 0;
-    public SafeInteger Count {
+    public event Action<SafeUInteger> OnCountChange;
+    private SafeUInteger _count = 0;
+    public SafeUInteger Count {
         get {
             return _count;
         }

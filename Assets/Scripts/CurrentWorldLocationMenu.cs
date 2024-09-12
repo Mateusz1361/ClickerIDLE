@@ -80,15 +80,15 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
 #endif
     }
 
-    private void OnMoneyCountChanged(SafeInteger value) {
+    private void OnMoneyCountChanged(SafeUInteger value) {
         moneyCountText.text = value.ToString();
     }
 
-    private void OnMainResourceCountChanged(SafeInteger value) {
+    private void OnMainResourceCountChanged(SafeUInteger value) {
         mainResourceCountText.text = value.ToString();
     }
 
-    private void OnMainResourceAutoIncrementChange(SafeInteger value) {
+    private void OnMainResourceAutoIncrementChange(SafeUInteger value) {
         workersInfo.SetActive(value > 0);
         workerGainText.text = $"{value} / s";
     }

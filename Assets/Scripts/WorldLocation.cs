@@ -17,20 +17,20 @@ public class WorldLocation : MonoBehaviour {
     private GameObject lockedMarker;
     private ReferenceHub referenceHub;
 
-    private SafeInteger cacheMainResourceClickIncrement = 1;
-    private SafeInteger cacheMainResourceAutoIncrement = 0;
+    private SafeUInteger cacheMainResourceClickIncrement = 1;
+    private SafeUInteger cacheMainResourceAutoIncrement = 0;
 
-    public SafeInteger MainResourceClickIncrement()  {
+    public SafeUInteger MainResourceClickIncrement()  {
         return cacheMainResourceClickIncrement;
     }
 
-    public SafeInteger MainResourceAutoIncrement() {
+    public SafeUInteger MainResourceAutoIncrement() {
         return cacheMainResourceAutoIncrement;
     }
 
     public float mainResourceAutoIncrementTimer = 0.0f;
 
-    public event Action<SafeInteger> OnMainResourceAutoIncrementChange;
+    public event Action<SafeUInteger> OnMainResourceAutoIncrementChange;
     public void RecalculateMainResourceClickIncrement()  {
         cacheMainResourceClickIncrement = 1;
         foreach(var item in ShopItems) {
@@ -74,8 +74,8 @@ public class WorldLocation : MonoBehaviour {
         }
     }
 
-    private SafeInteger _investorsYouHave = 0;
-    public SafeInteger InvestorsYouHave { 
+    private SafeUInteger _investorsYouHave = 0;
+    public SafeUInteger InvestorsYouHave { 
         get { 
             return _investorsYouHave; 
         } 
@@ -86,8 +86,8 @@ public class WorldLocation : MonoBehaviour {
             RecalculateMainResourceAutoIncrement();
         } 
     }
-    private SafeInteger _investorsToClaim = 0;
-    public SafeInteger InvestorsToClaim {
+    private SafeUInteger _investorsToClaim = 0;
+    public SafeUInteger InvestorsToClaim {
         get {
             return _investorsToClaim;
         }
@@ -96,8 +96,8 @@ public class WorldLocation : MonoBehaviour {
             referenceHub.investorMenu.investorsToClaimText.text = _investorsToClaim.ToString();
         }
     }
-    public SafeInteger differenceOfMaterial = 0;
-    public SafeInteger quantityToAddInvestor = 10;
+    public SafeUInteger differenceOfMaterial = 0;
+    public SafeUInteger quantityToAddInvestor = 10;
 
     private List<ShopItem> _shopItems;
     public List<ShopItem> ShopItems {
@@ -173,8 +173,8 @@ public class WorldLocation : MonoBehaviour {
         }
     }
 
-    private SafeInteger _price = 0;
-    public SafeInteger Price {
+    private SafeUInteger _price = 0;
+    public SafeUInteger Price {
         get {
             return _price;
         }

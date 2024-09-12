@@ -29,14 +29,14 @@ public class ShopItemPrice : MonoBehaviour {
         OnCountChange(0);
     }
 
-    private void OnCountChange(SafeInteger count) {
+    private void OnCountChange(SafeUInteger count) {
         content.gameObject.SetActive(UnlockCount <= count);
     }
 
-    public SafeInteger UnlockCount { get; private set; }
+    public SafeUInteger UnlockCount { get; private set; }
 
-    private SafeInteger _value = 0;
-    public SafeInteger Value {
+    private SafeUInteger _value = 0;
+    public SafeUInteger Value {
         get {
             return _value;
         }

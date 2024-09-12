@@ -15,11 +15,11 @@ public class InvestorUpgradeInstance : MonoBehaviour {
     public WorldLocation worldLocation;
     [HideInInspector]
     public string whatYouMultiply;
-    public SafeInteger multiplier;
+    public SafeUInteger multiplier;
     private ReferenceHub referenceHub;
 
-    private SafeInteger _price = 0;
-    public SafeInteger Price {
+    private SafeUInteger _price = 0;
+    public SafeUInteger Price {
         get {
             return _price;
         }

@@ -45,7 +45,7 @@ public class InventoryMenu : MonoBehaviour {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
     }
 
-    public bool CanAddItems(string name,SafeInteger count) {
+    public bool CanAddItems(string name,SafeUInteger count) {
         if(OreItemsSlots.ContainsKey(name)) {
             return true;
         }
@@ -67,7 +67,7 @@ public class InventoryMenu : MonoBehaviour {
         return false;
     }
 
-    public bool CanRemoveItems(string name,SafeInteger count) {
+    public bool CanRemoveItems(string name,SafeUInteger count) {
         if(OreItemsSlots.ContainsKey(name)) {
             return OreItemsSlots[name].Count >= count;
         }
@@ -83,7 +83,7 @@ public class InventoryMenu : MonoBehaviour {
         return false;
     }
 
-    public bool AddItems(string name,SafeInteger count) {
+    public bool AddItems(string name,SafeUInteger count) {
         if(!CanAddItems(name,count)) return false;
         if(OreItemsSlots.ContainsKey(name)) {
             OreItemsSlots[name].Count += count;
@@ -112,7 +112,7 @@ public class InventoryMenu : MonoBehaviour {
         return false;
     }
 
-    public bool RemoveItems(string name,SafeInteger count) {
+    public bool RemoveItems(string name,SafeUInteger count) {
         if(!CanRemoveItems(name,count)) return false;
         if(OreItemsSlots.ContainsKey(name)) {
             OreItemsSlots[name].Count -= count;

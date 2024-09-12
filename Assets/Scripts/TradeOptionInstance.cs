@@ -44,7 +44,7 @@ public class TradeOptionInstance : MonoBehaviour {
         });
         quantityInput.text = "0";
         quantityInput.onEndEdit.AddListener((string text) => {
-            Quantity = SafeInteger.Parse(text);
+            Quantity = SafeUInteger.Parse(text);
         });
     }
 
@@ -59,8 +59,8 @@ public class TradeOptionInstance : MonoBehaviour {
         Quantity = 0;
     }
 
-    private SafeInteger _buyPrice;
-    public SafeInteger BuyPrice {
+    private SafeUInteger _buyPrice;
+    public SafeUInteger BuyPrice {
         get {
             return _buyPrice;
         }
@@ -70,8 +70,8 @@ public class TradeOptionInstance : MonoBehaviour {
         }
     }
 
-    private SafeInteger _sellPrice;
-    public SafeInteger SellPrice {
+    private SafeUInteger _sellPrice;
+    public SafeUInteger SellPrice {
         get {
             return _sellPrice;
         }
@@ -81,8 +81,8 @@ public class TradeOptionInstance : MonoBehaviour {
         }
     }
 
-    private SafeInteger _quantity;
-    public SafeInteger Quantity {
+    private SafeUInteger _quantity;
+    public SafeUInteger Quantity {
         get {
             return _quantity;
         }
@@ -95,7 +95,7 @@ public class TradeOptionInstance : MonoBehaviour {
     }
 
     private void OnBuyButtonClick() {
-        SafeInteger quantity = Quantity;
+        SafeUInteger quantity = Quantity;
         if(inventoryMenu.CanRemoveItems(CurrencyOut,quantity * BuyPrice) && inventoryMenu.CanAddItems(CurrencyIn,quantity)) {
             inventoryMenu.RemoveItems(CurrencyOut,quantity * BuyPrice);
             inventoryMenu.AddItems(CurrencyIn,quantity);
@@ -103,7 +103,7 @@ public class TradeOptionInstance : MonoBehaviour {
     }
 
     private void OnSellButtonClick() {
-        SafeInteger quantity = Quantity;
+        SafeUInteger quantity = Quantity;
         if(inventoryMenu.CanRemoveItems(CurrencyIn,quantity) && inventoryMenu.CanAddItems(CurrencyOut,quantity * SellPrice)) {
             inventoryMenu.RemoveItems(CurrencyIn,quantity);
             inventoryMenu.AddItems(CurrencyOut,quantity * SellPrice);

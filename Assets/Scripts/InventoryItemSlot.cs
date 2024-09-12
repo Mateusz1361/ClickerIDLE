@@ -31,8 +31,8 @@ public class InventoryItemSlot : MonoBehaviour {
         }
     }
 
-    private SafeInteger _count = 0;
-    public SafeInteger Count {
+    private SafeUInteger _count = 0;
+    public SafeUInteger Count {
         get {
             return _count;
         }
@@ -60,37 +60,30 @@ public class InventoryItemSlot : MonoBehaviour {
                 }
             }
         });
-        actionButton.onClick.AddListener(() =>
-        {
-            if (ItemTemplate == null) return;
-            if (ItemTemplate.type == "Pickaxe")
-            {
+        actionButton.onClick.AddListener(() => {
+            if(ItemTemplate == null) return;
+            if(ItemTemplate.type == "Pickaxe") {
                 EquipItem(inventoryMenu.pickaxeInventoryItemSlot);
-            }else if (ItemTemplate.type == "Sword")
-            {
+            }
+            else if (ItemTemplate.type == "Sword") {
                 EquipItem(inventoryMenu.swordInventoryItemSlot);
-            }else if (ItemTemplate.type == "Armor")
-            {
+            }
+            else if (ItemTemplate.type == "Armor") {
                 EquipItem(inventoryMenu.armorInventoryItemSlot);
             }
             buttonList.SetActive(false);
-            
         });
     }
 
-    
-
-    private void EquipItem(InventoryItemSlot type)
-    {
-        if (this != type && type.ItemTemplate == null)
-        {
+    private void EquipItem(InventoryItemSlot type) {
+        if(this != type && type.ItemTemplate == null) {
             type.ItemTemplate = ItemTemplate;
             type.Count = 1;
             Count -= 1;
             if(Count == 0) ItemTemplate = null;
-        }else if (this == type && inventoryMenu.CanAddItems(ItemTemplate.name, Count))
-        {
-            inventoryMenu.AddItems(ItemTemplate.name, Count);
+        }
+        else if(this == type && inventoryMenu.CanAddItems(ItemTemplate.name,Count)) {
+            inventoryMenu.AddItems(ItemTemplate.name,Count);
             ItemTemplate = null;
             Count = 0;
         }
