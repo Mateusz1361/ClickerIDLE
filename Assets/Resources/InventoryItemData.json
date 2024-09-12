@@ -51,7 +51,7 @@
         {
             "name": "Emerald",
             "iconPath": "OreIcons/EmeraldIcon",
-            "clicksToPop": 1,
+            "clicksToPop": 21,
             "type": "Ore",
             "price": 0,
             "maxStackCount": 0
@@ -156,7 +156,7 @@
             "name": "Electronic Circuits",
             "iconPath": "Missing",
             "clicksToPop": 0,
-            "type": "SellableItem",
+            "type": "Sword",
             "price": 100,
             "maxStackCount": 64
         },
@@ -164,7 +164,7 @@
             "name": "High-Quality Cabling",
             "iconPath": "Missing",
             "clicksToPop": 0,
-            "type": "SellableItem",
+            "type": "Armor",
             "price": 10000,
             "maxStackCount": 64
         },

@@ -28,6 +28,8 @@ public class InventoryMenu : MonoBehaviour {
     [SerializeField]
     private TextAsset inventoryItemDataAsset;
     public InventoryItemSlot pickaxeInventoryItemSlot;
+    public InventoryItemSlot swordInventoryItemSlot;
+    public InventoryItemSlot armorInventoryItemSlot;
 
     private Dictionary<string,ItemTemplate> _itemTemplates = null;
     public Dictionary<string,ItemTemplate> ItemTemplates {
@@ -168,6 +170,12 @@ public class InventoryMenu : MonoBehaviour {
         pickaxeInventoryItemSlot.Init(this);
         pickaxeInventoryItemSlot.ItemTemplate = null;
         pickaxeInventoryItemSlot.Count = 0;
+        swordInventoryItemSlot.Init(this);
+        swordInventoryItemSlot.ItemTemplate = null;
+        swordInventoryItemSlot.Count = 0;
+        armorInventoryItemSlot.Init(this);
+        armorInventoryItemSlot.ItemTemplate = null;
+        armorInventoryItemSlot.Count = 0;
     }
 
     private void InitItems() {

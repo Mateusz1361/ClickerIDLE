@@ -26,11 +26,15 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private GameObject workersInfo;
     [SerializeField]
     private ViewSelection viewSelection;
-    private int clicks = 0;
+    [SerializeField] 
+    private Button igniteDynamiteButton;
+    private ulong clicks = 0;
+    private ulong powerOfDynamite = 100;
 
     private void Awake() {
         mainButton.onClick.AddListener(OnMainButtonClick);
         levelUpButton.onClick.AddListener(OnLevelUpButtonClick);
+        igniteDynamiteButton.onClick.AddListener(ExtinctTheWorld);
         referenceHub.inventoryMenu.Money.OnCountChanged += OnMoneyCountChanged;
         referenceHub.worldMenu.OnWorldLocationLeft += (WorldLocation location) => {
             if(location != null) {
@@ -114,5 +118,17 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
         cwl.Level += 1;
         cwl.maxExperience = cwl.Level * 20.0 + new System.Random().NextDouble(30.0,60.0);
         cwl.Experience = 0.0;
+    }
+
+    private void ExtinctTheWorld()
+    {
+        if (referenceHub.inventoryMenu.CanRemoveItems("Dynamite", 1))
+        {
+            referenceHub.inventoryMenu.RemoveItems("Dynamite", 1);
+            var cwl = referenceHub.worldMenu.CurrentWorldLocation;
+            var slots = referenceHub.inventoryMenu.OreItemsSlots;
+            slots[cwl.MainResourceName].Count += powerOfDynamite/slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
+            clicks += powerOfDynamite % slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
+        }
     }
 }

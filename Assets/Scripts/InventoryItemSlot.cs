@@ -1,6 +1,9 @@
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
 
 public class InventoryItemSlot : MonoBehaviour {
     [SerializeField]
@@ -57,25 +60,37 @@ public class InventoryItemSlot : MonoBehaviour {
                 }
             }
         });
-        actionButton.onClick.AddListener(() => {
-            if(ItemTemplate.type == "Pickaxe") {
-                EquipItem();
-                buttonList.SetActive(false);
+        actionButton.onClick.AddListener(() =>
+        {
+            if (ItemTemplate == null) return;
+            if (ItemTemplate.type == "Pickaxe")
+            {
+                EquipItem(inventoryMenu.pickaxeInventoryItemSlot);
+            }else if (ItemTemplate.type == "Sword")
+            {
+                EquipItem(inventoryMenu.swordInventoryItemSlot);
+            }else if (ItemTemplate.type == "Armor")
+            {
+                EquipItem(inventoryMenu.armorInventoryItemSlot);
             }
+            buttonList.SetActive(false);
+            
         });
     }
 
-    public void EquipItem() {
-        if(ItemTemplate == null || Count == 0) return;
-        var pis = inventoryMenu.pickaxeInventoryItemSlot;
-        if(this != pis && pis.ItemTemplate == null) {
-            pis.ItemTemplate = ItemTemplate;
-            pis.Count = 1;
+    
+
+    private void EquipItem(InventoryItemSlot type)
+    {
+        if (this != type && type.ItemTemplate == null)
+        {
+            type.ItemTemplate = ItemTemplate;
+            type.Count = 1;
             Count -= 1;
             if(Count == 0) ItemTemplate = null;
-        }
-        else if(this == pis && inventoryMenu.CanAddItems(ItemTemplate.name,Count)) {
-            inventoryMenu.AddItems(ItemTemplate.name,Count);
+        }else if (this == type && inventoryMenu.CanAddItems(ItemTemplate.name, Count))
+        {
+            inventoryMenu.AddItems(ItemTemplate.name, Count);
             ItemTemplate = null;
             Count = 0;
         }
@@ -83,7 +98,7 @@ public class InventoryItemSlot : MonoBehaviour {
 
     private void OnEnable() {
         if(ItemTemplate != null) {
-            actionButton.gameObject.SetActive(ItemTemplate.type == "Pickaxe");
+            actionButton.gameObject.SetActive(ItemTemplate.type is "Pickaxe" or "Sword" or "Armor");
         }
     }
 

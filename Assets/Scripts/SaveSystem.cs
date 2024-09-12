@@ -51,6 +51,8 @@ public class SaveData {
     public SaveInventoryItemData[] saveInventoryOreItemDatas;
     public SaveInventoryItemData[] saveInventoryItemDatas;
     public SaveInventoryItemData saveInventoryPickaxeItemData;
+    public SaveInventoryItemData saveInventorySwordItemData;
+    public SaveInventoryItemData saveInventoryArmorItemData;
 }
 
 public class SaveSystem : MonoBehaviour {
@@ -135,6 +137,14 @@ public class SaveSystem : MonoBehaviour {
             name = inventoryMenu.pickaxeInventoryItemSlot.ItemTemplate?.name,
             count = (ulong)inventoryMenu.pickaxeInventoryItemSlot.Count
         };
+        saveData.saveInventorySwordItemData = new() {
+            name = inventoryMenu.swordInventoryItemSlot.ItemTemplate?.name,
+            count = (ulong)inventoryMenu.swordInventoryItemSlot.Count
+        };
+        saveData.saveInventoryArmorItemData = new() {
+            name = inventoryMenu.armorInventoryItemSlot.ItemTemplate?.name,
+            count = (ulong)inventoryMenu.armorInventoryItemSlot.Count
+        };
 
         var temp = JsonUtility.ToJson(saveData);
         Directory.CreateDirectory(Application.persistentDataPath);
@@ -203,6 +213,14 @@ public class SaveSystem : MonoBehaviour {
         if(inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventoryPickaxeItemData.name)) {
             inventoryMenu.pickaxeInventoryItemSlot.ItemTemplate = inventoryMenu.ItemTemplates[saveData.saveInventoryPickaxeItemData.name];
             inventoryMenu.pickaxeInventoryItemSlot.Count = saveData.saveInventoryPickaxeItemData.count;
+        }
+        if(inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventorySwordItemData.name)) {
+            inventoryMenu.swordInventoryItemSlot.ItemTemplate = inventoryMenu.ItemTemplates[saveData.saveInventorySwordItemData.name];
+            inventoryMenu.swordInventoryItemSlot.Count = saveData.saveInventorySwordItemData.count;
+        }
+        if(inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventoryArmorItemData.name)) {
+            inventoryMenu.armorInventoryItemSlot.ItemTemplate = inventoryMenu.ItemTemplates[saveData.saveInventoryArmorItemData.name];
+            inventoryMenu.armorInventoryItemSlot.Count = saveData.saveInventoryArmorItemData.count;
         }
     }
 }
