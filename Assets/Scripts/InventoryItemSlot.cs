@@ -1,9 +1,6 @@
-using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Button = UnityEngine.UI.Button;
-using Image = UnityEngine.UI.Image;
+using UnityEngine.UI;
 
 public class InventoryItemSlot : MonoBehaviour {
     [SerializeField]
@@ -31,8 +28,8 @@ public class InventoryItemSlot : MonoBehaviour {
         }
     }
 
-    private SafeUInteger _count = 0;
-    public SafeUInteger Count {
+    private SafeUDecimal _count = 0;
+    public SafeUDecimal Count {
         get {
             return _count;
         }

@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 
-[Serializable]
 public readonly struct SafeUInteger {
     public readonly ulong limb;
 

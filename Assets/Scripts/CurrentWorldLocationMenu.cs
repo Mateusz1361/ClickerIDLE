@@ -80,15 +80,15 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
 #endif
     }
 
-    private void OnMoneyCountChanged(SafeUInteger value) {
+    private void OnMoneyCountChanged(SafeUDecimal value) {
         moneyCountText.text = value.ToString();
     }
 
-    private void OnMainResourceCountChanged(SafeUInteger value) {
+    private void OnMainResourceCountChanged(SafeUDecimal value) {
         mainResourceCountText.text = value.ToString();
     }
 
-    private void OnMainResourceAutoIncrementChange(SafeUInteger value) {
+    private void OnMainResourceAutoIncrementChange(SafeUDecimal value) {
         workersInfo.SetActive(value > 0);
         workerGainText.text = $"{value} / s";
     }
@@ -120,15 +120,14 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
         cwl.Experience = 0.0;
     }
 
-    private void ExtinctTheWorld()
-    {
-        if (referenceHub.inventoryMenu.CanRemoveItems("Dynamite", 1))
-        {
-            referenceHub.inventoryMenu.RemoveItems("Dynamite", 1);
+    private void ExtinctTheWorld() {
+        if(referenceHub.inventoryMenu.CanRemoveItems("Dynamite",1)) {
+            referenceHub.inventoryMenu.RemoveItems("Dynamite",1);
             var cwl = referenceHub.worldMenu.CurrentWorldLocation;
             var slots = referenceHub.inventoryMenu.OreItemsSlots;
-            slots[cwl.MainResourceName].Count += powerOfDynamite/slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
-            clicks += powerOfDynamite % slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
+            clicks += powerOfDynamite;
+            slots[cwl.MainResourceName].Count += clicks / slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
+            clicks = powerOfDynamite % slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
         }
     }
 }

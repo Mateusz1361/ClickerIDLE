@@ -2,49 +2,49 @@
     "data": [
         {
             "whatYouGetText": "Rock Drill profit x1.25",
-            "multiplier": 1,
+            "multiplier": "1.25",
             "price": 50,
             "whatYouMultiply": "Rock Drill"
         },
         {
             "whatYouGetText": "LHD Loader profit x1.25",
-            "multiplier": 1,
+            "multiplier": "1.25",
             "price": 200,
             "whatYouMultiply": "LHD Loader"
         },
         {
             "whatYouGetText": "Drilling Jumbo profit x1.25",
-            "multiplier": 1,
+            "multiplier": "1.25",
             "price": 400,
             "whatYouMultiply": "Drilling Jumbo"
         },
         {
             "whatYouGetText": "Mining Locomotive profit x2",
-            "multiplier": 2,
+            "multiplier": "2",
             "price": 1000,
             "whatYouMultiply": "Mining Locomotive"
         },
         {
             "whatYouGetText": "Roof Scaler profit x1.5",
-            "multiplier": 1,
+            "multiplier": "1.5",
             "price": 4000,
             "whatYouMultiply": "Roof Scaler"
         },
         {
             "whatYouGetText": "Mine Shaft Hoist profit x1.5",
-            "multiplier": 1,
+            "multiplier": "1.5",
             "price": 10000,
             "whatYouMultiply": "Mine Shaft Hoist"
         },
         {
             "whatYouGetText": "Rock Bolter profit x2.5",
-            "multiplier": 2,
+            "multiplier": "2.5",
             "price": 25000,
             "whatYouMultiply": "Roof Scaler"
         },
         {
             "whatYouGetText": "Explosive Charging Equipment profit x2.5",
-            "multiplier": 2,
+            "multiplier": "2.5",
             "price": 40000,
             "whatYouMultiply": "Explosive Charging Equipment"
         }

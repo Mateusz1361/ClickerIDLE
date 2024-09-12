@@ -52,15 +52,15 @@ public class TradeOptionInstance : MonoBehaviour {
         inventoryMenu = _inventoryMenu;
         currencyInIcon.sprite = inventoryMenu.ItemTemplates[_data.currencyIn].icon;
         currencyOutIcon.sprite = inventoryMenu.ItemTemplates[_data.currencyOut].icon;
-        BuyPrice = _data.buyPrice;
-        SellPrice = _data.sellPrice;
+        BuyPrice = SafeUDecimal.Parse(_data.buyPrice);
+        SellPrice = SafeUDecimal.Parse(_data.sellPrice);
         CurrencyIn = _data.currencyIn;
         CurrencyOut = _data.currencyOut;
         Quantity = 0;
     }
 
-    private SafeUInteger _buyPrice;
-    public SafeUInteger BuyPrice {
+    private SafeUDecimal _buyPrice;
+    public SafeUDecimal BuyPrice {
         get {
             return _buyPrice;
         }
@@ -70,8 +70,8 @@ public class TradeOptionInstance : MonoBehaviour {
         }
     }
 
-    private SafeUInteger _sellPrice;
-    public SafeUInteger SellPrice {
+    private SafeUDecimal _sellPrice;
+    public SafeUDecimal SellPrice {
         get {
             return _sellPrice;
         }
@@ -81,8 +81,8 @@ public class TradeOptionInstance : MonoBehaviour {
         }
     }
 
-    private SafeUInteger _quantity;
-    public SafeUInteger Quantity {
+    private SafeUDecimal _quantity;
+    public SafeUDecimal Quantity {
         get {
             return _quantity;
         }
@@ -95,7 +95,7 @@ public class TradeOptionInstance : MonoBehaviour {
     }
 
     private void OnBuyButtonClick() {
-        SafeUInteger quantity = Quantity;
+        SafeUDecimal quantity = Quantity;
         if(inventoryMenu.CanRemoveItems(CurrencyOut,quantity * BuyPrice) && inventoryMenu.CanAddItems(CurrencyIn,quantity)) {
             inventoryMenu.RemoveItems(CurrencyOut,quantity * BuyPrice);
             inventoryMenu.AddItems(CurrencyIn,quantity);
@@ -103,7 +103,7 @@ public class TradeOptionInstance : MonoBehaviour {
     }
 
     private void OnSellButtonClick() {
-        SafeUInteger quantity = Quantity;
+        SafeUDecimal quantity = Quantity;
         if(inventoryMenu.CanRemoveItems(CurrencyIn,quantity) && inventoryMenu.CanAddItems(CurrencyOut,quantity * SellPrice)) {
             inventoryMenu.RemoveItems(CurrencyIn,quantity);
             inventoryMenu.AddItems(CurrencyOut,quantity * SellPrice);

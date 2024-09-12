@@ -2,8 +2,8 @@ using System;
 
 [Serializable]
 public class TradeOptionInstanceData {
-    public ulong buyPrice;
-    public ulong sellPrice;
+    public string buyPrice;
+    public string sellPrice;
     public string currencyIn;
     public string currencyOut;
 }
@@ -13,7 +13,7 @@ public class InvestorUpgradeData {
     public string whatYouGetText;
     public string whatYouMultiply;
     public ulong price;
-    public ulong multiplier;
+    public string multiplier;
 }
 
 [Serializable]

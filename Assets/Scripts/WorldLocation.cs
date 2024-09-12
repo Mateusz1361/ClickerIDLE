@@ -17,26 +17,26 @@ public class WorldLocation : MonoBehaviour {
     private GameObject lockedMarker;
     private ReferenceHub referenceHub;
 
-    private SafeUInteger cacheMainResourceClickIncrement = 1;
-    private SafeUInteger cacheMainResourceAutoIncrement = 0;
+    private SafeUDecimal cacheMainResourceClickIncrement = 1;
+    private SafeUDecimal cacheMainResourceAutoIncrement = 0;
 
-    public SafeUInteger MainResourceClickIncrement()  {
+    public SafeUDecimal MainResourceClickIncrement()  {
         return cacheMainResourceClickIncrement;
     }
 
-    public SafeUInteger MainResourceAutoIncrement() {
+    public SafeUDecimal MainResourceAutoIncrement() {
         return cacheMainResourceAutoIncrement;
     }
 
     public float mainResourceAutoIncrementTimer = 0.0f;
 
-    public event Action<SafeUInteger> OnMainResourceAutoIncrementChange;
+    public event Action<SafeUDecimal> OnMainResourceAutoIncrementChange;
     public void RecalculateMainResourceClickIncrement()  {
         cacheMainResourceClickIncrement = 1;
         foreach(var item in ShopItems) {
             cacheMainResourceClickIncrement += item.MainResourceClickIncrement();
         }
-        cacheMainResourceClickIncrement *= (1 + InvestorsYouHave);
+        cacheMainResourceClickIncrement *= (1 + SafeUDecimal.CentiUnits(2) * InvestorsYouHave);
     }
 
     public void RecalculateMainResourceAutoIncrement() {
@@ -44,7 +44,7 @@ public class WorldLocation : MonoBehaviour {
         foreach(var item in ShopItems) {
             cacheMainResourceAutoIncrement += item.MainResourceAutoIncrement();
         }
-        cacheMainResourceAutoIncrement *= (1 + InvestorsYouHave);
+        cacheMainResourceAutoIncrement *= (1 + SafeUDecimal.CentiUnits(2) * InvestorsYouHave);
         OnMainResourceAutoIncrementChange?.Invoke(cacheMainResourceAutoIncrement);
     }
 
@@ -74,8 +74,8 @@ public class WorldLocation : MonoBehaviour {
         }
     }
 
-    private SafeUInteger _investorsYouHave = 0;
-    public SafeUInteger InvestorsYouHave { 
+    private SafeUDecimal _investorsYouHave = 0;
+    public SafeUDecimal InvestorsYouHave { 
         get { 
             return _investorsYouHave; 
         } 
@@ -86,8 +86,9 @@ public class WorldLocation : MonoBehaviour {
             RecalculateMainResourceAutoIncrement();
         } 
     }
-    private SafeUInteger _investorsToClaim = 0;
-    public SafeUInteger InvestorsToClaim {
+
+    private SafeUDecimal _investorsToClaim = 0;
+    public SafeUDecimal InvestorsToClaim {
         get {
             return _investorsToClaim;
         }
@@ -96,7 +97,7 @@ public class WorldLocation : MonoBehaviour {
             referenceHub.investorMenu.investorsToClaimText.text = _investorsToClaim.ToString();
         }
     }
-    public SafeUInteger differenceOfMaterial = 0;
+    public SafeUDecimal differenceOfMaterial = 0;
     public SafeUInteger quantityToAddInvestor = 10;
 
     private List<ShopItem> _shopItems;

@@ -51,7 +51,7 @@ public class InvestorMenu : MonoBehaviour {
         }
     }
     
-    public void CountingInvestors(SafeUInteger resourceToInvestors) {
+    public void CountingInvestors(SafeUDecimal resourceToInvestors) {
         var cwl = referenceHub.worldMenu.CurrentWorldLocation;
         cwl.differenceOfMaterial += resourceToInvestors;
         if(cwl.differenceOfMaterial >= cwl.quantityToAddInvestor) {

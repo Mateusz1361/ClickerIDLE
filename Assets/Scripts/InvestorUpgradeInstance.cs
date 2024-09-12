@@ -15,7 +15,7 @@ public class InvestorUpgradeInstance : MonoBehaviour {
     public WorldLocation worldLocation;
     [HideInInspector]
     public string whatYouMultiply;
-    public SafeUInteger multiplier;
+    public SafeUDecimal multiplier;
     private ReferenceHub referenceHub;
 
     private SafeUInteger _price = 0;
@@ -39,7 +39,7 @@ public class InvestorUpgradeInstance : MonoBehaviour {
         referenceHub = _referenceHub;
         worldLocation = _worldLocation;
         whatYouMultiply = investorUpgradeData.whatYouMultiply;
-        multiplier = investorUpgradeData.multiplier;
+        multiplier = SafeUDecimal.Parse(investorUpgradeData.multiplier);
         whatYouGetText.text = investorUpgradeData.whatYouGetText;
         Price = investorUpgradeData.price;
         iconOfInvestorsUpgrade.sprite = Resources.Load<Sprite>("Images/WorkersButton");

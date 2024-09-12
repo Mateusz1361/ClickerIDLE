@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Collections.Generic;
 
-[Serializable]
 public struct SafeUDecimal {
     public SafeUInteger Value { get; private set; }
 
@@ -18,11 +17,11 @@ public struct SafeUDecimal {
         Value = (value <= 0.0) ? 0 : Value;
     }
 
-    public static SafeUDecimal InitByHundreds(SafeUInteger numerator) {
+    public static SafeUDecimal CentiUnits(SafeUInteger numerator) {
         return new() { Value = numerator };
     }
 
-    public static implicit operator SafeUDecimal(int integer) {
+    public static explicit operator SafeUDecimal(int integer) {
         return new((SafeUInteger)integer);
     }
 
@@ -30,7 +29,7 @@ public struct SafeUDecimal {
         return new((SafeUInteger)integer);
     }
 
-    public static implicit operator SafeUDecimal(long integer) {
+    public static explicit operator SafeUDecimal(long integer) {
         return new((SafeUInteger)integer);
     }
 
@@ -38,7 +37,7 @@ public struct SafeUDecimal {
         return new((SafeUInteger)integer);
     }
 
-    public static implicit operator SafeUDecimal(double @float) {
+    public static explicit operator SafeUDecimal(double @float) {
         return new(@float);
     }
 

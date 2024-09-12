@@ -23,11 +23,11 @@ public class InventoryOreItemSlot : MonoBehaviour {
         }
     }
 
-    public event Action<SafeUInteger> OnCountChanged;
-    public event Action<SafeUInteger> OnCountIncremented;
+    public event Action<SafeUDecimal> OnCountChanged;
+    public event Action<SafeUDecimal> OnCountIncremented;
 
-    private SafeUInteger _count = 0;
-    public SafeUInteger Count {
+    private SafeUDecimal _count = 0;
+    public SafeUDecimal Count {
         get {
             return _count;
         }
