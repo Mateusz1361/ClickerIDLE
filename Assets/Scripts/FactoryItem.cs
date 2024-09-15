@@ -86,6 +86,10 @@ public class FactoryItem : MonoBehaviour {
                     progressSlider.value = 0.0f;
                     isUpdating = false;
                     startProcessButton.interactable = true;
+                    if (factoryResultData.type == "Dynamite")
+                    {
+                        referenceHub.currentWorldLocationMenu.RefreshQuantityOfDynamite();
+                    }
                 }
             }
         }

@@ -1,7 +1,10 @@
 using TMPro;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
+using Slider = UnityEngine.UI.Slider;
 
 public class CurrentWorldLocationMenu : MonoBehaviour {
     [SerializeField]
@@ -28,6 +31,8 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private ViewSelection viewSelection;
     [SerializeField] 
     private Button igniteDynamiteButton;
+    [SerializeField] 
+    private TMP_Text quantityOfDynamiteText;
     private ulong clicks = 0;
     private ulong powerOfDynamite = 100;
 
@@ -57,6 +62,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
             OnExperienceChange(location.Experience,location.maxExperience);
             clicks = 0;
         };
+        RefreshQuantityOfDynamite();
         viewSelection.Init();
         referenceHub.saveSystem.LoadGame();
     }
@@ -128,6 +134,17 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
             clicks += powerOfDynamite;
             slots[cwl.MainResourceName].Count += clicks / slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
             clicks = powerOfDynamite % slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
+        }
+    }
+
+    public void RefreshQuantityOfDynamite()
+    {
+        for (int i = 0; i < referenceHub.inventoryMenu.itemSlots.Count; i++)
+        {
+            if (referenceHub.inventoryMenu.itemSlots[i].name == "Dynamite")
+            {
+                quantityOfDynamiteText.text = referenceHub.inventoryMenu.itemSlots[i].Count.ToString();
+            }
         }
     }
 }

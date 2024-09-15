@@ -7621,6 +7621,7 @@ MonoBehaviour:
   workersInfo: {fileID: 1229898867}
   viewSelection: {fileID: 1906633878}
   igniteDynamiteButton: {fileID: 2100191990}
+  quantityOfDynamiteText: {fileID: 740933836}
 --- !u!1 &1534120990
 GameObject:
   m_ObjectHideFlags: 0
