@@ -183,6 +183,14 @@
             "type": "SellableItem",
             "price": 50000000,
             "maxStackCount": 64
+        },
+        {
+            "name": "Sword",
+            "iconPath": "ItemIcons/Sword",
+            "clicksToPop": 0,
+            "type": "Sword",
+            "price": 5000,
+            "maxStackCount": 1
         }
     ]
 }

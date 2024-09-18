@@ -124,6 +124,25 @@
                 "value": 10
             },
             "duration": 1.0
+        },
+        {
+            "name": "Factory of Dynamite",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Gold",
+                    "value": 100
+                },
+                {
+                    "name": "Diamond",
+                    "value": 10
+                }
+            ],
+            "result": {
+                "type": "Sword",
+                "value": 1
+            },
+            "duration": 1.0
         }
     ]
 }

@@ -62,9 +62,9 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
             OnExperienceChange(location.Experience,location.maxExperience);
             clicks = 0;
         };
-        RefreshQuantityOfDynamite();
         viewSelection.Init();
         referenceHub.saveSystem.LoadGame();
+        RefreshQuantityOfDynamite();
     }
 
     private void Update() {
@@ -134,17 +134,24 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
             clicks += powerOfDynamite;
             slots[cwl.MainResourceName].Count += clicks / slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
             clicks = powerOfDynamite % slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
+            RefreshQuantityOfDynamite();
         }
     }
-
+    
     public void RefreshQuantityOfDynamite()
     {
+        SafeUDecimal value = 0;
         for (int i = 0; i < referenceHub.inventoryMenu.itemSlots.Count; i++)
         {
-            if (referenceHub.inventoryMenu.itemSlots[i].name == "Dynamite")
+            if (referenceHub.inventoryMenu.itemSlots[i].ItemTemplate != null)
             {
-                quantityOfDynamiteText.text = referenceHub.inventoryMenu.itemSlots[i].Count.ToString();
+                if (referenceHub.inventoryMenu.itemSlots[i]?.ItemTemplate.name == "Dynamite")
+                {
+                    value += referenceHub.inventoryMenu.itemSlots[i].Count;
+                }
             }
+            
         }
+        quantityOfDynamiteText.text = value.ToString();
     }
 }

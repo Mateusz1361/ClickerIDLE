@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+//klasa do przechowywania rzeczy ogolnie dla itemu 
 public class ItemTemplate {
     public string name;
     public Sprite icon;
@@ -30,7 +31,7 @@ public class InventoryMenu : MonoBehaviour {
     public InventoryItemSlot pickaxeInventoryItemSlot;
     public InventoryItemSlot swordInventoryItemSlot;
     public InventoryItemSlot armorInventoryItemSlot;
-
+// slownik ktory mapuje nazwe przedmiotu na klase itemTemplate dla danego przedmiotu => itemTemplates["nazwa przedmiotu"]
     private Dictionary<string,ItemTemplate> _itemTemplates = null;
     public Dictionary<string,ItemTemplate> ItemTemplates {
         get {
@@ -44,11 +45,12 @@ public class InventoryMenu : MonoBehaviour {
     private void Awake() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
     }
-
+    //sprawdza czy mozna dodac item (maxStack) zwraca 1,0
     public bool CanAddItems(string name,SafeUDecimal count) {
         if(OreItemsSlots.ContainsKey(name)) {
             return true;
         }
+        // ?? - sprawdza po prawej i lewej jesli lewa to 0 to zwraca wyjatek 
         var template = ItemTemplates[name] ?? throw new ArgumentException($"There's no item named \"{name}\".");
         foreach(var slot in itemSlots) {
             if(slot.ItemTemplate == null) {
@@ -66,8 +68,9 @@ public class InventoryMenu : MonoBehaviour {
         }
         return false;
     }
-
+    // sprawdza czy mozna usunac liczbe przedmiotow 
     public bool CanRemoveItems(string name,SafeUDecimal count) {
+        // containsKey sprawdza czy w oreItemsSlots jest czy nie 
         if(OreItemsSlots.ContainsKey(name)) {
             return OreItemsSlots[name].Count >= count;
         }
@@ -82,7 +85,7 @@ public class InventoryMenu : MonoBehaviour {
         }
         return false;
     }
-
+    // to samo tylko dodawanie itemow w okreslonej ilosci
     public bool AddItems(string name,SafeUDecimal count) {
         if(!CanAddItems(name,count)) return false;
         if(OreItemsSlots.ContainsKey(name)) {
@@ -111,7 +114,7 @@ public class InventoryMenu : MonoBehaviour {
         }
         return false;
     }
-
+    //usuwa ilosc itemkow 
     public bool RemoveItems(string name,SafeUDecimal count) {
         if(!CanRemoveItems(name,count)) return false;
         if(OreItemsSlots.ContainsKey(name)) {
@@ -135,7 +138,7 @@ public class InventoryMenu : MonoBehaviour {
         }
         return false;
     }
-
+    //specjalne sloty na rudy u gory w eq one zawieraja instrukcje Count itp
     private Dictionary<string,InventoryOreItemSlot> _oreItemSlots = null;
     public Dictionary<string,InventoryOreItemSlot> OreItemsSlots {
         get {
@@ -145,7 +148,7 @@ public class InventoryMenu : MonoBehaviour {
             return _oreItemSlots;
         }
     }
-
+    //specjalny skrot dla pieniedzy
     private InventoryOreItemSlot _money = null;
     public InventoryOreItemSlot Money {
         get {
@@ -156,7 +159,7 @@ public class InventoryMenu : MonoBehaviour {
             return _money;
         }
     }
-
+    //Lista slotow w eq dla zwyklych przedmiotow
     public readonly List<InventoryItemSlot> itemSlots = new();
 
     public void Init() {
@@ -178,7 +181,7 @@ public class InventoryMenu : MonoBehaviour {
         armorInventoryItemSlot.ItemTemplate = null;
         armorInventoryItemSlot.Count = 0;
     }
-
+    //wczytywanie z JSONa wszystkiego
     private void InitItems() {
         _itemTemplates = new();
         _oreItemSlots = new();
