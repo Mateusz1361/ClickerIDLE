@@ -1,10 +1,7 @@
 using TMPro;
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Button = UnityEngine.UI.Button;
-using Image = UnityEngine.UI.Image;
-using Slider = UnityEngine.UI.Slider;
+using UnityEngine.UI;
 
 public class CurrentWorldLocationMenu : MonoBehaviour {
     [SerializeField]

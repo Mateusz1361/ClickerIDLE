@@ -1,0 +1,38 @@
+{
+    "data": [
+        {
+            "name": "Zombie",
+            "imagePath": "Zombie",
+            "maxHealth": 5.0,
+            "drops": [
+                {
+                    "name": "Electronic Circuit",
+                    "count": 1
+                },
+                {
+                    "name": "Coal",
+                    "count": 1
+                },
+                {
+                    "name": "Coal",
+                    "count": 2
+                }
+            ]
+        },
+        {
+            "name": "Super Zombie",
+            "imagePath": "SuperZombie",
+            "maxHealth": 10.0,
+            "drops": [
+                {
+                    "name": "Printed Circuit Board",
+                    "count": 1
+                },
+                {
+                    "name": "Iron",
+                    "count": 1
+                }
+            ]
+        }
+    ]
+}

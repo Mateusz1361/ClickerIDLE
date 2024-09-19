@@ -85,6 +85,20 @@ public class FactoryItemData {
 }
 
 [Serializable]
+public class MonsterDropData {
+    public string name;
+    public ulong count;
+}
+
+[Serializable]
+public class MonsterData {
+    public string name;
+    public string imagePath;
+    public double maxHealth;
+    public MonsterDropData[] drops;
+}
+
+[Serializable]
 public class InstanceWrapperData<T> {
     public T[] data;
 }

@@ -156,7 +156,7 @@
             "name": "Electronic Circuit",
             "iconPath": "ItemIcons/Electronic Circuit",
             "clicksToPop": 0,
-            "type": "Sword",
+            "type": "SellableItem",
             "price": 100,
             "maxStackCount": 64
         },

@@ -93,7 +93,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1548690977098476439
 RectTransform:
   m_ObjectHideFlags: 0
@@ -183,11 +183,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3353142120174998047}
-  - {fileID: 8157961193989869968}
+  - {fileID: 4519049424655987743}
   - {fileID: 6993793725032522083}
+  - {fileID: 8157961193989869968}
   - {fileID: 2406746710651059852}
   - {fileID: 2757432659350306475}
-  - {fileID: 4519049424655987743}
   - {fileID: 7975813992424590580}
   - {fileID: 1548690977098476439}
   m_Father: {fileID: 0}
@@ -497,8 +497,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 282.5, y: 0.000030518}
-  m_SizeDelta: {x: 115, y: 200}
+  m_AnchoredPosition: {x: 390, y: 0.000030518}
+  m_SizeDelta: {x: 100, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4046012039709988569
 CanvasRenderer:
@@ -1008,7 +1008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0007817647, y: 0}
+  m_AnchoredPosition: {x: 0.000901037, y: 0}
   m_SizeDelta: {x: 0, y: 200}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3175877982857968525
@@ -1480,8 +1480,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 340, y: 0}
-  m_SizeDelta: {x: -790, y: 200}
+  m_AnchoredPosition: {x: 40, y: 0.000030518}
+  m_SizeDelta: {x: -780, y: 200}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &8246048140283073663
 CanvasRenderer:
@@ -1625,7 +1625,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7968818986711994084, guid: 2b65a214286702043b460a1d50752954, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 125
+      value: 540
       objectReference: {fileID: 0}
     - target: {fileID: 7968818986711994084, guid: 2b65a214286702043b460a1d50752954, type: 3}
       propertyPath: m_AnchoredPosition.y
