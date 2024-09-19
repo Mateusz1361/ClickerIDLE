@@ -8147,7 +8147,6 @@ MonoBehaviour:
   viewSelection: {fileID: 1906633878}
   igniteDynamiteButton: {fileID: 2100191990}
   quantityOfDynamiteText: {fileID: 740933836}
-  choosingDynamite: 
   dynamiteIcon: {fileID: 2100191991}
 --- !u!114 &1531288755
 MonoBehaviour:
