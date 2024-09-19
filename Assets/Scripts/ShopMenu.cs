@@ -21,7 +21,7 @@ public class ShopMenu : MonoBehaviour {
             foreach(var item in shopData.data) {
                 var prefab = Instantiate(shopItemPrefab,shopItemsContent);
                 var component = prefab.GetComponent<ShopItem>();
-                component.InitItem(worldLocation,referenceHub.inventoryMenu,item);
+                component.InitItem(worldLocation,item,referenceHub);
                 prefab.SetActive(false);
                 worldLocation.ShopItems.Add(component);
             }

@@ -11,6 +11,7 @@ public class ItemTemplate {
     public string type;
     public uint clicksToPop;
     public ulong price;
+    public ulong powerOfDynamite;
 }
 
 public class InventoryMenu : MonoBehaviour {
@@ -31,6 +32,7 @@ public class InventoryMenu : MonoBehaviour {
     public InventoryItemSlot pickaxeInventoryItemSlot;
     public InventoryItemSlot swordInventoryItemSlot;
     public InventoryItemSlot armorInventoryItemSlot;
+    
 // slownik ktory mapuje nazwe przedmiotu na klase itemTemplate dla danego przedmiotu => itemTemplates["nazwa przedmiotu"]
     private Dictionary<string,ItemTemplate> _itemTemplates = null;
     public Dictionary<string,ItemTemplate> ItemTemplates {
@@ -190,6 +192,7 @@ public class InventoryMenu : MonoBehaviour {
             ItemTemplate template = new() {
                 name = item.name,
                 icon = Resources.Load<Sprite>("Images/" + item.iconPath),
+                powerOfDynamite = item.powerOfDynamite,
                 maxStackCount = item.maxStackCount,
                 clicksToPop = item.clicksToPop,
                 type = item.type,

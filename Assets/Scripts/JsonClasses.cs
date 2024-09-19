@@ -57,6 +57,7 @@ public class WorldMapData {
 public class InventoryItemData {
     public string name;
     public string iconPath;
+    public ulong powerOfDynamite;
     public uint clicksToPop;
     public string type;
     public ulong price;

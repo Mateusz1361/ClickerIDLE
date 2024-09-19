@@ -126,8 +126,8 @@
             "duration": 1.0
         },
         {
-            "name": "Factory of Dynamite",
-            "toUnlock": "Stone Mine",
+            "name": "Factory of Enhanced Dynamite",
+            "toUnlock": "Explosive Charging Equipment 2",
             "price": [
                 {
                     "name": "Gold",
@@ -139,7 +139,64 @@
                 }
             ],
             "result": {
-                "type": "Sword",
+                "type": "Enhanced Dynamite",
+                "value": 10
+            },
+            "duration": 1.0
+        },
+        {
+            "name": "Factory of Precision Dynamite",
+            "toUnlock": "Explosive Charging Equipment 3",
+            "price": [
+                {
+                    "name": "Gold",
+                    "value": 100
+                },
+                {
+                    "name": "Diamond",
+                    "value": 10
+                }
+            ],
+            "result": {
+                "type": "Precision Dynamite",
+                "value": 10
+            },
+            "duration": 1.0
+        },
+        {
+            "name": "Factory of Advanced Dynamite",
+            "toUnlock": "Explosive Charging Equipment 4",
+            "price": [
+                {
+                    "name": "Gold",
+                    "value": 100
+                },
+                {
+                    "name": "Diamond",
+                    "value": 10
+                }
+            ],
+            "result": {
+                "type": "Advanced Dynamite",
+                "value": 10
+            },
+            "duration": 1.0
+        },
+        {
+            "name": "Factory of Nano-Engineered Dynamite",
+            "toUnlock": "Explosive Charging Equipment 5",
+            "price": [
+                {
+                    "name": "Gold",
+                    "value": 100
+                },
+                {
+                    "name": "Diamond",
+                    "value": 10
+                }
+            ],
+            "result": {
+                "type": "Nano-Engineered Dynamite",
                 "value": 1
             },
             "duration": 1.0

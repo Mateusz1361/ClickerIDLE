@@ -1560,6 +1560,7 @@ MonoBehaviour:
   worldMenu: {fileID: 1795580187}
   inventoryMenu: {fileID: 729976306}
   investorMenu: {fileID: 49493010}
+  referenceHub: {fileID: 237133443}
 --- !u!114 &237133443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8146,6 +8147,7 @@ MonoBehaviour:
   viewSelection: {fileID: 1906633878}
   igniteDynamiteButton: {fileID: 2100191990}
   quantityOfDynamiteText: {fileID: 740933836}
+  dynamiteIcon: {fileID: 2100191991}
 --- !u!114 &1531288755
 MonoBehaviour:
   m_ObjectHideFlags: 0
