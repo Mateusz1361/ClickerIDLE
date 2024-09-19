@@ -31,7 +31,7 @@
             "duration": 3.0
         },
         {
-            "name": "Factory of Electronic Circuits",
+            "name": "Factory of Electronic Circuit",
             "toUnlock": "Copper Mine",
             "price": [
                 {
@@ -44,7 +44,7 @@
                 }
             ],
             "result": {
-                "type": "Electronic Circuits",
+                "type": "Electronic Circuit",
                 "value": 10
             },
             "duration": 5.0
@@ -69,7 +69,7 @@
             "duration": 7.0
         },
         {
-            "name": "Factory of High-End Cookware Set",
+            "name": "Factory of Printed Circuit Board",
             "toUnlock": "Gold Mine",
             "price": [
                 {
@@ -82,7 +82,7 @@
                 }
             ],
             "result": {
-                "type": "High-End Cookware Set",
+                "type": "Printed Circuit Board",
                 "value": 1
             },
             "duration": 9.0

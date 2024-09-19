@@ -153,8 +153,8 @@
             "maxStackCount": 16
         },
         {
-            "name": "Electronic Circuits",
-            "iconPath": "Missing",
+            "name": "Electronic Circuit",
+            "iconPath": "ItemIcons/Electronic Circuit",
             "clicksToPop": 0,
             "type": "Sword",
             "price": 100,
@@ -169,8 +169,8 @@
             "maxStackCount": 64
         },
         {
-            "name": "High-End Cookware Set",
-            "iconPath": "Missing",
+            "name": "Printed Circuit Board",
+            "iconPath": "ItemIcons/Printed Circuit Board",
             "clicksToPop": 0,
             "type": "SellableItem",
             "price": 1000000,
