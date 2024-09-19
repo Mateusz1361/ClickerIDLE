@@ -3,6 +3,7 @@
         {
             "name": "Rock Drill",
             "unlockLevel": 0,
+            "belongsToMine": true,
             "price": [
                 {
                     "name": "Money",
@@ -23,6 +24,7 @@
         {
             "name": "LHD Loader",
             "unlockLevel": 1,
+            "belongsToMine": true,
             "price": [
                 {
                     "name": "Money",
@@ -43,6 +45,7 @@
         {
             "name": "Drilling Jumbo",
             "unlockLevel": 2,
+            "belongsToMine": true,
             "price": [
                 {
                     "name": "Money",
@@ -63,6 +66,7 @@
         {
             "name": "Mining Locomotive",
             "unlockLevel": 3,
+            "belongsToMine": true,
             "price": [
                 {
                     "name": "Money",
@@ -88,6 +92,7 @@
         {
             "name": "Roof Scaler",
             "unlockLevel": 4,
+            "belongsToMine": true,
             "price": [
                 {
                     "name": "Money",
@@ -113,6 +118,7 @@
         {
             "name": "Mine Shaft Hoist",
             "unlockLevel": 5,
+            "belongsToMine": true,
             "price": [
                 {
                     "name": "Money",
@@ -138,6 +144,7 @@
         {
             "name": "Rock Bolter",
             "unlockLevel": 6,
+            "belongsToMine": true,
             "price": [
                 {
                     "name": "Money",
@@ -163,6 +170,7 @@
         {
             "name": "Explosive Charging Equipment 2",
             "unlockLevel": 0,
+            "belongsToMine": false,
             "price": [
                 {
                     "name": "Money",
@@ -182,12 +190,13 @@
             ],
             "result": {
                 "type": "Improvement",
-                "value": 100
+                "value": 1
             }
         },
         {
             "name": "Explosive Charging Equipment 3",
             "unlockLevel": 0,
+            "belongsToMine": false,
             "price": [
                 {
                     "name": "Money",
@@ -207,12 +216,13 @@
             ],
             "result": {
                 "type": "Improvement",
-                "value": 100
+                "value": 1
             }
         },
         {
             "name": "Explosive Charging Equipment 4",
             "unlockLevel": 0,
+            "belongsToMine": false,
             "price": [
                 {
                     "name": "Money",
@@ -232,12 +242,13 @@
             ],
             "result": {
                 "type": "Improvement",
-                "value": 100
+                "value": 1
             }
         },
         {
             "name": "Explosive Charging Equipment 5",
             "unlockLevel": 0,
+            "belongsToMine": false,
             "price": [
                 {
                     "name": "Money",
@@ -257,7 +268,7 @@
             ],
             "result": {
                 "type": "Improvement",
-                "value": 100
+                "value": 1
             }
         }
     ]

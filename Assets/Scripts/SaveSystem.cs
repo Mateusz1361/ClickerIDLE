@@ -53,6 +53,7 @@ public class SaveData {
     public SaveInventoryItemData saveInventoryPickaxeItemData;
     public SaveInventoryItemData saveInventorySwordItemData;
     public SaveInventoryItemData saveInventoryArmorItemData;
+    public SaveShopItemData[] shopItems;
     public string dynamite;
 }
 
@@ -148,7 +149,24 @@ public class SaveSystem : MonoBehaviour {
             name = inventoryMenu.armorInventoryItemSlot.ItemTemplate?.name,
             count = inventoryMenu.armorInventoryItemSlot.Count.ToString()
         };
+
+        saveData.shopItems = new SaveShopItemData[shopMenu.ShopItems.Count];
+        for(int i = 0;i < shopMenu.ShopItems.Count;i += 1) {
+            saveData.shopItems[i] = new() {
+                name = shopMenu.ShopItems[i].name,
+                count = shopMenu.ShopItems[i].Count.ToString(),
+                resultQuantity = shopMenu.ShopItems[i].ResultQuantity.ToString(),
+                multiplier = shopMenu.ShopItems[i].multiplier.ToString(),
+                shopItemPriceDatas = new SaveShopItemPriceData[shopMenu.ShopItems[i].shopItemsPrices.Count]
+            };
+            for(int j = 0;j< shopMenu.ShopItems[i].shopItemsPrices.Count;j += 1) {
+                saveData.shopItems[i].shopItemPriceDatas[j] = new() {
+                    value = shopMenu.ShopItems[i].shopItemsPrices[j].Value.ToString()
+                };
+            }
+        }
         saveData.dynamite = referenceHub.currentWorldLocationMenu.choosingDynamite;
+
         var temp = JsonUtility.ToJson(saveData);
         Directory.CreateDirectory(Application.persistentDataPath);
         File.WriteAllText(Application.persistentDataPath + "/save.json",temp);
@@ -226,15 +244,20 @@ public class SaveSystem : MonoBehaviour {
             inventoryMenu.armorInventoryItemSlot.Count = SafeUDecimal.Parse(saveData.saveInventoryArmorItemData.count);
         }
 
-        if (referenceHub.currentWorldLocationMenu.choosingDynamite == "")
-        {
-            referenceHub.currentWorldLocationMenu.choosingDynamite = "Dynamite";
+        for(int i = 0;i < saveData.shopItems.Length;i += 1) {
+            var item = saveData.shopItems[i];
+            var found = shopMenu.ShopItems.Find((instance) => instance.name == item.name);
+            if(found != null) {
+                found.ResultQuantity = SafeUInteger.Parse(item.resultQuantity);
+                found.Count = SafeUInteger.Parse(item.count);
+                found.multiplier = SafeUInteger.Parse(item.multiplier);
+                found.RecalculateMainResourceAutoIncrement();
+                found.RecalculateMainResourceClickIncrement();
+                for(int j = 0;j < item.shopItemPriceDatas.Length;j += 1) {
+                    found.shopItemsPrices[j].Value = SafeUInteger.Parse(item.shopItemPriceDatas[j].value);
+                }
+            }
         }
-        else
-        {
-            referenceHub.currentWorldLocationMenu.choosingDynamite = saveData.dynamite;
-        }
-
-         
+        referenceHub.currentWorldLocationMenu.choosingDynamite = saveData.dynamite;
     }
 }

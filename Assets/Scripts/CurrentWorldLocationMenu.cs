@@ -38,7 +38,6 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private Image dynamiteIcon;
 
     private void Awake() {
-         
         mainButton.onClick.AddListener(OnMainButtonClick);
         levelUpButton.onClick.AddListener(OnLevelUpButtonClick);
         igniteDynamiteButton.onClick.AddListener(ExtinctTheWorld);
@@ -67,12 +66,10 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
         viewSelection.Init();
         referenceHub.saveSystem.LoadGame();
         RefreshQuantityOfDynamite();
-        
         RefreshIconOfDynamite();
     }
 
-    public void RefreshIconOfDynamite()
-    {
+    public void RefreshIconOfDynamite() {
         dynamiteIcon.sprite = referenceHub.inventoryMenu.ItemTemplates[choosingDynamite].icon;
     }
 

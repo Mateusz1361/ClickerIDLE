@@ -2,6 +2,7 @@ using TMPro;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 public class ShopItem : MonoBehaviour {
@@ -22,7 +23,6 @@ public class ShopItem : MonoBehaviour {
     [SerializeField]
     private TMP_Text unlockLevelText;
     private WorldLocation worldLocation;
-    private InventoryMenu inventoryMenu;
     public SafeUDecimal multiplier = 1;
     [SerializeField]
     private ReferenceHub referenceHub;
@@ -70,6 +70,10 @@ public class ShopItem : MonoBehaviour {
             unlockMarker.SetActive(worldLocation.Level < UnlockLevel);
             purchaseButton.interactable = !unlockMarker.activeSelf;
         }
+        else {
+            unlockMarker.SetActive(false);
+            purchaseButton.interactable = true;
+        }
     }
 
     public void ResetItem() {
@@ -86,7 +90,6 @@ public class ShopItem : MonoBehaviour {
 
     public void InitItem(WorldLocation _worldLocation,ShopItemData data,ReferenceHub _referenceHub) {
         worldLocation = _worldLocation;
-        inventoryMenu = _referenceHub.inventoryMenu;
         referenceHub = _referenceHub;
         UnlockLevel = data.unlockLevel;
         name = data.name;
@@ -94,17 +97,18 @@ public class ShopItem : MonoBehaviour {
         ResultType = data.result.type;
 
         if(ResultType == "Power") {
+            Trace.Assert(worldLocation != null);
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/MineButton");
         }
         else if(ResultType == "Worker") {
+            Trace.Assert(worldLocation != null);
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/WorkersButton");
         }
-        else if (ResultType == "Improvement")
-        {
+        else if (ResultType == "Improvement") {
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/ItemIcons/Dynamite");
         }
         else {
-            buyItemIcon.sprite = inventoryMenu.ItemTemplates[ResultType].icon;
+            buyItemIcon.sprite = referenceHub.inventoryMenu.ItemTemplates[ResultType].icon;
         }
 
         ResultQuantity = data.result.value;
@@ -112,7 +116,7 @@ public class ShopItem : MonoBehaviour {
         foreach(var shopItemPriceData in data.price) {
             var prefab = Instantiate(shopItemPricePrefab,shopItemPriceContent);
             var component = prefab.GetComponent<ShopItemPrice>();
-            component.InitPrice(inventoryMenu,this,shopItemPriceData);
+            component.InitPrice(referenceHub.inventoryMenu,this,shopItemPriceData);
             shopItemsPrices.Add(component);
         }
         defaultSettings = data;
@@ -138,11 +142,9 @@ public class ShopItem : MonoBehaviour {
         set {
             _count = value;
             OnCountChange?.Invoke(_count);
-            if (ResultType == "Improvement")
-            {
+            if(ResultType == "Improvement") {
                 gameObject.SetActive(_count == 0);
             }
-            
         }
     }
 
@@ -154,7 +156,7 @@ public class ShopItem : MonoBehaviour {
         bool canAffordPurchase = true;
         foreach(var price in shopItemsPrices) {
             if(price.UnlockCount <= Count) {
-                if(!inventoryMenu.CanRemoveItems(price.Name,price.Value)) {
+                if(!referenceHub.inventoryMenu.CanRemoveItems(price.Name,price.Value)) {
                     canAffordPurchase = false;
                     break;
                 }
@@ -163,28 +165,24 @@ public class ShopItem : MonoBehaviour {
         if(canAffordPurchase) {
             foreach(var price in shopItemsPrices) {
                 if(price.UnlockCount <= Count) {
-                    inventoryMenu.RemoveItems(price.Name,price.Value);
+                    referenceHub.inventoryMenu.RemoveItems(price.Name,price.Value);
                     price.Value *= 2;
                 }
             }
             Count += 1;
             if(ResultType == "Power") {
+                Trace.Assert(worldLocation != null);
                 RecalculateMainResourceClickIncrement();
                 worldLocation.RecalculateMainResourceClickIncrement();
             }
             else if(ResultType == "Worker") {
+                Trace.Assert(worldLocation != null);
                 RecalculateMainResourceAutoIncrement();
                 worldLocation.RecalculateMainResourceAutoIncrement();
             }
-            else if (ResultType == "Improvement")
-            {
-                gameObject.SetActive(false);
-            }
-            else {
-                inventoryMenu.AddItems(ResultType,ResultQuantity);
+            else if(ResultType != "Improvement") {
+                referenceHub.inventoryMenu.AddItems(ResultType,ResultQuantity);
             }
         }
     }
-
-    
 }

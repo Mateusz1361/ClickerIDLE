@@ -33,6 +33,7 @@ public class ShopItemResultData {
 public class ShopItemData {
     public string name;
     public ulong unlockLevel;
+    public bool belongsToMine;
     public ShopItemPriceData[] price;
     public ShopItemResultData result;
 }

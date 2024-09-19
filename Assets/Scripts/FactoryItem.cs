@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +25,7 @@ public class FactoryItem : MonoBehaviour {
     private float duration = 0.0f;
     private float elapsed = 0.0f;
     private bool isUpdating = false;
-    private string mineToUnlock = "";
+    private string toUnlock = "";
     private FactoryResultData factoryResultData;
 
     private void Awake() {
@@ -35,15 +34,17 @@ public class FactoryItem : MonoBehaviour {
 
     private void OnEnable() {
         if(referenceHub.worldMenu) {
-            if (referenceHub.worldMenu.WorldLocations.Find((location) => location.Name == mineToUnlock) != null)
-            {
-                unlockMarker.SetActive(!referenceHub.worldMenu.WorldLocations.Find((location) => location.Name.Equals(mineToUnlock)).Purchased);
+            unlockMarker.SetActive(true);
+            var foundWorldLocation = referenceHub.worldMenu.WorldLocations.Find((location) => location.Name == toUnlock);
+            if(foundWorldLocation != null) {
+                unlockMarker.SetActive(!foundWorldLocation.Purchased);
             }
-            else
-            {
-                unlockMarker.SetActive(referenceHub.worldMenu.CurrentWorldLocation.ShopItems.Find((item) => item.name == mineToUnlock).Count == 0);
+            else {
+                var foundShopItem = referenceHub.shopMenu.ShopItems.Find((item) => item.name == toUnlock);
+                if(foundShopItem != null) {
+                    unlockMarker.SetActive(foundShopItem.Count == 0);
+                }
             }
-            
         }
     }
 
@@ -60,8 +61,8 @@ public class FactoryItem : MonoBehaviour {
         factoryResultData = factoryItemData.result;
         resultItemIcon.sprite = referenceHub.inventoryMenu.ItemTemplates[factoryResultData.type].icon;
         resultItemCountText.text = factoryResultData.value.ToString();
-        mineToUnlock = factoryItemData.toUnlock;
-        unlockLevelText.text = $"Unlocked when {mineToUnlock} is unlocked";
+        toUnlock = factoryItemData.toUnlock;
+        unlockLevelText.text = $"Unlocked when {toUnlock} is unlocked";
     }
 
     public void StartFactory() {
@@ -94,8 +95,7 @@ public class FactoryItem : MonoBehaviour {
                     progressSlider.value = 0.0f;
                     isUpdating = false;
                     startProcessButton.interactable = true;
-                    if (factoryResultData.type == "Dynamite")
-                    {
+                    if(factoryResultData.type.Contains("Dynamite")) {
                         referenceHub.currentWorldLocationMenu.RefreshQuantityOfDynamite();
                     }
                 }
