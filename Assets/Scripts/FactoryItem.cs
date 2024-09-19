@@ -35,7 +35,15 @@ public class FactoryItem : MonoBehaviour {
 
     private void OnEnable() {
         if(referenceHub.worldMenu) {
-            unlockMarker.SetActive(!referenceHub.worldMenu.WorldLocations.Find((location) => location.Name.Equals(mineToUnlock)).Purchased);
+            if (referenceHub.worldMenu.WorldLocations.Find((location) => location.Name == mineToUnlock) != null)
+            {
+                unlockMarker.SetActive(!referenceHub.worldMenu.WorldLocations.Find((location) => location.Name.Equals(mineToUnlock)).Purchased);
+            }
+            else
+            {
+                unlockMarker.SetActive(referenceHub.worldMenu.CurrentWorldLocation.ShopItems.Find((item) => item.name == mineToUnlock).Count == 0);
+            }
+            
         }
     }
 

@@ -139,10 +139,47 @@
         {
             "name": "Dynamite",
             "iconPath": "ItemIcons/Dynamite",
+            "powerOfDynamite": 100,
             "clicksToPop": 0,
             "type": "Explosive",
             "price": 10,
-            "maxStackCount": 16
+            "maxStackCount": 64
+        },
+        {
+            "name": "Enhanced Dynamite",
+            "iconPath": "ItemIcons/Enhanced Dynamite",
+            "powerOfDynamite": 1000,
+            "clicksToPop": 0,
+            "type": "Explosive",
+            "price": 100,
+            "maxStackCount": 64
+        },
+        {
+            "name": "Precision Dynamite",
+            "iconPath": "ItemIcons/Precision Dynamite",
+            "powerOfDynamite": 10000,
+            "clicksToPop": 0,
+            "type": "Explosive",
+            "price": 1000,
+            "maxStackCount": 4
+        },
+        {
+            "name": "Advanced Dynamite",
+            "iconPath": "ItemIcons/Advanced Dynamite",
+            "powerOfDynamite": 100000,
+            "clicksToPop": 0,
+            "type": "Explosive",
+            "price": 10000,
+            "maxStackCount": 64
+        },
+        {
+            "name": "Nano-Engineered Dynamite",
+            "iconPath": "ItemIcons/Nano-Engineered Dynamite",
+            "powerOfDynamite": 1000000,
+            "clicksToPop": 0,
+            "type": "Explosive",
+            "price": 100000,
+            "maxStackCount": 64
         },
         {
             "name": "Key",

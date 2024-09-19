@@ -24,6 +24,8 @@ public class ShopItem : MonoBehaviour {
     private WorldLocation worldLocation;
     private InventoryMenu inventoryMenu;
     public SafeUDecimal multiplier = 1;
+    [SerializeField]
+    private ReferenceHub referenceHub;
     [HideInInspector]
     public List<ShopItemPrice> shopItemsPrices;
     
@@ -82,9 +84,10 @@ public class ShopItem : MonoBehaviour {
         worldLocation.RecalculateMainResourceClickIncrement();
     }
 
-    public void InitItem(WorldLocation _worldLocation,InventoryMenu _inventoryMenu,ShopItemData data) {
+    public void InitItem(WorldLocation _worldLocation,ShopItemData data,ReferenceHub _referenceHub) {
         worldLocation = _worldLocation;
-        inventoryMenu = _inventoryMenu;
+        inventoryMenu = _referenceHub.inventoryMenu;
+        referenceHub = _referenceHub;
         UnlockLevel = data.unlockLevel;
         name = data.name;
         nameText.text = name;
@@ -95,6 +98,10 @@ public class ShopItem : MonoBehaviour {
         }
         else if(ResultType == "Worker") {
             buyItemIcon.sprite = Resources.Load<Sprite>("Images/WorkersButton");
+        }
+        else if (ResultType == "Improvement")
+        {
+            buyItemIcon.sprite = Resources.Load<Sprite>("Images/ItemIcons/Dynamite");
         }
         else {
             buyItemIcon.sprite = inventoryMenu.ItemTemplates[ResultType].icon;
@@ -131,6 +138,11 @@ public class ShopItem : MonoBehaviour {
         set {
             _count = value;
             OnCountChange?.Invoke(_count);
+            if (ResultType == "Improvement")
+            {
+                gameObject.SetActive(_count == 0);
+            }
+            
         }
     }
 
@@ -164,9 +176,15 @@ public class ShopItem : MonoBehaviour {
                 RecalculateMainResourceAutoIncrement();
                 worldLocation.RecalculateMainResourceAutoIncrement();
             }
+            else if (ResultType == "Improvement")
+            {
+                gameObject.SetActive(false);
+            }
             else {
                 inventoryMenu.AddItems(ResultType,ResultQuantity);
             }
         }
     }
+
+    
 }

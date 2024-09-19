@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
-
+//TODO zapis gry cos jest nie tak w upgradach
 public class CurrentWorldLocationMenu : MonoBehaviour {
     [SerializeField]
     private ReferenceHub referenceHub;
@@ -31,12 +31,16 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private ViewSelection viewSelection;
     [SerializeField] 
     private Button igniteDynamiteButton;
-    [SerializeField] 
-    private TMP_Text quantityOfDynamiteText;
+
+    [SerializeField] private TMP_Text quantityOfDynamiteText;
+    [NonSerialized]
+    public string choosingDynamite = "Dynamite";
     private ulong clicks = 0;
-    private ulong powerOfDynamite = 100;
+    [SerializeField]
+    private Image dynamiteIcon;
 
     private void Awake() {
+         
         mainButton.onClick.AddListener(OnMainButtonClick);
         levelUpButton.onClick.AddListener(OnLevelUpButtonClick);
         igniteDynamiteButton.onClick.AddListener(ExtinctTheWorld);
@@ -65,6 +69,13 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
         viewSelection.Init();
         referenceHub.saveSystem.LoadGame();
         RefreshQuantityOfDynamite();
+        
+        RefreshIconOfDynamite();
+    }
+
+    public void RefreshIconOfDynamite()
+    {
+        dynamiteIcon.sprite = referenceHub.inventoryMenu.ItemTemplates[choosingDynamite].icon;
     }
 
     private void Update() {
@@ -127,13 +138,13 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     }
 
     private void ExtinctTheWorld() {
-        if(referenceHub.inventoryMenu.CanRemoveItems("Dynamite",1)) {
-            referenceHub.inventoryMenu.RemoveItems("Dynamite",1);
+        if(referenceHub.inventoryMenu.CanRemoveItems(choosingDynamite,1)) {
+            referenceHub.inventoryMenu.RemoveItems(choosingDynamite,1);
             var cwl = referenceHub.worldMenu.CurrentWorldLocation;
             var slots = referenceHub.inventoryMenu.OreItemsSlots;
-            clicks += powerOfDynamite;
+            clicks += referenceHub.inventoryMenu.ItemTemplates[choosingDynamite].powerOfDynamite;
             slots[cwl.MainResourceName].Count += clicks / slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
-            clicks = powerOfDynamite % slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
+            clicks = referenceHub.inventoryMenu.ItemTemplates[choosingDynamite].powerOfDynamite % slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
             RefreshQuantityOfDynamite();
         }
     }
@@ -145,7 +156,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
         {
             if (referenceHub.inventoryMenu.itemSlots[i].ItemTemplate != null)
             {
-                if (referenceHub.inventoryMenu.itemSlots[i]?.ItemTemplate.name == "Dynamite")
+                if (referenceHub.inventoryMenu.itemSlots[i]?.ItemTemplate.name == choosingDynamite)
                 {
                     value += referenceHub.inventoryMenu.itemSlots[i].Count;
                 }

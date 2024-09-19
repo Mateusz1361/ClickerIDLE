@@ -161,8 +161,8 @@
             }
         },
         {
-            "name": "Explosive Charging Equipment",
-            "unlockLevel": 7,
+            "name": "Explosive Charging Equipment 2",
+            "unlockLevel": 0,
             "price": [
                 {
                     "name": "Money",
@@ -177,11 +177,86 @@
                 {
                     "name": "Iron",
                     "value": 8,
-                    "unlockCount": 3
+                    "unlockCount": 0
                 }
             ],
             "result": {
-                "type": "Worker",
+                "type": "Improvement",
+                "value": 100
+            }
+        },
+        {
+            "name": "Explosive Charging Equipment 3",
+            "unlockLevel": 0,
+            "price": [
+                {
+                    "name": "Money",
+                    "value": 250,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Coal",
+                    "value": 10,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Iron",
+                    "value": 8,
+                    "unlockCount": 0
+                }
+            ],
+            "result": {
+                "type": "Improvement",
+                "value": 100
+            }
+        },
+        {
+            "name": "Explosive Charging Equipment 4",
+            "unlockLevel": 0,
+            "price": [
+                {
+                    "name": "Money",
+                    "value": 250,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Coal",
+                    "value": 10,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Iron",
+                    "value": 8,
+                    "unlockCount": 0
+                }
+            ],
+            "result": {
+                "type": "Improvement",
+                "value": 100
+            }
+        },
+        {
+            "name": "Explosive Charging Equipment 5",
+            "unlockLevel": 0,
+            "price": [
+                {
+                    "name": "Money",
+                    "value": 250,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Coal",
+                    "value": 10,
+                    "unlockCount": 0
+                },
+                {
+                    "name": "Iron",
+                    "value": 8,
+                    "unlockCount": 0
+                }
+            ],
+            "result": {
+                "type": "Improvement",
                 "value": 100
             }
         }

@@ -53,6 +53,7 @@ public class SaveData {
     public SaveInventoryItemData saveInventoryPickaxeItemData;
     public SaveInventoryItemData saveInventorySwordItemData;
     public SaveInventoryItemData saveInventoryArmorItemData;
+    public string dynamite;
 }
 
 public class SaveSystem : MonoBehaviour {
@@ -64,7 +65,8 @@ public class SaveSystem : MonoBehaviour {
     private InventoryMenu inventoryMenu;
     [SerializeField]
     private InvestorMenu investorMenu;
-
+    [SerializeField]
+    private ReferenceHub referenceHub;
     private void OnApplicationQuit() {
         SaveGame();
     }
@@ -89,6 +91,7 @@ public class SaveSystem : MonoBehaviour {
                 name = location.Name,
                 shopItemsToSaveData = new SaveShopItemData[location.ShopItems.Count],
                 investorUpgradeDatas = new SaveInvestorUpgradeData[location.InvestorUpgrades.Count]
+                
             };
 
             for(int j = 0;j < location.ShopItems.Count;j += 1) {
@@ -145,7 +148,7 @@ public class SaveSystem : MonoBehaviour {
             name = inventoryMenu.armorInventoryItemSlot.ItemTemplate?.name,
             count = inventoryMenu.armorInventoryItemSlot.Count.ToString()
         };
-
+        saveData.dynamite = referenceHub.currentWorldLocationMenu.choosingDynamite;
         var temp = JsonUtility.ToJson(saveData);
         Directory.CreateDirectory(Application.persistentDataPath);
         File.WriteAllText(Application.persistentDataPath + "/save.json",temp);
@@ -222,5 +225,16 @@ public class SaveSystem : MonoBehaviour {
             inventoryMenu.armorInventoryItemSlot.ItemTemplate = inventoryMenu.ItemTemplates[saveData.saveInventoryArmorItemData.name];
             inventoryMenu.armorInventoryItemSlot.Count = SafeUDecimal.Parse(saveData.saveInventoryArmorItemData.count);
         }
+
+        if (referenceHub.currentWorldLocationMenu.choosingDynamite == "")
+        {
+            referenceHub.currentWorldLocationMenu.choosingDynamite = "Dynamite";
+        }
+        else
+        {
+            referenceHub.currentWorldLocationMenu.choosingDynamite = saveData.dynamite;
+        }
+
+         
     }
 }
