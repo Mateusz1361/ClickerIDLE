@@ -140,7 +140,7 @@ public class WorldLocation : MonoBehaviour {
         });
     }
 
-    public void InitLocation(ReferenceHub _referenceHub,WorldLocationData location) {
+    public void InitLocation(ReferenceHub _referenceHub,WorldLocationDataJson location) {
         referenceHub = _referenceHub;
         Name = location.name;
         Price = location.price;

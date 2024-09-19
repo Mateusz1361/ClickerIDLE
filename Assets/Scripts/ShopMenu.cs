@@ -42,7 +42,7 @@ public class ShopMenu : MonoBehaviour {
 
     public void Init() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
-        var shopData = JsonUtility.FromJson<InstanceWrapperData<ShopItemData>>(shopDataTextAsset.text);
+        var shopData = JsonUtility.FromJson<InstanceWrapperDataJson<ShopItemDataJson>>(shopDataTextAsset.text);
         var shopItems = shopData.data.ToList();
 
         var groups = shopItems.GroupBy((item) => item.belongsToMine).ToDictionary((x) => x.Key,(y) => y.ToArray());

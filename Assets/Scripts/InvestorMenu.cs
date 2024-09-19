@@ -40,7 +40,7 @@ public class InvestorMenu : MonoBehaviour {
             }
             CountingInvestors(0);
         };
-        var investorUpgradeInstancesDatas = JsonUtility.FromJson<InstanceWrapperData<InvestorUpgradeData>>(jsonInvestors.text);
+        var investorUpgradeInstancesDatas = JsonUtility.FromJson<InstanceWrapperDataJson<InvestorUpgradeDataJson>>(jsonInvestors.text);
         foreach(var location in referenceHub.worldMenu.WorldLocations) {
             foreach(var investorUpgradeInstancesData in investorUpgradeInstancesDatas.data) {
                 var prefab = Instantiate(prefabOfInvestorsUpgrades,parentForInvestorsUpgrades.transform);

@@ -9,10 +9,10 @@ public class ShopItemPrice : MonoBehaviour {
     private TMP_Text resourceQuantity;
     [SerializeField]
     private RectTransform content;
-    private ShopItemPriceData defaultSettings;
+    private ShopItemPriceDataJson defaultSettings;
     public string Name { get; private set; }
 
-    public void InitPrice(InventoryMenu inventoryMenu,ShopItem shopItem,ShopItemPriceData data) {
+    public void InitPrice(InventoryMenu inventoryMenu,ShopItem shopItem,ShopItemPriceDataJson data) {
         resourceIcon.sprite = inventoryMenu.ItemTemplates[data.name].icon;
         Name = data.name;
         Value = data.value;

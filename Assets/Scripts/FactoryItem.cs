@@ -26,7 +26,7 @@ public class FactoryItem : MonoBehaviour {
     private float elapsed = 0.0f;
     private bool isUpdating = false;
     private string toUnlock = "";
-    private FactoryResultData factoryResultData;
+    private FactoryResultDataJson factoryResultData;
 
     private void Awake() {
         startProcessButton.onClick.AddListener(StartFactory);
@@ -48,7 +48,7 @@ public class FactoryItem : MonoBehaviour {
         }
     }
 
-    public void Init(FactoryItemData factoryItemData,ReferenceHub _referenceHub) {
+    public void Init(FactoryItemDataJson factoryItemData,ReferenceHub _referenceHub) {
         referenceHub = _referenceHub;
         duration = factoryItemData.duration;
         nameText.text = factoryItemData.name;
@@ -96,7 +96,7 @@ public class FactoryItem : MonoBehaviour {
                     isUpdating = false;
                     startProcessButton.interactable = true;
                     if(factoryResultData.type.Contains("Dynamite")) {
-                        referenceHub.currentWorldLocationMenu.RefreshQuantityOfDynamite();
+                        referenceHub.currentWorldLocationMenu.UpdateDynamiteStatus();
                     }
                 }
             }

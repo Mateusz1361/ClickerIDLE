@@ -3,30 +3,30 @@ using System.IO;
 using UnityEngine;
 
 [Serializable]
-public class SaveShopItemPriceData {
+public class SaveShopItemPriceDataJson {
     public string value;
 }
 
 [Serializable]
-public class SaveShopItemData {
+public class SaveShopItemDataJson {
     public string name;
     public string resultQuantity;
     public string count;
     public string multiplier;
-    public SaveShopItemPriceData[] shopItemPriceDatas;
+    public SaveShopItemPriceDataJson[] shopItemPriceDatas;
 }
 
 [Serializable]
-public class SaveInvestorUpgradeData {
+public class SaveInvestorUpgradeDataJson {
     public string whatYouGetText;
     public bool purchased;
 }
 
 [Serializable]
-public class SaveWorldLocationData {
+public class SaveWorldLocationDataJson {
     public string name;
     public bool purchased;
-    public SaveShopItemData[] shopItemsToSaveData;
+    public SaveShopItemDataJson[] shopItemsToSaveData;
     public string investorsToClaim;
     public string investorsYouHave;
     public ulong level;
@@ -36,48 +36,40 @@ public class SaveWorldLocationData {
     public string quantityToAddInvestor;
     public string mainResourceAutoIncrement;
     public float mainResourceAutoIncrementTimer;
-    public SaveInvestorUpgradeData[] investorUpgradeDatas;
+    public SaveInvestorUpgradeDataJson[] investorUpgradeDatas;
 }
 
 [Serializable]
-public class SaveInventoryItemData {
+public class SaveInventoryItemDataJson {
     public string name;
     public string count;
 }
 
 [Serializable]
-public class SaveData {
-    public SaveWorldLocationData[] worldLocationSaveDatas;
-    public SaveInventoryItemData[] saveInventoryOreItemDatas;
-    public SaveInventoryItemData[] saveInventoryItemDatas;
-    public SaveInventoryItemData saveInventoryPickaxeItemData;
-    public SaveInventoryItemData saveInventorySwordItemData;
-    public SaveInventoryItemData saveInventoryArmorItemData;
-    public SaveShopItemData[] shopItems;
-    public string dynamite;
+public class SaveDataJson {
+    public SaveWorldLocationDataJson[] worldLocationSaveDatas;
+    public SaveInventoryItemDataJson[] saveInventoryOreItemDatas;
+    public SaveInventoryItemDataJson[] saveInventoryItemDatas;
+    public SaveInventoryItemDataJson saveInventoryPickaxeItemData;
+    public SaveInventoryItemDataJson saveInventorySwordItemData;
+    public SaveInventoryItemDataJson saveInventoryArmorItemData;
+    public SaveShopItemDataJson[] shopItems;
 }
 
 public class SaveSystem : MonoBehaviour {
     [SerializeField]
-    private ShopMenu shopMenu;
-    [SerializeField]
-    private WorldMenu worldMenu;
-    [SerializeField]
-    private InventoryMenu inventoryMenu;
-    [SerializeField]
-    private InvestorMenu investorMenu;
-    [SerializeField]
     private ReferenceHub referenceHub;
+
     private void OnApplicationQuit() {
         SaveGame();
     }
 
     public void SaveGame() {
-        SaveData saveData = new() {
-            worldLocationSaveDatas = new SaveWorldLocationData[worldMenu.WorldLocations.Count]
+        SaveDataJson saveData = new() {
+            worldLocationSaveDatas = new SaveWorldLocationDataJson[referenceHub.worldMenu.WorldLocations.Count]
         };
-        for(int i = 0;i < worldMenu.WorldLocations.Count;i += 1) {
-            var location = worldMenu.WorldLocations[i];
+        for(int i = 0;i < referenceHub.worldMenu.WorldLocations.Count;i += 1) {
+            var location = referenceHub.worldMenu.WorldLocations[i];
 
             saveData.worldLocationSaveDatas[i] = new() {
                 level = location.Level,
@@ -90,22 +82,22 @@ public class SaveSystem : MonoBehaviour {
                 investorsYouHave = location.InvestorsYouHave.ToString(),
                 purchased = location.Purchased,
                 name = location.Name,
-                shopItemsToSaveData = new SaveShopItemData[location.ShopItems.Count],
-                investorUpgradeDatas = new SaveInvestorUpgradeData[location.InvestorUpgrades.Count]
+                shopItemsToSaveData = new SaveShopItemDataJson[location.ShopItems.Count],
+                investorUpgradeDatas = new SaveInvestorUpgradeDataJson[location.InvestorUpgrades.Count]
                 
             };
 
             for(int j = 0;j < location.ShopItems.Count;j += 1) {
                 var item = location.ShopItems[j];
-                saveData.worldLocationSaveDatas[i].shopItemsToSaveData[j] = new SaveShopItemData{
+                saveData.worldLocationSaveDatas[i].shopItemsToSaveData[j] = new SaveShopItemDataJson{
                     name = item.name,
                     resultQuantity = item.ResultQuantity.ToString(),
                     count = item.Count.ToString(),
                     multiplier = item.multiplier.ToString(),
-                    shopItemPriceDatas = new SaveShopItemPriceData[item.shopItemsPrices.Count],
+                    shopItemPriceDatas = new SaveShopItemPriceDataJson[item.shopItemsPrices.Count],
                 };
                 for(int k = 0;k < item.shopItemsPrices.Count;k += 1) {
-                    saveData.worldLocationSaveDatas[i].shopItemsToSaveData[j].shopItemPriceDatas[k] = new SaveShopItemPriceData {
+                    saveData.worldLocationSaveDatas[i].shopItemsToSaveData[j].shopItemPriceDatas[k] = new SaveShopItemPriceDataJson {
                         value = item.shopItemsPrices[k].Value.ToString()
                     };
                 }
@@ -113,16 +105,16 @@ public class SaveSystem : MonoBehaviour {
 
             for(int j = 0;j < location.InvestorUpgrades.Count;j += 1) {
                 var upgrade = location.InvestorUpgrades[j];
-                saveData.worldLocationSaveDatas[i].investorUpgradeDatas[j] = new SaveInvestorUpgradeData {
+                saveData.worldLocationSaveDatas[i].investorUpgradeDatas[j] = new SaveInvestorUpgradeDataJson {
                     purchased = upgrade.Purchased,
                     whatYouGetText = upgrade.WhatYouGetText
                 };
             }
         }
 
-        saveData.saveInventoryOreItemDatas = new SaveInventoryItemData[inventoryMenu.OreItemsSlots.Count];
+        saveData.saveInventoryOreItemDatas = new SaveInventoryItemDataJson[referenceHub.inventoryMenu.OreItemsSlots.Count];
         int index = 0;
-        foreach(var slot in inventoryMenu.OreItemsSlots.Values) {
+        foreach(var slot in referenceHub.inventoryMenu.OreItemsSlots.Values) {
             saveData.saveInventoryOreItemDatas[index] = new() {
                 name = slot.ItemTemplate.name,
                 count = slot.Count.ToString()
@@ -130,42 +122,41 @@ public class SaveSystem : MonoBehaviour {
             index += 1;
         }
 
-        saveData.saveInventoryItemDatas = new SaveInventoryItemData[inventoryMenu.itemSlots.Count];
-        for(int i = 0;i < inventoryMenu.itemSlots.Count;i +=1 ) {
+        saveData.saveInventoryItemDatas = new SaveInventoryItemDataJson[referenceHub.inventoryMenu.itemSlots.Count];
+        for(int i = 0;i < referenceHub.inventoryMenu.itemSlots.Count;i +=1 ) {
             saveData.saveInventoryItemDatas[i] = new() {
-                name = inventoryMenu.itemSlots[i].ItemTemplate?.name,
-                count = inventoryMenu.itemSlots[i].Count.ToString()
+                name = referenceHub.inventoryMenu.itemSlots[i].ItemTemplate?.name,
+                count = referenceHub.inventoryMenu.itemSlots[i].Count.ToString()
             };
         }
         saveData.saveInventoryPickaxeItemData = new() {
-            name = inventoryMenu.pickaxeInventoryItemSlot.ItemTemplate?.name,
-            count = inventoryMenu.pickaxeInventoryItemSlot.Count.ToString()
+            name = referenceHub.inventoryMenu.pickaxeInventoryItemSlot.ItemTemplate?.name,
+            count = referenceHub.inventoryMenu.pickaxeInventoryItemSlot.Count.ToString()
         };
         saveData.saveInventorySwordItemData = new() {
-            name = inventoryMenu.swordInventoryItemSlot.ItemTemplate?.name,
-            count = inventoryMenu.swordInventoryItemSlot.Count.ToString()
+            name = referenceHub.inventoryMenu.swordInventoryItemSlot.ItemTemplate?.name,
+            count = referenceHub.inventoryMenu.swordInventoryItemSlot.Count.ToString()
         };
         saveData.saveInventoryArmorItemData = new() {
-            name = inventoryMenu.armorInventoryItemSlot.ItemTemplate?.name,
-            count = inventoryMenu.armorInventoryItemSlot.Count.ToString()
+            name = referenceHub.inventoryMenu.armorInventoryItemSlot.ItemTemplate?.name,
+            count = referenceHub.inventoryMenu.armorInventoryItemSlot.Count.ToString()
         };
 
-        saveData.shopItems = new SaveShopItemData[shopMenu.ShopItems.Count];
-        for(int i = 0;i < shopMenu.ShopItems.Count;i += 1) {
+        saveData.shopItems = new SaveShopItemDataJson[referenceHub.shopMenu.ShopItems.Count];
+        for(int i = 0;i < referenceHub.shopMenu.ShopItems.Count;i += 1) {
             saveData.shopItems[i] = new() {
-                name = shopMenu.ShopItems[i].name,
-                count = shopMenu.ShopItems[i].Count.ToString(),
-                resultQuantity = shopMenu.ShopItems[i].ResultQuantity.ToString(),
-                multiplier = shopMenu.ShopItems[i].multiplier.ToString(),
-                shopItemPriceDatas = new SaveShopItemPriceData[shopMenu.ShopItems[i].shopItemsPrices.Count]
+                name = referenceHub.shopMenu.ShopItems[i].name,
+                count = referenceHub.shopMenu.ShopItems[i].Count.ToString(),
+                resultQuantity = referenceHub.shopMenu.ShopItems[i].ResultQuantity.ToString(),
+                multiplier = referenceHub.shopMenu.ShopItems[i].multiplier.ToString(),
+                shopItemPriceDatas = new SaveShopItemPriceDataJson[referenceHub.shopMenu.ShopItems[i].shopItemsPrices.Count]
             };
-            for(int j = 0;j< shopMenu.ShopItems[i].shopItemsPrices.Count;j += 1) {
+            for(int j = 0;j< referenceHub.shopMenu.ShopItems[i].shopItemsPrices.Count;j += 1) {
                 saveData.shopItems[i].shopItemPriceDatas[j] = new() {
-                    value = shopMenu.ShopItems[i].shopItemsPrices[j].Value.ToString()
+                    value = referenceHub.shopMenu.ShopItems[i].shopItemsPrices[j].Value.ToString()
                 };
             }
         }
-        saveData.dynamite = referenceHub.currentWorldLocationMenu.choosingDynamite;
 
         var temp = JsonUtility.ToJson(saveData);
         Directory.CreateDirectory(Application.persistentDataPath);
@@ -177,12 +168,12 @@ public class SaveSystem : MonoBehaviour {
         if(!File.Exists(Application.persistentDataPath + "/save.json")) return;
 
         var temp = File.ReadAllText(Application.persistentDataPath + "/save.json");
-        var saveData = JsonUtility.FromJson<SaveData>(temp);
+        var saveData = JsonUtility.FromJson<SaveDataJson>(temp);
 
         for(int i = 0;i < saveData.worldLocationSaveDatas.Length;i += 1) {
             var savedLocation = saveData.worldLocationSaveDatas[i];
 
-            var currentLocation = worldMenu.WorldLocations[i];
+            var currentLocation = referenceHub.worldMenu.WorldLocations[i];
             currentLocation.InvestorsToClaim = SafeUDecimal.Parse(savedLocation.investorsToClaim);
             currentLocation.InvestorsYouHave = SafeUDecimal.Parse(savedLocation.investorsYouHave);
             currentLocation.Level = savedLocation.level;
@@ -212,41 +203,41 @@ public class SaveSystem : MonoBehaviour {
                 var found = currentLocation.InvestorUpgrades.Find((instance) => instance.WhatYouGetText == upgrade.whatYouGetText);
                 if(found != null) found.Purchased = upgrade.purchased;
             }
-            investorMenu.UpdateInvestors();
+            referenceHub.investorMenu.UpdateInvestors();
             currentLocation.RecalculateMainResourceClickIncrement();
             currentLocation.RecalculateMainResourceAutoIncrement();
         }
 
         for(int i = 0;i < saveData.saveInventoryOreItemDatas.Length;i += 1) {
             var itemData = saveData.saveInventoryOreItemDatas[i];
-            if(inventoryMenu.OreItemsSlots.ContainsKey(itemData.name)) {
-                inventoryMenu.OreItemsSlots[itemData.name].Count = SafeUDecimal.Parse(itemData.count);
+            if(referenceHub.inventoryMenu.OreItemsSlots.ContainsKey(itemData.name)) {
+                referenceHub.inventoryMenu.OreItemsSlots[itemData.name].Count = SafeUDecimal.Parse(itemData.count);
             }
         }
 
         for(int i = 0;i < saveData.saveInventoryItemDatas.Length;i += 1) {
             var itemData = saveData.saveInventoryItemDatas[i];
-            if(itemData.name != null && inventoryMenu.ItemTemplates.ContainsKey(itemData.name) && i < inventoryMenu.itemSlots.Count) {
-                inventoryMenu.itemSlots[i].ItemTemplate = inventoryMenu.ItemTemplates[itemData.name];
-                inventoryMenu.itemSlots[i].Count = SafeUDecimal.Parse(itemData.count);
+            if(itemData.name != null && referenceHub.inventoryMenu.ItemTemplates.ContainsKey(itemData.name) && i < referenceHub.inventoryMenu.itemSlots.Count) {
+                referenceHub.inventoryMenu.itemSlots[i].ItemTemplate = referenceHub.inventoryMenu.ItemTemplates[itemData.name];
+                referenceHub.inventoryMenu.itemSlots[i].Count = SafeUDecimal.Parse(itemData.count);
             }
         }
-        if(inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventoryPickaxeItemData.name)) {
-            inventoryMenu.pickaxeInventoryItemSlot.ItemTemplate = inventoryMenu.ItemTemplates[saveData.saveInventoryPickaxeItemData.name];
-            inventoryMenu.pickaxeInventoryItemSlot.Count = SafeUDecimal.Parse(saveData.saveInventoryPickaxeItemData.count);
+        if(referenceHub.inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventoryPickaxeItemData.name)) {
+            referenceHub.inventoryMenu.pickaxeInventoryItemSlot.ItemTemplate = referenceHub.inventoryMenu.ItemTemplates[saveData.saveInventoryPickaxeItemData.name];
+            referenceHub.inventoryMenu.pickaxeInventoryItemSlot.Count = SafeUDecimal.Parse(saveData.saveInventoryPickaxeItemData.count);
         }
-        if(inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventorySwordItemData.name)) {
-            inventoryMenu.swordInventoryItemSlot.ItemTemplate = inventoryMenu.ItemTemplates[saveData.saveInventorySwordItemData.name];
-            inventoryMenu.swordInventoryItemSlot.Count = SafeUDecimal.Parse(saveData.saveInventorySwordItemData.count);
+        if(referenceHub.inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventorySwordItemData.name)) {
+            referenceHub.inventoryMenu.swordInventoryItemSlot.ItemTemplate = referenceHub.inventoryMenu.ItemTemplates[saveData.saveInventorySwordItemData.name];
+            referenceHub.inventoryMenu.swordInventoryItemSlot.Count = SafeUDecimal.Parse(saveData.saveInventorySwordItemData.count);
         }
-        if(inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventoryArmorItemData.name)) {
-            inventoryMenu.armorInventoryItemSlot.ItemTemplate = inventoryMenu.ItemTemplates[saveData.saveInventoryArmorItemData.name];
-            inventoryMenu.armorInventoryItemSlot.Count = SafeUDecimal.Parse(saveData.saveInventoryArmorItemData.count);
+        if(referenceHub.inventoryMenu.ItemTemplates.ContainsKey(saveData.saveInventoryArmorItemData.name)) {
+            referenceHub.inventoryMenu.armorInventoryItemSlot.ItemTemplate = referenceHub.inventoryMenu.ItemTemplates[saveData.saveInventoryArmorItemData.name];
+            referenceHub.inventoryMenu.armorInventoryItemSlot.Count = SafeUDecimal.Parse(saveData.saveInventoryArmorItemData.count);
         }
 
         for(int i = 0;i < saveData.shopItems.Length;i += 1) {
             var item = saveData.shopItems[i];
-            var found = shopMenu.ShopItems.Find((instance) => instance.name == item.name);
+            var found = referenceHub.shopMenu.ShopItems.Find((instance) => instance.name == item.name);
             if(found != null) {
                 found.ResultQuantity = SafeUInteger.Parse(item.resultQuantity);
                 found.Count = SafeUInteger.Parse(item.count);
@@ -258,6 +249,5 @@ public class SaveSystem : MonoBehaviour {
                 }
             }
         }
-        referenceHub.currentWorldLocationMenu.choosingDynamite = saveData.dynamite;
     }
 }

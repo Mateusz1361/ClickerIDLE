@@ -16,6 +16,8 @@ public class ItemTemplate {
 
 public class InventoryMenu : MonoBehaviour {
     [SerializeField]
+    private ReferenceHub referenceHub;
+    [SerializeField]
     private Button closeButton;
     [SerializeField]
     private GameObject itemsScroll;
@@ -169,25 +171,17 @@ public class InventoryMenu : MonoBehaviour {
             var prefab = Instantiate(inventoryItemSlotPrefab,itemsParent);
             var component = prefab.GetComponent<InventoryItemSlot>();
             component.Init(this);
-            component.ItemTemplate = null;
-            component.Count = 0;
             itemSlots.Add(component);
         }
         pickaxeInventoryItemSlot.Init(this);
-        pickaxeInventoryItemSlot.ItemTemplate = null;
-        pickaxeInventoryItemSlot.Count = 0;
         swordInventoryItemSlot.Init(this);
-        swordInventoryItemSlot.ItemTemplate = null;
-        swordInventoryItemSlot.Count = 0;
         armorInventoryItemSlot.Init(this);
-        armorInventoryItemSlot.ItemTemplate = null;
-        armorInventoryItemSlot.Count = 0;
     }
     //wczytywanie z JSONa wszystkiego
     private void InitItems() {
         _itemTemplates = new();
         _oreItemSlots = new();
-        var itemDatas = JsonUtility.FromJson<InstanceWrapperData<InventoryItemData>>(inventoryItemDataAsset.text);
+        var itemDatas = JsonUtility.FromJson<InstanceWrapperDataJson<InventoryItemDataJson>>(inventoryItemDataAsset.text);
         foreach(var item in itemDatas.data) {
             ItemTemplate template = new() {
                 name = item.name,

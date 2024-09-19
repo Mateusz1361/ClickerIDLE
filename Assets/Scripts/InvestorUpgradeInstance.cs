@@ -35,7 +35,7 @@ public class InvestorUpgradeInstance : MonoBehaviour {
         }
     }
 
-    public void Init(InvestorUpgradeData investorUpgradeData,WorldLocation _worldLocation,ReferenceHub _referenceHub) {
+    public void Init(InvestorUpgradeDataJson investorUpgradeData,WorldLocation _worldLocation,ReferenceHub _referenceHub) {
         referenceHub = _referenceHub;
         worldLocation = _worldLocation;
         whatYouMultiply = investorUpgradeData.whatYouMultiply;

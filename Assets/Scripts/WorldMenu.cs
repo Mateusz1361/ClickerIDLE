@@ -56,7 +56,7 @@ public class WorldMenu : MonoBehaviour {
 
     private void InitWorldLocations() {
         _worldLocations = new();
-        var worldMapData = JsonUtility.FromJson<WorldMapData>(worldMapDataAsset.text);
+        var worldMapData = JsonUtility.FromJson<WorldMapDataJson>(worldMapDataAsset.text);
         worldMap.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,worldMapData.sizeX);
         worldMap.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,worldMapData.sizeY);
         

@@ -18,7 +18,7 @@ public class FactoryMenu : MonoBehaviour {
     
     public void Init() {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
-        var factoryData = JsonUtility.FromJson<InstanceWrapperData<FactoryItemData>>(factoryDataTextAsset.text);
+        var factoryData = JsonUtility.FromJson<InstanceWrapperDataJson<FactoryItemDataJson>>(factoryDataTextAsset.text);
         foreach(var item in factoryData.data) {
             var prefab = Instantiate(factoryPrefab,factoryPrefabParent);
             var component = prefab.GetComponent<FactoryItem>();

@@ -95,5 +95,7 @@ public class InventoryItemSlot : MonoBehaviour {
     private InventoryMenu inventoryMenu = null;
     public void Init(InventoryMenu _inventoryMenu) {
         inventoryMenu = _inventoryMenu;
+        ItemTemplate = null;
+        Count = 0;
     }
 }

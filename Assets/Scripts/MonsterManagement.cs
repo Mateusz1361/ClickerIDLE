@@ -84,7 +84,7 @@ public class MonsterManagement : MonoBehaviour {
     }
 
     public void InitMonsters() {
-        var monsterDatas = JsonUtility.FromJson<InstanceWrapperData<MonsterData>>(monsterDataTextAsset.text);
+        var monsterDatas = JsonUtility.FromJson<InstanceWrapperDataJson<MonsterDataJson>>(monsterDataTextAsset.text);
         _monsters = new Monster[monsterDatas.data.Length];
         for(int i = 0;i < monsterDatas.data.Length;i += 1) {
             var monsterData = monsterDatas.data[i];

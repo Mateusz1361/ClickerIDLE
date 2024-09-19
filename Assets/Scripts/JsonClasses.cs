@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class TradeOptionInstanceData {
+public class TradeOptionInstanceDataJson {
     public string buyPrice;
     public string sellPrice;
     public string currencyIn;
@@ -9,7 +9,7 @@ public class TradeOptionInstanceData {
 }
 
 [Serializable]
-public class InvestorUpgradeData {
+public class InvestorUpgradeDataJson {
     public string whatYouGetText;
     public string whatYouMultiply;
     public ulong price;
@@ -17,29 +17,29 @@ public class InvestorUpgradeData {
 }
 
 [Serializable]
-public class ShopItemPriceData {
+public class ShopItemPriceDataJson {
     public string name;
     public ulong value;
     public ulong unlockCount;
 }
 
 [Serializable]
-public class ShopItemResultData {
+public class ShopItemResultDataJson {
     public string type;
     public ulong value;
 }
 
 [Serializable]
-public class ShopItemData {
+public class ShopItemDataJson {
     public string name;
     public ulong unlockLevel;
     public bool belongsToMine;
-    public ShopItemPriceData[] price;
-    public ShopItemResultData result;
+    public ShopItemPriceDataJson[] price;
+    public ShopItemResultDataJson result;
 }
 
 [Serializable]
-public class WorldLocationData {
+public class WorldLocationDataJson {
     public string name;
     public string mainResource;
     public ulong price;
@@ -48,14 +48,14 @@ public class WorldLocationData {
 }
 
 [Serializable]
-public class WorldMapData {
+public class WorldMapDataJson {
     public float sizeX;
     public float sizeY;
-    public WorldLocationData[] data;
+    public WorldLocationDataJson[] data;
 };
 
 [Serializable]
-public class InventoryItemData {
+public class InventoryItemDataJson {
     public string name;
     public string iconPath;
     public ulong powerOfDynamite;
@@ -66,41 +66,41 @@ public class InventoryItemData {
 }
 
 [Serializable]
-public class FactoryPriceItemData {
+public class FactoryPriceItemDataJson {
     public string name;
     public ulong value;
 }
 
 [Serializable]
-public class FactoryResultData {
+public class FactoryResultDataJson {
     public string type;
     public ulong value;
 }
 
 [Serializable]
-public class FactoryItemData {
+public class FactoryItemDataJson {
     public string name;
     public string toUnlock;
-    public FactoryPriceItemData[] price;
-    public FactoryResultData result;
+    public FactoryPriceItemDataJson[] price;
+    public FactoryResultDataJson result;
     public float duration;
 }
 
 [Serializable]
-public class MonsterDropData {
+public class MonsterDropDataJson {
     public string name;
     public ulong count;
 }
 
 [Serializable]
-public class MonsterData {
+public class MonsterDataJson {
     public string name;
     public string imagePath;
     public double maxHealth;
-    public MonsterDropData[] drops;
+    public MonsterDropDataJson[] drops;
 }
 
 [Serializable]
-public class InstanceWrapperData<T> {
+public class InstanceWrapperDataJson<T> {
     public T[] data;
 }

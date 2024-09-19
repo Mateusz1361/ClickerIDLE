@@ -27,6 +27,11 @@ public static class NumberFormat {
 }
 */
 
+public class MutablePair<T0,T1> {
+    public T0 first;
+    public T1 second;
+}
+
 public static class RandomExtensions {
     public static double NextDouble(this Random random,double min,double max) {
         return random.NextDouble() * (max - min) + min;

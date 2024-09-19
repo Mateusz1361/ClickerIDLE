@@ -29,7 +29,7 @@ public class ShopItem : MonoBehaviour {
     [HideInInspector]
     public List<ShopItemPrice> shopItemsPrices;
     
-    private ShopItemData defaultSettings;
+    private ShopItemDataJson defaultSettings;
     [HideInInspector]
     public new string name;
 
@@ -88,7 +88,7 @@ public class ShopItem : MonoBehaviour {
         worldLocation.RecalculateMainResourceClickIncrement();
     }
 
-    public void InitItem(WorldLocation _worldLocation,ShopItemData data,ReferenceHub _referenceHub) {
+    public void InitItem(WorldLocation _worldLocation,ShopItemDataJson data,ReferenceHub _referenceHub) {
         worldLocation = _worldLocation;
         referenceHub = _referenceHub;
         UnlockLevel = data.unlockLevel;
@@ -182,6 +182,9 @@ public class ShopItem : MonoBehaviour {
             }
             else if(ResultType != "Improvement") {
                 referenceHub.inventoryMenu.AddItems(ResultType,ResultQuantity);
+                if(ResultType.Contains("Dynamite")) {
+                    referenceHub.currentWorldLocationMenu.UpdateDynamiteStatus();
+                }
             }
         }
     }

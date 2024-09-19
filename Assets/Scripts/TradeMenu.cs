@@ -19,7 +19,7 @@ public class TradeMenu : MonoBehaviour {
     }
 
     private void InitTradeOptions() {
-        var tradeOptionInstanceDatas = JsonUtility.FromJson<InstanceWrapperData<TradeOptionInstanceData>>(tradeOptionData.text);
+        var tradeOptionInstanceDatas = JsonUtility.FromJson<InstanceWrapperDataJson<TradeOptionInstanceDataJson>>(tradeOptionData.text);
         foreach(var tradeOptionInstanceData in tradeOptionInstanceDatas.data) {
             var prefab = Instantiate(tradeOptionPrefab,parent.transform);
             var tradeOptionInstance = prefab.GetComponent<TradeOptionInstance>();

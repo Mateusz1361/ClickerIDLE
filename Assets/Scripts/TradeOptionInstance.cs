@@ -48,7 +48,7 @@ public class TradeOptionInstance : MonoBehaviour {
         });
     }
 
-    public void InitInstance(InventoryMenu _inventoryMenu,TradeOptionInstanceData _data) {
+    public void InitInstance(InventoryMenu _inventoryMenu,TradeOptionInstanceDataJson _data) {
         inventoryMenu = _inventoryMenu;
         currencyInIcon.sprite = inventoryMenu.ItemTemplates[_data.currencyIn].icon;
         currencyOutIcon.sprite = inventoryMenu.ItemTemplates[_data.currencyOut].icon;

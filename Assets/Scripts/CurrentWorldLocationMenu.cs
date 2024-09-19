@@ -1,7 +1,10 @@
 using TMPro;
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 
 //TODO zapis gry cos jest nie tak w upgradach
 public class CurrentWorldLocationMenu : MonoBehaviour {
@@ -27,20 +30,20 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private GameObject workersInfo;
     [SerializeField]
     private ViewSelection viewSelection;
-    [SerializeField] 
-    private Button igniteDynamiteButton;
-
-    [SerializeField] private TMP_Text quantityOfDynamiteText;
-    [NonSerialized]
-    public string choosingDynamite = "Dynamite";
-    private ulong clicks = 0;
+    [SerializeField]
+    private TMP_Text dynamiteCountText;
     [SerializeField]
     private Image dynamiteIcon;
+    [SerializeField] 
+    private Button dynamiteIgniteButton;
+
+    private ulong clicks = 0;
+    private MutablePair<SafeUDecimal,ItemTemplate> bestDynamiteToUse = null;
 
     private void Awake() {
         mainButton.onClick.AddListener(OnMainButtonClick);
         levelUpButton.onClick.AddListener(OnLevelUpButtonClick);
-        igniteDynamiteButton.onClick.AddListener(ExtinctTheWorld);
+        dynamiteIgniteButton.onClick.AddListener(ExtinctTheWorld);
         referenceHub.inventoryMenu.Money.OnCountChanged += OnMoneyCountChanged;
         referenceHub.worldMenu.OnWorldLocationLeft += (WorldLocation location) => {
             if(location != null) {
@@ -65,12 +68,32 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
         };
         viewSelection.Init();
         referenceHub.saveSystem.LoadGame();
-        RefreshQuantityOfDynamite();
-        RefreshIconOfDynamite();
     }
 
-    public void RefreshIconOfDynamite() {
-        dynamiteIcon.sprite = referenceHub.inventoryMenu.ItemTemplates[choosingDynamite].icon;
+    private void OnEnable() {
+        UpdateDynamiteStatus();
+    }
+
+    public void UpdateDynamiteStatus() {
+        Dictionary<string,MutablePair<SafeUDecimal,ItemTemplate>> dynamiteItems = new();
+        foreach(var slot in referenceHub.inventoryMenu.itemSlots) {
+            if(slot.ItemTemplate == null || !slot.ItemTemplate.name.Contains("Dynamite")) continue;
+            if(!dynamiteItems.ContainsKey(slot.ItemTemplate.name)) {
+                dynamiteItems[slot.ItemTemplate.name] = new() {
+                    first = 0,
+                    second = slot.ItemTemplate
+                };
+            }
+            dynamiteItems[slot.ItemTemplate.name].first += slot.Count;
+        }
+        bestDynamiteToUse = null;
+        foreach(var pair in dynamiteItems.Values) {
+            if(bestDynamiteToUse == null || pair.second.powerOfDynamite > bestDynamiteToUse.second.powerOfDynamite) {
+                bestDynamiteToUse = pair;
+            }
+        }
+        dynamiteIcon.sprite = (bestDynamiteToUse != null) ? bestDynamiteToUse.second.icon : referenceHub.inventoryMenu.ItemTemplates["Dynamite"].icon;
+        dynamiteCountText.text = (bestDynamiteToUse != null) ? bestDynamiteToUse.first.ToString() : "0";
     }
 
     private void Update() {
@@ -133,31 +156,16 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     }
 
     private void ExtinctTheWorld() {
-        if(referenceHub.inventoryMenu.CanRemoveItems(choosingDynamite,1)) {
-            referenceHub.inventoryMenu.RemoveItems(choosingDynamite,1);
+        if(bestDynamiteToUse == null) return;
+        var bestDynamiteName = bestDynamiteToUse.second.name;
+        if(referenceHub.inventoryMenu.CanRemoveItems(bestDynamiteName,1)) {
+            referenceHub.inventoryMenu.RemoveItems(bestDynamiteName,1);
             var cwl = referenceHub.worldMenu.CurrentWorldLocation;
             var slots = referenceHub.inventoryMenu.OreItemsSlots;
-            clicks += referenceHub.inventoryMenu.ItemTemplates[choosingDynamite].powerOfDynamite;
+            clicks += referenceHub.inventoryMenu.ItemTemplates[bestDynamiteName].powerOfDynamite;
             slots[cwl.MainResourceName].Count += clicks / slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
-            clicks = referenceHub.inventoryMenu.ItemTemplates[choosingDynamite].powerOfDynamite % slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
-            RefreshQuantityOfDynamite();
+            clicks = referenceHub.inventoryMenu.ItemTemplates[bestDynamiteName].powerOfDynamite % slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
+            UpdateDynamiteStatus();
         }
-    }
-    
-    public void RefreshQuantityOfDynamite()
-    {
-        SafeUDecimal value = 0;
-        for (int i = 0; i < referenceHub.inventoryMenu.itemSlots.Count; i++)
-        {
-            if (referenceHub.inventoryMenu.itemSlots[i].ItemTemplate != null)
-            {
-                if (referenceHub.inventoryMenu.itemSlots[i]?.ItemTemplate.name == choosingDynamite)
-                {
-                    value += referenceHub.inventoryMenu.itemSlots[i].Count;
-                }
-            }
-            
-        }
-        quantityOfDynamiteText.text = value.ToString();
     }
 }
