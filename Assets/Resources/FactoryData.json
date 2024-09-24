@@ -50,7 +50,7 @@
             "duration": 5.0
         },
         {
-            "name": "Factory of High-Quality Cabling",
+            "name": "Factory of High-Quality Armor",
             "toUnlock": "Iron Mine",
             "price": [
                 {
@@ -63,8 +63,8 @@
                 }
             ],
             "result": {
-                "type": "High-Quality Cabling",
-                "value": 2
+                "type": "High-Quality Armor",
+                "value": 1
             },
             "duration": 7.0
         },

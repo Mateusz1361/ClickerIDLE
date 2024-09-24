@@ -126,7 +126,8 @@
             "clicksToPop": 0,
             "type": "Pickaxe",
             "price": 10,
-            "maxStackCount": 16
+            "maxStackCount": 1,
+            "clicksMultiplier": 2
         },
         {
             "name": "Stone Pickaxe",
@@ -134,7 +135,8 @@
             "clicksToPop": 0,
             "type": "Pickaxe",
             "price": 10,
-            "maxStackCount": 16
+            "maxStackCount": 1,
+            "clicksMultiplier": 3
         },
         {
             "name": "Dynamite",
@@ -198,12 +200,13 @@
             "maxStackCount": 64
         },
         {
-            "name": "High-Quality Cabling",
+            "name": "High-Quality Armor",
             "iconPath": "Missing",
             "clicksToPop": 0,
             "type": "Armor",
             "price": 10000,
-            "maxStackCount": 64
+            "maxStackCount": 1,
+            "damageReductionMultiplier": 0.5
         },
         {
             "name": "Printed Circuit Board",
@@ -227,7 +230,8 @@
             "clicksToPop": 0,
             "type": "Sword",
             "price": 5000,
-            "maxStackCount": 1
+            "maxStackCount": 1,
+            "multiplierOfDamage": 2.0
         }
     ]
 }

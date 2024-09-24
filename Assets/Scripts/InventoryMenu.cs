@@ -12,6 +12,9 @@ public class ItemTemplate {
     public uint clicksToPop;
     public ulong price;
     public ulong powerOfDynamite;
+    public ulong clicksMultiplier;
+    public ulong damageMultiplier;
+    public double reductionMultiplier;
 }
 
 public class InventoryMenu : MonoBehaviour {
@@ -163,6 +166,35 @@ public class InventoryMenu : MonoBehaviour {
             return _money;
         }
     }
+    // mnozniki dla podstawowych przedmiotow
+    public ulong GetClicksMultiplier()
+    {
+        if (pickaxeInventoryItemSlot.ItemTemplate == null)
+        {
+            return 1;
+        }
+
+        return pickaxeInventoryItemSlot.ItemTemplate.clicksMultiplier;
+    }
+    public ulong GetDamageMultiplier()
+    {
+        if (swordInventoryItemSlot.ItemTemplate == null)
+        {
+            return 1;
+        }
+
+        return swordInventoryItemSlot.ItemTemplate.damageMultiplier;
+    }
+    public double GetReductionMultiplier()
+    {
+        if (armorInventoryItemSlot.ItemTemplate == null)
+        {
+            return 1;
+        }
+
+        return armorInventoryItemSlot.ItemTemplate.reductionMultiplier;
+    }
+    
     //Lista slotow w eq dla zwyklych przedmiotow
     public readonly List<InventoryItemSlot> itemSlots = new();
 
@@ -190,7 +222,11 @@ public class InventoryMenu : MonoBehaviour {
                 maxStackCount = item.maxStackCount,
                 clicksToPop = item.clicksToPop,
                 type = item.type,
-                price = item.price
+                price = item.price,
+                clicksMultiplier = item.clicksMultiplier,
+                damageMultiplier = item.damageMultiplier,
+                reductionMultiplier = item.reductionMultiplier
+                
             };
             _itemTemplates.Add(item.name,template);
             if(template.type.Contains("Ore")) {

@@ -4,6 +4,7 @@
             "name": "Zombie",
             "imagePath": "Zombie",
             "maxHealth": 5.0,
+            "hitPoints": 1.0,
             "drops": [
                 {
                     "name": "Electronic Circuit",
@@ -23,6 +24,7 @@
             "name": "Super Zombie",
             "imagePath": "SuperZombie",
             "maxHealth": 10.0,
+            "hitPoints": 2.0,
             "drops": [
                 {
                     "name": "Printed Circuit Board",

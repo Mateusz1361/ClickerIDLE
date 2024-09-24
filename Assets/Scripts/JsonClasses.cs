@@ -63,6 +63,10 @@ public class InventoryItemDataJson {
     public string type;
     public ulong price;
     public ulong maxStackCount;
+    public ulong clicksMultiplier;
+    public ulong damageMultiplier;
+    public double reductionMultiplier;
+    
 }
 
 [Serializable]
@@ -98,6 +102,7 @@ public class MonsterDataJson {
     public string imagePath;
     public double maxHealth;
     public MonsterDropDataJson[] drops;
+    public double hitPoints;
 }
 
 [Serializable]

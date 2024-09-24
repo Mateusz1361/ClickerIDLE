@@ -38,6 +38,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     private Button dynamiteIgniteButton;
 
     private ulong clicks = 0;
+    
     private MutablePair<SafeUDecimal,ItemTemplate> bestDynamiteToUse = null;
 
     private void Awake() {
@@ -138,14 +139,17 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     }
 
     private void OnMainButtonClick() {
-        clicks++;
+        
+        clicks += referenceHub.inventoryMenu.GetClicksMultiplier();
         var cwl = referenceHub.worldMenu.CurrentWorldLocation;
         var slots = referenceHub.inventoryMenu.OreItemsSlots;
         if(slots[cwl.MainResourceName].ItemTemplate.clicksToPop <= clicks) {
-            slots[cwl.MainResourceName].Count += cwl.MainResourceClickIncrement();
-            cwl.Experience += new System.Random().NextDouble(1.0,5.0);
-            clicks = 0;
+            slots[cwl.MainResourceName].Count += cwl.MainResourceClickIncrement()*(clicks/slots[cwl.MainResourceName].ItemTemplate.clicksToPop);
+            clicks %= slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
+            
+            
         }
+        cwl.Experience += new System.Random().NextDouble(1.0,5.0);
     }
 
     private void OnLevelUpButtonClick() {
