@@ -42,7 +42,7 @@ public class ShopItemPrice : MonoBehaviour {
         }
         set {
             _value = value;
-            resourceQuantity.text = _value.ToString();
+            resourceQuantity.text = NumberFormat.ShortForm(_value);
         }
     }
 }

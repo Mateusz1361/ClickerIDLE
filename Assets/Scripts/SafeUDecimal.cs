@@ -137,4 +137,8 @@ public struct SafeUDecimal {
     public static bool operator<=(SafeUDecimal left,SafeUDecimal right) {
         return left.Value <= right.Value;
     }
+
+    public static SafeUDecimal Truncate(SafeUDecimal value) {
+        return new() {Value = (value.Value / 100) * 100 };
+    }
 }

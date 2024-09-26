@@ -66,7 +66,7 @@ public class TradeOptionInstance : MonoBehaviour {
         }
         private set {
             _buyPrice = value;
-            buyText.text = _buyPrice.ToString();
+            buyText.text = NumberFormat.ShortForm(_buyPrice);
         }
     }
 
@@ -77,7 +77,7 @@ public class TradeOptionInstance : MonoBehaviour {
         }
         private set {
             _sellPrice = value;
-            sellText.text = _sellPrice.ToString();
+            sellText.text = NumberFormat.ShortForm(_sellPrice);
         }
     }
 
@@ -89,8 +89,8 @@ public class TradeOptionInstance : MonoBehaviour {
         set {
             _quantity = value;
             quantityInput.text = _quantity.ToString();
-            totalBuyAmountText.text = (_quantity * BuyPrice).ToString();
-            totalSellAmountText.text = (_quantity * SellPrice).ToString();
+            totalBuyAmountText.text = NumberFormat.ShortForm(_quantity * BuyPrice);
+            totalSellAmountText.text = NumberFormat.ShortForm(_quantity * SellPrice);
         }
     }
 

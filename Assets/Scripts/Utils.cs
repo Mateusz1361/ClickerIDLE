@@ -1,31 +1,23 @@
 using System;
 using System.Linq;
-using System.Numerics;
 
-/*
 public static class NumberFormat {
-    public static string ShortForm(Rational value) {
-        bool isNegative = (value < 0);
-        value = Rational.Abs(value);
+    public static string ShortForm(SafeUDecimal value) => ShortForm(value.Value / 100);
 
-        if(value < 1000) {
-            return $"{(isNegative ? "-" : "")}{value}";
-        }
-
-        BigInteger counter = 1000000;
+    public static string ShortForm(SafeUInteger value) {
+        SafeUInteger counter = 1000;
         foreach(var suffix in numberSuffixes) {
             if(value < counter) {
-                var newValue = Rational.Truncate(value / (counter / 1000) * 100) / 100;
-                return $"{(isNegative ? "-" : "")}{newValue}{suffix}";
+                var newValue = value / (counter / 1000);
+                return $"{newValue}{suffix}";
             }
             counter *= 1000;
         }
-        var lastNewValue = Rational.Truncate(value / (counter / 1000) * 100) / 100;
-        return $"{(isNegative ? "-" : "")}{lastNewValue}{numberSuffixes.Last()}";
+        var lastNewValue = value / (counter / 1000);
+        return $"{lastNewValue}{numberSuffixes.Last()}";
     }
-    public static readonly string[] numberSuffixes = { "k","M","B","T","Q" };
+    public static readonly string[] numberSuffixes = { "","k","M","B","T","Q" };
 }
-*/
 
 public class MutablePair<T0,T1> {
     public T0 first;

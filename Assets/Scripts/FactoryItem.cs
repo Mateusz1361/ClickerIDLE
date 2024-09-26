@@ -85,19 +85,18 @@ public class FactoryItem : MonoBehaviour {
     }
 
     public void UpdateFactory() {
-        if(isUpdating) {
-            elapsed += Time.deltaTime;
-            progressSlider.value = Mathf.Clamp01(elapsed / duration);
-            if(elapsed >= duration) {
-                elapsed = duration;
-                if(referenceHub.inventoryMenu.CanAddItems(factoryResultData.type,factoryResultData.value)) {
-                    referenceHub.inventoryMenu.AddItems(factoryResultData.type,factoryResultData.value);
-                    progressSlider.value = 0.0f;
-                    isUpdating = false;
-                    startProcessButton.interactable = true;
-                    if(factoryResultData.type.Contains("Dynamite")) {
-                        referenceHub.currentWorldLocationMenu.UpdateDynamiteStatus();
-                    }
+        if(!isUpdating) return;
+        elapsed += Time.deltaTime;
+        progressSlider.value = Mathf.Clamp01(elapsed / duration);
+        if(elapsed >= duration) {
+            elapsed = duration;
+            if(referenceHub.inventoryMenu.CanAddItems(factoryResultData.type,factoryResultData.value)) {
+                referenceHub.inventoryMenu.AddItems(factoryResultData.type,factoryResultData.value);
+                progressSlider.value = 0.0f;
+                isUpdating = false;
+                startProcessButton.interactable = true;
+                if(factoryResultData.type.Contains("Dynamite")) {
+                    referenceHub.currentWorldLocationMenu.UpdateDynamiteStatus();
                 }
             }
         }

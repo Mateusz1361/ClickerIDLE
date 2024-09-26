@@ -12,9 +12,9 @@ public class ItemTemplate {
     public uint clicksToPop;
     public ulong price;
     public ulong powerOfDynamite;
-    public ulong clicksMultiplier;
-    public ulong damageMultiplier;
-    public double reductionMultiplier;
+    public ulong clickPower;
+    public ulong damage;
+    public double damageReduction;
 }
 
 public class InventoryMenu : MonoBehaviour {
@@ -166,33 +166,20 @@ public class InventoryMenu : MonoBehaviour {
             return _money;
         }
     }
-    // mnozniki dla podstawowych przedmiotow
-    public ulong GetClicksMultiplier()
-    {
-        if (pickaxeInventoryItemSlot.ItemTemplate == null)
-        {
-            return 1;
-        }
 
-        return pickaxeInventoryItemSlot.ItemTemplate.clicksMultiplier;
+    //Ka¿de klinkniêcie w kamieñ dodaje tyle do zmiennej 'clicks' ile zwróci ta funkcja.
+    public ulong GetClickPower() {
+        return (pickaxeInventoryItemSlot.ItemTemplate == null) ? 1 : pickaxeInventoryItemSlot.ItemTemplate.clickPower;
     }
-    public ulong GetDamageMultiplier()
-    {
-        if (swordInventoryItemSlot.ItemTemplate == null)
-        {
-            return 1;
-        }
 
-        return swordInventoryItemSlot.ItemTemplate.damageMultiplier;
+    //Zwraca wartoœæ obra¿eñ zadawanych przy ataku przeciwników.
+    public ulong GetDamage() {
+        return (swordInventoryItemSlot.ItemTemplate == null) ? 1 : pickaxeInventoryItemSlot.ItemTemplate.damage;
     }
-    public double GetReductionMultiplier()
-    {
-        if (armorInventoryItemSlot.ItemTemplate == null)
-        {
-            return 1;
-        }
 
-        return armorInventoryItemSlot.ItemTemplate.reductionMultiplier;
+    //Zwraca wartoœæ, o któr¹ redukowane s¹ otrzymane obra¿enia.
+    public double GetDamageReduction() {
+        return (armorInventoryItemSlot.ItemTemplate == null) ? 0 : pickaxeInventoryItemSlot.ItemTemplate.damageReduction;
     }
     
     //Lista slotow w eq dla zwyklych przedmiotow
@@ -223,10 +210,9 @@ public class InventoryMenu : MonoBehaviour {
                 clicksToPop = item.clicksToPop,
                 type = item.type,
                 price = item.price,
-                clicksMultiplier = item.clicksMultiplier,
-                damageMultiplier = item.damageMultiplier,
-                reductionMultiplier = item.reductionMultiplier
-                
+                clickPower = item.clickPower,
+                damage = item.damage,
+                damageReduction = item.damageReduction
             };
             _itemTemplates.Add(item.name,template);
             if(template.type.Contains("Ore")) {

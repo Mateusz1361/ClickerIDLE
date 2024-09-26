@@ -127,7 +127,7 @@
             "type": "Pickaxe",
             "price": 10,
             "maxStackCount": 1,
-            "clicksMultiplier": 2
+            "clickPower": 2
         },
         {
             "name": "Stone Pickaxe",
@@ -136,7 +136,7 @@
             "type": "Pickaxe",
             "price": 10,
             "maxStackCount": 1,
-            "clicksMultiplier": 3
+            "clickPower": 3
         },
         {
             "name": "Dynamite",
@@ -206,7 +206,7 @@
             "type": "Armor",
             "price": 10000,
             "maxStackCount": 1,
-            "damageReductionMultiplier": 0.5
+            "damageReduction": 1
         },
         {
             "name": "Printed Circuit Board",
@@ -231,7 +231,7 @@
             "type": "Sword",
             "price": 5000,
             "maxStackCount": 1,
-            "multiplierOfDamage": 2.0
+            "damage": 1
         }
     ]
 }

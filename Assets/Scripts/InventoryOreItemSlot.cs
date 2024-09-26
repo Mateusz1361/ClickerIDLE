@@ -39,7 +39,7 @@ public class InventoryOreItemSlot : MonoBehaviour {
                 OnCountIncremented?.Invoke(value - _count);
             }
             _count = value;
-            countText.text = _count.ToString();
+            countText.text = NumberFormat.ShortForm(_count);
             countText.gameObject.SetActive(_itemTemplate != null);
         }
     }

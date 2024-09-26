@@ -1,10 +1,8 @@
 using TMPro;
 using System;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 //TODO zapis gry cos jest nie tak w upgradach
 public class CurrentWorldLocationMenu : MonoBehaviour {
@@ -94,7 +92,7 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
             }
         }
         dynamiteIcon.sprite = (bestDynamiteToUse != null) ? bestDynamiteToUse.second.icon : referenceHub.inventoryMenu.ItemTemplates["Dynamite"].icon;
-        dynamiteCountText.text = (bestDynamiteToUse != null) ? bestDynamiteToUse.first.ToString() : "0";
+        dynamiteCountText.text = (bestDynamiteToUse != null) ? NumberFormat.ShortForm(bestDynamiteToUse.first) : "0";
     }
 
     private void Update() {
@@ -117,20 +115,20 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     }
 
     private void OnMoneyCountChanged(SafeUDecimal value) {
-        moneyCountText.text = value.ToString();
+        moneyCountText.text = NumberFormat.ShortForm(value);
     }
 
     private void OnMainResourceCountChanged(SafeUDecimal value) {
-        mainResourceCountText.text = value.ToString();
+        mainResourceCountText.text = NumberFormat.ShortForm(value);
     }
 
     private void OnMainResourceAutoIncrementChange(SafeUDecimal value) {
         workersInfo.SetActive(value > 0);
-        workerGainText.text = $"{value} / s";
+        workerGainText.text = $"{NumberFormat.ShortForm(value)} / s";
     }
 
     private void OnLevelChange(ulong level) {
-        levelText.text = level.ToString();
+        levelText.text = NumberFormat.ShortForm(level);
     }
 
     private void OnExperienceChange(double experience,double maxExperience) {
@@ -139,15 +137,12 @@ public class CurrentWorldLocationMenu : MonoBehaviour {
     }
 
     private void OnMainButtonClick() {
-        
-        clicks += referenceHub.inventoryMenu.GetClicksMultiplier();
+        clicks += referenceHub.inventoryMenu.GetClickPower();
         var cwl = referenceHub.worldMenu.CurrentWorldLocation;
         var slots = referenceHub.inventoryMenu.OreItemsSlots;
         if(slots[cwl.MainResourceName].ItemTemplate.clicksToPop <= clicks) {
-            slots[cwl.MainResourceName].Count += cwl.MainResourceClickIncrement()*(clicks/slots[cwl.MainResourceName].ItemTemplate.clicksToPop);
+            slots[cwl.MainResourceName].Count += cwl.MainResourceClickIncrement() * (clicks / slots[cwl.MainResourceName].ItemTemplate.clicksToPop);
             clicks %= slots[cwl.MainResourceName].ItemTemplate.clicksToPop;
-            
-            
         }
         cwl.Experience += new System.Random().NextDouble(1.0,5.0);
     }

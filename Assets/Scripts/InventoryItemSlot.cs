@@ -35,7 +35,7 @@ public class InventoryItemSlot : MonoBehaviour {
         }
         set {
             _count = value;
-            countText.text = _count.ToString();
+            countText.text = NumberFormat.ShortForm(_count);
             countText.gameObject.SetActive(_count >= 2);
         }
     }

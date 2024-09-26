@@ -1,4 +1,5 @@
 using TMPro;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,44 +56,36 @@ public class MonsterManagement : MonoBehaviour {
     }
 
     private void Update() {
-        if(CurrentMonster != null)
-        {
+        if(CurrentMonster != null) {
             monsterAttackTimer += Time.deltaTime;
-            if (monsterAttackTimer >= monsterAttackTime)
-            {
+            if(monsterAttackTimer >= monsterAttackTime) {
                 monsterAttackTimer = 0.0;
                 MonsterAttack();
             }
             return;
         }
         monsterAppearTimer += Time.deltaTime;
-        
-       
+
         if(monsterAppearTimer >= monsterAppearTime) {
             monsterAppearTimer = 0.0;
-            CurrentMonster = Monsters[Random.Range(0,Monsters.Length)];
+            CurrentMonster = Monsters[UnityEngine.Random.Range(0,Monsters.Length)];
             monsterObject.SetActive(true);
             monsterName.text = CurrentMonster.name;
             monsterImage.sprite = CurrentMonster.image;
             currentMonsterHealth = CurrentMonster.maxHealth;
             monsterHealthBar.value = 1.0f;
-            monsterHealthText.text = $"{currentMonsterHealth}/{CurrentMonster.maxHealth}";
-            
-            
+            monsterHealthText.text = $"{currentMonsterHealth}/{CurrentMonster.maxHealth}";   
         }
-        
-        
-
     }
 
     public void PlayerAttack() {
-        currentMonsterHealth -= 1.0;
+        currentMonsterHealth -= referenceHub.inventoryMenu.GetDamage();
         if(currentMonsterHealth > 0.0) {
             monsterHealthBar.value = (float)(currentMonsterHealth / CurrentMonster.maxHealth);
             monsterHealthText.text = $"{currentMonsterHealth}/{CurrentMonster.maxHealth}";
         }
         else {
-            var drop = CurrentMonster.drops[Random.Range(0,CurrentMonster.drops.Length)];
+            var drop = CurrentMonster.drops[UnityEngine.Random.Range(0,CurrentMonster.drops.Length)];
             referenceHub.inventoryMenu.AddItems(drop.name,drop.count);
             CurrentMonster = null;
             monsterObject.SetActive(false);
@@ -102,17 +95,14 @@ public class MonsterManagement : MonoBehaviour {
         }
     }
 
-    public void MonsterAttack()
-    {
-        if(currentMonsterHealth> 0.0)
-        {
-            PlayerHp -= CurrentMonster.hitPoints;
+    public void MonsterAttack() {
+        if(currentMonsterHealth > 0.0) {
+            PlayerHp -= Math.Clamp(CurrentMonster.hitPoints - referenceHub.inventoryMenu.GetDamageReduction(),0,double.MaxValue);
             playerHealthBar.value = (float)(PlayerHp / maxPlayerHealth);
             playerHealthText.text = $"{PlayerHp}/{maxPlayerHealth}";
         }
 
-        if (PlayerHp <= 0)
-        {
+        if(PlayerHp <= 0) {
             PlayerHp = maxPlayerHealth;
             playerHealthBar.value = (float)(PlayerHp / maxPlayerHealth);
             playerHealthText.text = $"{PlayerHp}/{maxPlayerHealth}";
@@ -120,9 +110,9 @@ public class MonsterManagement : MonoBehaviour {
             CurrentMonster = null;
             monsterAppearTimer = 0.0;
             monsterObject.SetActive(false);
-            
         }
     }
+
     private Monster[] _monsters = null;
     public Monster[] Monsters {
         get {
@@ -131,9 +121,7 @@ public class MonsterManagement : MonoBehaviour {
             }
             return _monsters;
         }
-    }
-
-    
+    }    
 
     public void InitMonsters() {
         var monsterDatas = JsonUtility.FromJson<InstanceWrapperDataJson<MonsterDataJson>>(monsterDataTextAsset.text);
@@ -156,16 +144,13 @@ public class MonsterManagement : MonoBehaviour {
             }
         }
     }
-    private double _playerHp;
 
-    public double PlayerHp
-    {
-        get
-        {
+    private double _playerHp;
+    public double PlayerHp {
+        get {
             return _playerHp;
         }
-        set
-        {
+        set {
             _playerHp = value;
         }
     }

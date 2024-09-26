@@ -63,10 +63,9 @@ public class InventoryItemDataJson {
     public string type;
     public ulong price;
     public ulong maxStackCount;
-    public ulong clicksMultiplier;
-    public ulong damageMultiplier;
-    public double reductionMultiplier;
-    
+    public ulong clickPower;
+    public ulong damage;
+    public double damageReduction;
 }
 
 [Serializable]
