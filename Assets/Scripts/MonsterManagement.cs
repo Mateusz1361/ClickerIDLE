@@ -1,5 +1,4 @@
 using TMPro;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +10,9 @@ public class MonsterDrop {
 public class Monster {
     public string name;
     public Sprite image;
-    public double maxHealth;
+    public SafeUDecimal maxHealth;
     public MonsterDrop[] drops;
-    public double hitPoints;
+    public SafeUDecimal hitPoints;
 }
 
 public class MonsterManagement : MonoBehaviour {
@@ -37,8 +36,8 @@ public class MonsterManagement : MonoBehaviour {
     private Slider playerHealthBar;
     [SerializeField]
     private TMP_Text playerHealthText;
-    private double currentMonsterHealth = 0.0;
-    private double maxPlayerHealth = 10.0;
+    private SafeUDecimal currentMonsterHealth = 0;
+    private SafeUDecimal maxPlayerHealth = 10;
 
     public Monster CurrentMonster { get; private set; } = null;
 
@@ -68,7 +67,7 @@ public class MonsterManagement : MonoBehaviour {
 
         if(monsterAppearTimer >= monsterAppearTime) {
             monsterAppearTimer = 0.0;
-            CurrentMonster = Monsters[UnityEngine.Random.Range(0,Monsters.Length)];
+            CurrentMonster = Monsters[Random.Range(0,Monsters.Length)];
             monsterObject.SetActive(true);
             monsterName.text = CurrentMonster.name;
             monsterImage.sprite = CurrentMonster.image;
@@ -80,12 +79,12 @@ public class MonsterManagement : MonoBehaviour {
 
     public void PlayerAttack() {
         currentMonsterHealth -= referenceHub.inventoryMenu.GetDamage();
-        if(currentMonsterHealth > 0.0) {
+        if(currentMonsterHealth > 0) {
             monsterHealthBar.value = (float)(currentMonsterHealth / CurrentMonster.maxHealth);
             monsterHealthText.text = $"{currentMonsterHealth}/{CurrentMonster.maxHealth}";
         }
         else {
-            var drop = CurrentMonster.drops[UnityEngine.Random.Range(0,CurrentMonster.drops.Length)];
+            var drop = CurrentMonster.drops[Random.Range(0,CurrentMonster.drops.Length)];
             referenceHub.inventoryMenu.AddItems(drop.name,drop.count);
             CurrentMonster = null;
             monsterObject.SetActive(false);
@@ -96,8 +95,8 @@ public class MonsterManagement : MonoBehaviour {
     }
 
     public void MonsterAttack() {
-        if(currentMonsterHealth > 0.0) {
-            PlayerHp -= Math.Clamp(CurrentMonster.hitPoints - referenceHub.inventoryMenu.GetDamageReduction(),0,double.MaxValue);
+        if(currentMonsterHealth > 0) {
+            PlayerHp -= (CurrentMonster.hitPoints < referenceHub.inventoryMenu.GetDamageReduction()) ? 0 : (CurrentMonster.hitPoints - referenceHub.inventoryMenu.GetDamageReduction());
             playerHealthBar.value = (float)(PlayerHp / maxPlayerHealth);
             playerHealthText.text = $"{PlayerHp}/{maxPlayerHealth}";
         }
@@ -106,7 +105,6 @@ public class MonsterManagement : MonoBehaviour {
             PlayerHp = maxPlayerHealth;
             playerHealthBar.value = (float)(PlayerHp / maxPlayerHealth);
             playerHealthText.text = $"{PlayerHp}/{maxPlayerHealth}";
-            Debug.LogWarning("DEAD");
             CurrentMonster = null;
             monsterAppearTimer = 0.0;
             monsterObject.SetActive(false);
@@ -131,9 +129,9 @@ public class MonsterManagement : MonoBehaviour {
             _monsters[i] = new() {
                 name = monsterData.name,
                 image = Resources.Load<Sprite>("Images/" + monsterData.imagePath),
-                maxHealth = monsterData.maxHealth,
+                maxHealth = new(monsterData.maxHealth),
                 drops = new MonsterDrop[monsterData.drops.Length],
-                hitPoints = monsterData.hitPoints
+                hitPoints = new(monsterData.hitPoints)
             };
             for(int j = 0;j < monsterData.drops.Length;j += 1) {
                 var monsterDrop = monsterData.drops[j];
@@ -145,8 +143,8 @@ public class MonsterManagement : MonoBehaviour {
         }
     }
 
-    private double _playerHp;
-    public double PlayerHp {
+    private SafeUDecimal _playerHp;
+    public SafeUDecimal PlayerHp {
         get {
             return _playerHp;
         }

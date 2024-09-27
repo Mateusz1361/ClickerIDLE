@@ -4,6 +4,9 @@ using System.Globalization;
 public readonly struct SafeUInteger {
     public readonly ulong limb;
 
+    public static readonly SafeUInteger MaxValue = new(ulong.MaxValue);
+    public static readonly SafeUInteger MinValue = new(ulong.MinValue);
+
     public SafeUInteger(int _limb) {
         limb = (ulong)_limb;
     }

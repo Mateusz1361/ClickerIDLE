@@ -6,6 +6,9 @@ using System.Collections.Generic;
 public struct SafeUDecimal {
     public SafeUInteger Value { get; private set; }
 
+    public static readonly SafeUDecimal MaxValue = new() { Value = SafeUInteger.MaxValue };
+    public static readonly SafeUDecimal MinValue = new() { Value = SafeUInteger.MinValue };
+
     public SafeUDecimal(SafeUInteger value) {
         Value = value * 100;
     }

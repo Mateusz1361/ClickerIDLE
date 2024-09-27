@@ -206,7 +206,7 @@
             "type": "Armor",
             "price": 10000,
             "maxStackCount": 1,
-            "damageReduction": 1
+            "damageReduction": 1.0
         },
         {
             "name": "Printed Circuit Board",
@@ -231,7 +231,7 @@
             "type": "Sword",
             "price": 5000,
             "maxStackCount": 1,
-            "damage": 1
+            "damage": 1.5
         }
     ]
 }

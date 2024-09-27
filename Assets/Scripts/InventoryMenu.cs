@@ -13,8 +13,8 @@ public class ItemTemplate {
     public ulong price;
     public ulong powerOfDynamite;
     public ulong clickPower;
-    public ulong damage;
-    public double damageReduction;
+    public SafeUDecimal damage;
+    public SafeUDecimal damageReduction;
 }
 
 public class InventoryMenu : MonoBehaviour {
@@ -173,13 +173,13 @@ public class InventoryMenu : MonoBehaviour {
     }
 
     //Zwraca wartoœæ obra¿eñ zadawanych przy ataku przeciwników.
-    public ulong GetDamage() {
-        return (swordInventoryItemSlot.ItemTemplate == null) ? 1 : pickaxeInventoryItemSlot.ItemTemplate.damage;
+    public SafeUDecimal GetDamage() {
+        return (swordInventoryItemSlot.ItemTemplate == null) ? 1 : swordInventoryItemSlot.ItemTemplate.damage;
     }
 
     //Zwraca wartoœæ, o któr¹ redukowane s¹ otrzymane obra¿enia.
-    public double GetDamageReduction() {
-        return (armorInventoryItemSlot.ItemTemplate == null) ? 0 : pickaxeInventoryItemSlot.ItemTemplate.damageReduction;
+    public SafeUDecimal GetDamageReduction() {
+        return (armorInventoryItemSlot.ItemTemplate == null) ? 0 : armorInventoryItemSlot.ItemTemplate.damageReduction;
     }
     
     //Lista slotow w eq dla zwyklych przedmiotow
@@ -211,8 +211,8 @@ public class InventoryMenu : MonoBehaviour {
                 type = item.type,
                 price = item.price,
                 clickPower = item.clickPower,
-                damage = item.damage,
-                damageReduction = item.damageReduction
+                damage = new(item.damage),
+                damageReduction = new(item.damageReduction)
             };
             _itemTemplates.Add(item.name,template);
             if(template.type.Contains("Ore")) {
