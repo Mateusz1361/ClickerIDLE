@@ -166,18 +166,18 @@ public class InventoryMenu : MonoBehaviour {
             return _money;
         }
     }
-
-    //Ka¿de klinkniêcie w kamieñ dodaje tyle do zmiennej 'clicks' ile zwróci ta funkcja.
+//zmienic zeby sprawdzal wszystkie miejsca czy sa nullem 
+    //Kaï¿½de klinkniï¿½cie w kamieï¿½ dodaje tyle do zmiennej 'clicks' ile zwrï¿½ci ta funkcja.
     public ulong GetClickPower() {
-        return (pickaxeInventoryItemSlot.ItemTemplate == null) ? 1 : pickaxeInventoryItemSlot.ItemTemplate.clickPower;
+        return (pickaxeInventoryItemSlot.ItemTemplate == null) ? 1 : pickaxeInventoryItemSlot.ItemTemplate.clickPower+swordInventoryItemSlot.ItemTemplate.clickPower;
     }
 
-    //Zwraca wartoœæ obra¿eñ zadawanych przy ataku przeciwników.
+    //Zwraca wartoï¿½ï¿½ obraï¿½eï¿½ zadawanych przy ataku przeciwnikï¿½w.
     public SafeUDecimal GetDamage() {
-        return (swordInventoryItemSlot.ItemTemplate == null) ? 1 : swordInventoryItemSlot.ItemTemplate.damage;
+        return (swordInventoryItemSlot.ItemTemplate == null) ? 1 : pickaxeInventoryItemSlot.ItemTemplate.clickPower+swordInventoryItemSlot.ItemTemplate.clickPower;
     }
 
-    //Zwraca wartoœæ, o któr¹ redukowane s¹ otrzymane obra¿enia.
+    //Zwraca wartoï¿½ï¿½, o ktï¿½rï¿½ redukowane sï¿½ otrzymane obraï¿½enia.
     public SafeUDecimal GetDamageReduction() {
         return (armorInventoryItemSlot.ItemTemplate == null) ? 0 : armorInventoryItemSlot.ItemTemplate.damageReduction;
     }

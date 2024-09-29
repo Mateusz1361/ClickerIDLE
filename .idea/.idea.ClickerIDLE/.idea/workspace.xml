@@ -7,13 +7,14 @@
     <list default="true" id="44bd55c8-202c-494b-8eff-c475a814745d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ClickerIDLE/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ClickerIDLE/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/FactoryData.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/FactoryData.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Images/ItemIcons/Pickaxe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Images/ItemIcons/Pickaxe.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Images/ItemIcons/StonePickaxe.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Images/ItemIcons/StonePickaxe.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Images/ItemIcons/StonePickaxe.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Images/ItemIcons/StonePickaxe.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Images/ItemIcons/Sword.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Images/ItemIcons/Sword.png.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/InventoryItemData.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/InventoryItemData.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/MonsterData.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MonsterData.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CurrentWorldLocationMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CurrentWorldLocationMenu.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/InventoryMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InventoryMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/JsonClasses.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/JsonClasses.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MonsterManagement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MonsterManagement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +97,8 @@
       <workItem from="1725955300177" duration="1810000" />
       <workItem from="1726140600064" duration="13256000" />
       <workItem from="1726662011467" duration="23349000" />
-      <workItem from="1727172221706" duration="7658000" />
+      <workItem from="1727172221706" duration="9082000" />
+      <workItem from="1727631097114" duration="4995000" />
     </task>
     <servers />
   </component>

@@ -10,7 +10,202 @@
                 }
             ],
             "result": {
+                "type": "Wooden Pickaxe",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Pickaxe",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
                 "type": "Stone Pickaxe",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Pickaxe",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Copper Pickaxe",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Pickaxe",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Iron Pickaxe",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Pickaxe",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Gold Pickaxe",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Pickaxe",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Diamond Pickaxe",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Pickaxe",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Emerald Pickaxe",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Sword",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Wooden Sword",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Sword",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Stone Sword",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Sword",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Copper Sword",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Sword",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Iron Sword",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Sword",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Gold Sword",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Sword",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Diamond Sword",
+                "value": 1
+            },
+            "duration": 3.0
+        },
+        {
+            "name": "Stone -> Sword",
+            "toUnlock": "Stone Mine",
+            "price": [
+                {
+                    "name": "Stone",
+                    "value": 50
+                }
+            ],
+            "result": {
+                "type": "Emerald Sword",
                 "value": 1
             },
             "duration": 3.0
